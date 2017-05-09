@@ -19,8 +19,12 @@ The Multireg / Heatit Z-Wave thermostat is an electronic thermostat for flush mo
 * English   
 * Dutch    
 
+## Alpha testing:   
+The app and driver are currently in an Alpha stage and need to be debugged.   
+Contact me on [Slack](https://athomcommunity.slack.com/team/tedtolboom) if you are able to support in testing and debugging.
+
 ## Feedback:
-Any requests please post them in the [ThermoFloor (Heatit) app topic on the Athom Forum](https://forum.athom.com/discussion/3113/) or contact me on [Slack](https://athomcommunity.slack.com/team/tedtolboom)    
+Any requests please post them in the [ThermoFloor (Heatit) app topic on the Athom Forum](https://forum.athom.com/discussion/3181/) or contact me on [Slack](https://athomcommunity.slack.com/team/tedtolboom)    
 If possible, please report issues at the [issues section on Github](https://github.com/TedTolboom/no.ThermoFloor/issues) otherwise in the above mentioned topic.     
 
 ### Donate:
@@ -28,6 +32,9 @@ If you like the app, consider a donation to support development
 [![Paypal Donate](https://www.paypalobjects.com/en_US/NL/i/btn/btn_donateCC_LG.gif)](https://www.paypal.com/cgi-bin/webscr?cmd=_donations&business=5JCN4Q3XSBTBJ&lc=NL&item_name=Athom%20Homey%20apps&item_number=ThermoFloor%20app&currency_code=EUR&bn=PP%2dDonationsBF%3abtn_donateCC_LG%2egif%3aNonHosted)
 
 ## Changelog:
+v0.0.3    
+* Update on default settings (based on manual) [untested]  
+
 v0.0.2    
 * Start of populating driver and capabilities [untested]  
 

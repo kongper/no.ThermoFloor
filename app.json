@@ -4,7 +4,7 @@
 		"en": "Thermo-Floor AS",
 		"nl": "Thermo-Floor AS"
 	},
-	"version": "0.0.2",
+	"version": "0.0.3",
 	"compatibility": ">=1.0.5",
 	"author": {
 		"name": "Ted Tolboom",
@@ -274,7 +274,7 @@
 						"en": "Thermostat operation mode",
 						"nl": "Thermostat operation mode"
 					},
-					"value": "11",
+					"value": "1",
 					"hint": {
 						"en": "Thermostat operation mode. (default: Energy save heat (default)",
 						"nl": "Thermostat operation mode. (standaard: Energiebesparing)"
@@ -289,8 +289,8 @@
 						{
 							"id": "1",
 							"label": {
-								"en": "Heat",
-								"nl": "Verwarmen"
+								"en": "Heat (default)",
+								"nl": "Verwarmen (standaard)"
 							}
 						},
 						{
@@ -303,8 +303,8 @@
 						{
 							"id": "11",
 							"label": {
-								"en": "Energy save heat (default)",
-								"nl": "Energiebesparing (standaard)"
+								"en": "Energy save heat",
+								"nl": "Energiebesparing"
 							}
 						}
 					]
@@ -316,23 +316,23 @@
 						"en": "Temperature sensor mode",
 						"nl": "Temperature sensor mode"
 					},
-					"value": "0",
+					"value": "1",
 					"hint": {
-						"en": "Temperature regulation mode. (default: Floor mode)",
-						"nl": "Temperature regulation mode. (standaard: Floor mode)"
+						"en": "Temperature regulation mode",
+						"nl": "Temperature regulation mode"
 					},
 					"values": [{
 							"id": "0",
 							"label": {
-								"en": "F  - Floor mode (default)",
-								"nl": "F  - Floor mode (standaard)"
+								"en": "F  - Floor mode",
+								"nl": "F  - Floor mode"
 							}
 						},
 						{
 							"id": "1",
 							"label": {
-								"en": "A  - Room temperature mode",
-								"nl": "A  - Room temperature mode"
+								"en": "A  - Room temperature mode (default)",
+								"nl": "A  - Room temperature mode (standaard)"
 							}
 						},
 						{
@@ -425,7 +425,7 @@
 					"id": "temperature_control_hysteresis",
 					"type": "number",
 					"attr": {
-						"min": 2,
+						"min": 3,
 						"max": 30
 					},
 					"value": 5,
@@ -434,8 +434,8 @@
 						"nl": "DIFF l. Temperature control Hysteresis"
 					},
 					"hint": {
-						"en": "Range: 2-30 (0,2C - 3.0C) \nDefault: 5",
-						"nl": "Bereik: 2-30 (0,2C - 3.0C)\nStandaard: 5"
+						"en": "Range: 3-30 (0,3C - 3.0C) \nDefault: 5",
+						"nl": "Bereik: 3-30 (0,3C - 3.0C)\nStandaard: 5"
 					}
 				},
 				{
@@ -547,14 +547,14 @@
 						"min": 50,
 						"max": 400
 					},
-					"value": 180,
+					"value": 210,
 					"label": {
 						"en": "COOL mode setpoint",
 						"nl": "COOL mode setpoint"
 					},
 					"hint": {
-						"en": "Temperature setpoint used when in COOL mode (only if enabled). \nRange: 50 - 400 (5.0C - 40.0C) \nDefault: 180",
-						"nl": "Temperature setpoint used when in COOL mode (only if enabled). \nBereik: 50 - 400 (5.0C - 40.0C)\nStandaard: 180"
+						"en": "Temperature setpoint used when in COOL mode (only if enabled). \nRange: 50 - 400 (5.0C - 40.0C) \nDefault: 210",
+						"nl": "Temperature setpoint used when in COOL mode (only if enabled). \nBereik: 50 - 400 (5.0C - 40.0C)\nStandaard: 210"
 					}
 				},
 				{
