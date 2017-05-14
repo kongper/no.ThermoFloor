@@ -24,7 +24,7 @@ module.exports = new ZwaveDriver(path.basename(__dirname), {
 			command_get_parser: node => {
 				let mode = 'Heating 1';
 				if (node && typeof node.state.thermofloor_mode !== 'undefined' && node.state.thermofloor_mode === 'Energy Save Heat') {
-					mode = 'Energy Save Heating 2';
+					mode = 'Energy Save Heating';
 				}
 				return {
 					Level: {

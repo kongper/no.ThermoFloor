@@ -170,13 +170,6 @@
 						"en": "Economic",
 						"nl": "Economische"
 					}
-				},
-				{
-					"id": "MANUFACTURER SPECIFC",
-					"title": {
-						"en": "Manual",
-						"nl": "Handmatig"
-					}
 				}
 			],
 			"getable": true,
