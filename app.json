@@ -512,14 +512,14 @@
 						"min": 50,
 						"max": 400
 					},
-					"value": 210,
+					"value": 205,
 					"label": {
 						"en": "CO mode setpoint",
 						"nl": "CO mode setpoint"
 					},
 					"hint": {
-						"en": "Temperature setpoint used when in Comfort mode. \nRange: 50 - 400 (5.0C - 40.0C) \nDefault: 210",
-						"nl": "Temperature setpoint used when in Comfort mode. \nBereik: 50 - 400 (5.0C - 40.0C)\nStandaard: 210"
+						"en": "Temperature setpoint used when in Comfort mode. \nRange: 50 - 400 (5.0C - 40.0C) \nDefault: 205",
+						"nl": "Temperature setpoint used when in Comfort mode. \nBereik: 50 - 400 (5.0C - 40.0C)\nStandaard: 205"
 					}
 				},
 				{
@@ -535,8 +535,8 @@
 						"nl": "ECO mode setpoint"
 					},
 					"hint": {
-						"en": "Temperature setpoint used when in Economy mode. \nRange: 50 - 400 (5.0C - 40.0C) \nDefault: 50",
-						"nl": "Temperature setpoint used when in Economy mode. \nBereik: 50 - 400 (5.0C - 40.0C)\nStandaard: 400"
+						"en": "Temperature setpoint used when in Economy mode. \nRange: 50 - 400 (5.0C - 40.0C) \nDefault: 180",
+						"nl": "Temperature setpoint used when in Economy mode. \nBereik: 50 - 400 (5.0C - 40.0C)\nStandaard: 180"
 					}
 				},
 				{
