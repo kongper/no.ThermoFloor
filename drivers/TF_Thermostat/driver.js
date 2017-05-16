@@ -33,15 +33,19 @@ module.exports = new ZwaveDriver(path.basename(__dirname), {
 				};
 			},
 			command_set: 'THERMOSTAT_SETPOINT_SET',
-			command_set_parser: value => {
+			command_set_parser: (value, node) => {
 				// Create 2 byte buffer of value, with value rounded to xx.5
 				if (!value) value = 18;
 				let newTemp = new Buffer(2);
 				newTemp.writeUIntBE((value * 2).toFixed() / 2 * 10, 0, 2);
-
+				let mode = 'Heating 1';
+				Homey.log('state', node);
+				if (node && typeof node.state.thermofloor_mode !== 'undefined' && node.state.thermofloor_mode === 'Energy Save Heat') {
+					mode = 'Energy Save Heating';
+				}
 				return {
 					Level: {
-						'Setpoint Type': 'Heating 1'
+						'Setpoint Type': mode,
 					},
 					Level2: {
 						Precision: 1, // Number has one decimal
