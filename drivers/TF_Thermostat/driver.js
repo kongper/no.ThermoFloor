@@ -2,6 +2,20 @@
 
 const path = require('path');
 const ZwaveDriver = require('homey-zwavedriver');
+const Mode2Setpoint = {
+	'Energy Save Heat': {
+		Setpoint: 'Energy Save Heating',
+		Setting: 'ECO_setpoint',
+	},
+	Heat: {
+		Setpoint: 'Heating 1',
+		Setting: 'CO_setpoint',
+	},
+	Cool: {
+		Setpoint: 'Cooling 1',
+		Setting: 'COOL_setpoint',
+	},
+};
 
 // http://products.z-wavealliance.org/products/1584
 
@@ -11,21 +25,31 @@ module.exports = new ZwaveDriver(path.basename(__dirname), {
 		measure_temperature: {
 			command_class: 'COMMAND_CLASS_SENSOR_MULTILEVEL',
 			command_get: 'SENSOR_MULTILEVEL_GET',
+			command_get_parser: () => ({
+				'Sensor Type': 'Temperature (version 1)',
+				Properties1: {
+					Scale: 0,
+				},
+			}),
 			command_report: 'SENSOR_MULTILEVEL_REPORT',
 			command_report_parser: report => {
 				if (!report) return null;
 				if (report['Sensor Type'] === 'Temperature (version 1)') return report['Sensor Value (Parsed)'];
 				return null;
 			},
+			pollInterval: 'poll_interval',
 		},
 		target_temperature: {
 			command_class: 'COMMAND_CLASS_THERMOSTAT_SETPOINT',
 			command_get: 'THERMOSTAT_SETPOINT_GET',
 			command_get_parser: node => {
+				// check in case of COOL
 				let mode = 'Heating 1';
 				if (node && typeof node.state.thermofloor_mode !== 'undefined' && node.state.thermofloor_mode === 'Energy Save Heat') {
 					mode = 'Energy Save Heating';
 				}
+				//const node_mode = node.state.thermofloor_mode;
+				Homey.log('SETPOINT_GET Setpoint', node);
 				return {
 					Level: {
 						'Setpoint Type': mode,
@@ -38,6 +62,7 @@ module.exports = new ZwaveDriver(path.basename(__dirname), {
 				if (!value) value = 18;
 				let newTemp = new Buffer(2);
 				newTemp.writeUIntBE((value * 2).toFixed() / 2 * 10, 0, 2);
+				updateSetpoint(node, 'fSETPOINT_SET', node.state.thermofloor_mode, null);
 				let mode = 'Heating 1';
 				Homey.log('state', node);
 				if (node && typeof node.state.thermofloor_mode !== 'undefined' && node.state.thermofloor_mode === 'Energy Save Heat') {
@@ -56,7 +81,7 @@ module.exports = new ZwaveDriver(path.basename(__dirname), {
 				};
 			},
 			command_report: 'THERMOSTAT_SETPOINT_REPORT',
-			command_report_parser: report => {
+			command_report_parser: (report, node) => {
 				if (report &&
 					report.hasOwnProperty('Value') &&
 					report.hasOwnProperty('Level2') &&
@@ -70,28 +95,41 @@ module.exports = new ZwaveDriver(path.basename(__dirname), {
 					catch (err) {
 						return null;
 					}
+					updateSetpoint(node, 'fSETPOINT_REPORT', node.state.thermofloor_mode, report);
 					if (typeof targetValue === 'number') return targetValue / Math.pow(10, report.Level2.Precision);
 					return null;
 				}
 				return null;
 			},
 		},
+		thermofloor_onoff: {
+			command_class: 'COMMAND_CLASS_BASIC',
+			command_report: 'BASIC_SET',
+			command_report_parser: report => {
+				Homey.log('thermofloor_onoff state:', report.Value === 255);
+				return report.Value === 255;
+			},
+		},
 		thermofloor_mode: {
 			command_class: 'COMMAND_CLASS_THERMOSTAT_MODE',
 			command_get: 'THERMOSTAT_MODE_GET',
 			command_set: 'THERMOSTAT_MODE_SET',
-			command_set_parser: value => ({
-				Level: {
-					'No of Manufacturer Data fields': 0,
-					Mode: value,
-				},
-				'Manufacturer Data': new Buffer([0]),
-			}),
+			command_set_parser: (value, node) => {
+				updateSetpoint(node, 'mode', node.state.thermofloor_mode, null);
+				return {
+					Level: {
+						'No of Manufacturer Data fields': 0,
+						Mode: value,
+					},
+					'Manufacturer Data': new Buffer([0]),
+				};
+			},
 			command_report: 'THERMOSTAT_MODE_REPORT',
 			command_report_parser: (report, node) => {
 				if (!report) return null;
 				if (report.hasOwnProperty('Level') && report.Level.hasOwnProperty('Mode')) {
 					if (node) {
+						updateSetpoint(node, 'mode', report.Level.Mode, null);
 						Homey.manager('flow').triggerDevice('thermofloor_mode_changed', {
 							mode: report.Level.Mode,
 							mode_name: __("mode." + report.Level.Mode)
@@ -168,4 +206,41 @@ Homey.manager('flow').on('trigger.thermofloor_mode_changed_to', (callback, args,
 
 	else if (typeof args.mode !== 'undefined' && typeof state.mode !== 'undefined' && args.mode === state.mode) return callback(null, true);
 	else return callback('unknown_error', false);
+});
+
+function updateSetpoint(node, origen, mode, report) {
+	if (typeof mode !== 'undefined' && mode !== 'Off') {
+		Homey.log(origen, Mode2Setpoint[mode].Setpoint);
+		Homey.log(origen, Mode2Setpoint[mode].Setting);
+		// if (typeof report !== 'undefined' && typeof report.Level !== 'undefined') {
+		//	Homey.log('SETPOINT_REPORT Setpoint type [report]:', report.Level['Setpoint Type']);
+		// }
+		if (origen === 'mode') {
+
+			//	module.exports.realtime(node.device_data, 'target_temperature', 'temperature');
+			module.exports._debug('mode instance', node.instance.CommandClass.COMMAND_CLASS_THERMOSTAT_SETPOINT.THERMOSTAT_SETPOINT_GET({
+				Level: {
+					'Setpoint Type': Mode2Setpoint[mode].Setpoint
+				}
+			}));
+			// module.exports.setSettings(node.device_data, {
+			//	forced_brightness_level: parsedForcedBrightnessLevel,
+			// });
+		}
+	}
+}
+
+module.exports.on('initNode', token => {
+	const node = module.exports.nodes[token];
+	if (node && typeof node.instance.CommandClass.COMMAND_CLASS_BASIC !== 'undefined') {
+		node.instance.CommandClass.COMMAND_CLASS_BASIC.on('report', (command, report) => {
+			if (command.name === 'BASIC_SET' &&
+				report &&
+				report.hasOwnProperty('Value')) {
+				module.exports._debug('change state of thermostat to:', report.Value > 0);
+				module.exports.realtime(node.device_data, 'thermofloor_onoff', report.Value > 0);
+				module.exports._debug('state of thermostat changed to:', node.state.thermofloor_onoff);
+			}
+		});
+	}
 });

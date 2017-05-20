@@ -139,6 +139,19 @@
 		]
 	},
 	"capabilities": {
+		"thermofloor_onoff": {
+			"type": "boolean",
+			"title": {
+				"en": "Turned on",
+				"nl": "Aangezet"
+			},
+			"desc": {
+				"en": "State of the thermostat",
+				"nl": "Status van de thermostaat"
+			},
+			"getable": false,
+			"setable": false
+		},
 		"thermofloor_mode": {
 			"type": "enum",
 			"title": {
@@ -190,27 +203,47 @@
 			},
 			"class": "thermostat",
 			"capabilities": [
-				"thermofloor_mode",
 				"measure_temperature",
+				"thermofloor_onoff",
+				"thermofloor_mode",
 				"target_temperature"
 			],
 			"capabilitiesOptions": {
 				"target_temperature": {
-					"min": 4,
-					"max": 28,
+					"min": 5,
+					"max": 40,
 					"step": 0.5
 				}
 			},
 			"mobile": {
 				"components": [
 					{
-						"id": "icon"
+						"id": "icon",
+						"capabilities": []
 					},
 					{
 						"id": "sensor",
 						"capabilities": [
-							"measure_temperature"
-						]
+							"measure_temperature",
+							"thermofloor_onoff"
+						],
+						"options": {
+							"icons": {
+								"thermofloor_onoff": "/drivers/TF_Thermostat/assets/thermofloor_onoff.svg"
+							},
+							"thermofloor_onoff": {
+								"noblink": true,
+								"greyout": true,
+								"label": {
+									"true": {
+										"en": "Heating"
+									},
+									"false": {
+										"en": "Idle"
+									}
+								}
+							}
+						}
 					},
 					{
 						"id": "picker",
@@ -236,19 +269,20 @@
 				"learnmode": {
 					"image": "/drivers/TF_Thermostat/assets/learnmode.svg",
 					"instruction": {
-						"en": "To include the thermostat to Homey: \n1. press the Center (confirm) button for 10 seconds. The display will show OFF. \n2. Press Right(down) button 4 times till you see Con in the display.\n3. Now start add a device to Homey.\n4. Start inclusion mode by pressing Center(confirm) button for approximately 2 seconds. The inclusion / exclusion icon will appear in the display.\n5. Confirmation will show Inc in the display.\nIf inclusion fails, Err(error) will appear.",
-						"nl": "To include the thermostat to Homey: \n1. press the Center (confirm) button for 10 seconds. The display will show OFF. \n2. Press Right(down) button 4 times till you see Con in the display.\n3. Now start add a device to Homey.\n4. Start inclusion mode by pressing Center(confirm) button for approximately 2 seconds. The inclusion / exclusion icon will appear in the display.\n5. Confirmation will show Inc in the display.\nIf inclusion fails, Err(error) will appear."
+						"en": "To include the thermostat to Homey: \n1. press the Center (confirm) button for 10 seconds. The display will show OFF. \n2. Press Right(down) button 5 times till you see Con in the display.\n3. Now start add a device to Homey.\n4. Start inclusion mode by pressing Center(confirm) button for approximately 2 seconds. The inclusion / exclusion icon will appear in the display.\n5. Confirmation will show Inc in the display.\nIf inclusion fails, Err(error) will appear.",
+						"nl": "To include the thermostat to Homey: \n1. press the Center (confirm) button for 10 seconds. The display will show OFF. \n2. Press Right(down) button 5 times till you see Con in the display.\n3. Now start add a device to Homey.\n4. Start inclusion mode by pressing Center(confirm) button for approximately 2 seconds. The inclusion / exclusion icon will appear in the display.\n5. Confirmation will show Inc in the display.\nIf inclusion fails, Err(error) will appear."
 					}
 				},
 				"unlearnmode": {
 					"image": "/drivers/TF_Thermostat/assets/learnmode.svg",
 					"instruction": {
-						"en": "To remove the thermostat from Homey: \n1. press the Center (confirm) button for 10 seconds. The display will show OFF. \n2. Press Right(down) button 4 times till you see Con in the display.\n3. Now start to remove the device from Homey.\n4. Start exclusion mode by pressing Center(confirm) button for approximately 2 seconds. The inclusion / exclusion icon will appear in the display.\n5. Confirmation will show EcL in the display.\nIf exclusion fails, Err(error) will appear.",
-						"nl": "To remove the thermostat from Homey: \n1. press the Center (confirm) button for 10 seconds. The display will show OFF. \n2. Press Right(down) button 4 times till you see Con in the display.\n3. Now start to remove the device from Homey.\n4. Start exclusion mode by pressing Center(confirm) button for approximately 2 seconds. The inclusion / exclusion icon will appear in the display.\n5. Confirmation will show EcL in the display.\nIf exclusion fails, Err(error) will appear."
+						"en": "To remove the thermostat from Homey: \n1. press the Center (confirm) button for 10 seconds. The display will show OFF. \n2. Press Right(down) button 5 times till you see Con in the display.\n3. Now start to remove the device from Homey.\n4. Start exclusion mode by pressing Center(confirm) button for approximately 2 seconds. The inclusion / exclusion icon will appear in the display.\n5. Confirmation will show EcL in the display.\nIf exclusion fails, Err(error) will appear.",
+						"nl": "To remove the thermostat from Homey: \n1. press the Center (confirm) button for 10 seconds. The display will show OFF. \n2. Press Right(down) button 5 times till you see Con in the display.\n3. Now start to remove the device from Homey.\n4. Start exclusion mode by pressing Center(confirm) button for approximately 2 seconds. The inclusion / exclusion icon will appear in the display.\n5. Confirmation will show EcL in the display.\nIf exclusion fails, Err(error) will appear."
 					}
 				},
 				"associationGroups": [
-					1
+					1,
+					2
 				],
 				"associationGroupsOptions": {
 					"1": {
@@ -588,6 +622,23 @@
 					"hint": {
 						"en": "Power level in Power regulator mode. \nRange: 0 - 10 (0% - 100%) \nDefault: 2",
 						"nl": "Power level in Power regulator mode. \nBereik: 0 - 10 (0% - 100%)\nStandaard: 2"
+					}
+				},
+				{
+					"id": "poll_interval",
+					"type": "number",
+					"attr": {
+						"min": 60,
+						"max": 3600
+					},
+					"value": 300,
+					"label": {
+						"en": "Poll Interval",
+						"nl": "Poll Interval"
+					},
+					"hint": {
+						"en": "The amount of seconds between asking the device for a status update, default: 300 [s].",
+						"nl": "Aantal seconden tussen het opvragen van een status update aan het apparaat, standaard: 300 [s]."
 					}
 				}
 			]
