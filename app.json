@@ -27,8 +27,13 @@
 			"floor heating",
 			"electrical floor heating",
 			"heat",
+			"cooling",
 			"thermostat",
 			"temperature control",
+			"Multireg",
+			"Heatit",
+			"Heat it",
+			"Magnum",
 			"underfloor heating"
 		],
 		"nl": [
@@ -37,8 +42,13 @@
 			"vloer verwarming",
 			"electrische vloerverwarming",
 			"warmte",
+			"koelen",
 			"thermostaat",
-			"temperatuur regeling"
+			"temperatuur regeling",
+			"Multireg",
+			"Heatit",
+			"Heat it",
+			"Magnum"
 		]
 	},
 	"description": {
@@ -247,7 +257,7 @@
 								"greyout": true,
 								"label": {
 									"true": {
-										"en": "Heating"
+										"en": "Active"
 									},
 									"false": {
 										"en": "Idle"
