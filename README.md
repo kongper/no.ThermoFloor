@@ -6,7 +6,7 @@ This app adds support for devices made by [ThermoFloor](http://www.thermo-floor.
 
 ## Links:
 [ThermoFloor (Heatit) Athom apps](https://apps.athom.com/app/no.ThermoFloor) **Note:** Not in app store yet                         
-[ThermoFloor Github repository](https://github.com/TedTolboom/no.ThermoFloor) **Note:** Work in progress; not working yet           
+[ThermoFloor Github repository](https://github.com/TedTolboom/no.ThermoFloor) **Note:** Work in progress              
 
 ## Devices under development:
 ### Multireg Z-wave thermostat (TF 016)
@@ -34,6 +34,11 @@ If you like the app, consider a donation to support development
 [![Paypal Donate](https://www.paypalobjects.com/en_US/NL/i/btn/btn_donateCC_LG.gif)](https://www.paypal.com/cgi-bin/webscr?cmd=_donations&business=5JCN4Q3XSBTBJ&lc=NL&item_name=Athom%20Homey%20apps&item_number=ThermoFloor%20app&currency_code=EUR&bn=PP%2dDonationsBF%3abtn_donateCC_LG%2egif%3aNonHosted)
 
 ## Changelog:
+v0.1.0    
+* Major update based on test results, setpoint optimization    
+* Added functionality cooling mode, state icon in mobile card   
+* removed settings that are read-only or not used    
+
 v0.0.3    
 * Update on default settings (based on manual) [untested]  
 

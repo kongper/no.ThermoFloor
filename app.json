@@ -4,7 +4,7 @@
 		"en": "Thermo-Floor AS",
 		"nl": "Thermo-Floor AS"
 	},
-	"version": "0.0.3",
+	"version": "0.1.0",
 	"compatibility": ">=1.0.5",
 	"author": {
 		"name": "Ted Tolboom",
@@ -126,10 +126,10 @@
 								}
 							},
 							{
-								"id": "MANUFACTURER SPECIFC",
-								"label": {
-									"en": "Manual",
-									"nl": "Handmatig"
+								"id": "Cool",
+								"title": {
+									"en": "Cooling",
+									"nl": "Koelen"
 								}
 							}
 						]
@@ -183,6 +183,13 @@
 					"title": {
 						"en": "Economic",
 						"nl": "Economische"
+					}
+				},
+				{
+					"id": "Cool",
+					"title": {
+						"en": "Cooling",
+						"nl": "Koelen"
 					}
 				}
 			],
@@ -347,203 +354,6 @@
 					]
 				},
 				{
-					"id": "temp_sensor",
-					"type": "dropdown",
-					"label": {
-						"en": "Temperature sensor mode",
-						"nl": "Temperature sensor mode"
-					},
-					"value": "1",
-					"hint": {
-						"en": "Temperature regulation mode",
-						"nl": "Temperature regulation mode"
-					},
-					"values": [{
-							"id": "0",
-							"label": {
-								"en": "F  - Floor mode",
-								"nl": "F  - Floor mode"
-							}
-						},
-						{
-							"id": "1",
-							"label": {
-								"en": "A  - Room temperature mode (default)",
-								"nl": "A  - Room temperature mode (standaard)"
-							}
-						},
-						{
-							"id": "2",
-							"label": {
-								"en": "AF - Room mode w/floor limitations",
-								"nl": "AF - Room mode w/floor limitations"
-							}
-						},
-						{
-							"id": "3",
-							"label": {
-								"en": "A2 - Room temperature mode",
-								"nl": "A2 - Room temperature mode"
-							}
-						},
-						{
-							"id": "4",
-							"label": {
-								"en": "P  - Power regulator",
-								"nl": "P  - Power regulator"
-							}
-						},
-						{
-							"id": "5",
-							"label": {
-								"en": "FP - Floor mode with minimum power limitation",
-								"nl": "FP - Floor mode with minimum power limitation"
-							}
-						}
-					]
-				},
-				{
-					"id": "floor_sensor",
-					"type": "dropdown",
-					"label": {
-						"en": "Floor sensor type",
-						"nl": "Floor sensor type"
-					},
-					"value": "0",
-					"hint": {
-						"en": "Sensor type selection. Selects the type of floor/external sensor. (default: 10k ntc)",
-						"nl": "Sensor type selection. Selects the type of  oor/external sensor. (#1, standaard: 10k ntc)"
-					},
-					"values": [{
-							"id": "0",
-							"label": {
-								"en": "10k ntc (default)",
-								"nl": "10k ntc (standaard)"
-							}
-						},
-						{
-							"id": "1",
-							"label": {
-								"en": "12k ntc",
-								"nl": "12k ntc"
-							}
-						},
-						{
-							"id": "2",
-							"label": {
-								"en": "15k ntc",
-								"nl": "15k ntc"
-							}
-						},
-						{
-							"id": "3",
-							"label": {
-								"en": "22k ntc",
-								"nl": "22k ntc"
-							}
-						},
-						{
-							"id": "4",
-							"label": {
-								"en": "33k ntc",
-								"nl": "33k ntc"
-							}
-						},
-						{
-							"id": "5",
-							"label": {
-								"en": "47k ntc",
-								"nl": "47k ntc"
-							}
-						}
-					]
-				},
-				{
-					"id": "temperature_control_hysteresis",
-					"type": "number",
-					"attr": {
-						"min": 3,
-						"max": 30
-					},
-					"value": 5,
-					"label": {
-						"en": "DIFF l. Temperature control Hysteresis",
-						"nl": "DIFF l. Temperature control Hysteresis"
-					},
-					"hint": {
-						"en": "Range: 3-30 (0,3C - 3.0C) \nDefault: 5",
-						"nl": "Bereik: 3-30 (0,3C - 3.0C)\nStandaard: 5"
-					}
-				},
-				{
-					"id": "FLO_floor_min",
-					"type": "number",
-					"attr": {
-						"min": 50,
-						"max": 400
-					},
-					"value": 50,
-					"label": {
-						"en": "FLo: Floor temperature low limit",
-						"nl": "FLo: Floor temperature low limit"
-					},
-					"hint": {
-						"en": "Limits the lowest allowed floor temperature to this value. Operational in modes AF/F/FP. In F or FP mode, setpoint is also limited. \nRange: 50 - 400 (5.0C - 40.0C) \nDefault: 50",
-						"nl": "Limits the lowest allowed floor temperature to this value. Operational in modes AF/F/FP. In F or FP mode, setpoint is also limited. \nBereik: 50 - 400 (5.0C - 40.0C)\nStandaard: 5"
-					}
-				},
-				{
-					"id": "FHI_floor_max",
-					"type": "number",
-					"attr": {
-						"min": 50,
-						"max": 400
-					},
-					"value": 400,
-					"label": {
-						"en": "FHi: Floor temperature high limit",
-						"nl": "FHi: Floor temperature high limit."
-					},
-					"hint": {
-						"en": "Limits the highest allowed floor temperature to this value. Operational in modes AF/F/FP. In F or FP mode, setpoint is also limited. \nRange: 50 - 400 (5.0C - 40.0C) \nDefault: 50",
-						"nl": "Limits the highest allowed floor temperature to this value. Operational in modes AF/F/FP. In F or FP mode, setpoint is also limited. \nBereik: 50 - 400 (5.0C - 40.0C)\nStandaard: 400"
-					}
-				},
-				{
-					"id": "ALO_air_min",
-					"type": "number",
-					"attr": {
-						"min": 50,
-						"max": 400
-					},
-					"value": 50,
-					"label": {
-						"en": "ALo: Room temperature low limit",
-						"nl": "FLo: Room temperature low limit"
-					},
-					"hint": {
-						"en": "Limits the setpoint (CO/ECO) min. setting when in Room regulating mode (A/AF/A2). \nRange: 50 - 400 (5.0C - 40.0C) \nDefault: 50",
-						"nl": "Limits the setpoint (CO/ECO) min. setting when in Room regulating mode (A/AF/A2). \nBereik: 50 - 400 (5.0C - 40.0C)\nStandaard: 50"
-					}
-				},
-				{
-					"id": "AHI_air_max",
-					"type": "number",
-					"attr": {
-						"min": 50,
-						"max": 400
-					},
-					"value": 400,
-					"label": {
-						"en": "AHi: Room temperature high limit",
-						"nl": "AHi: Room temperature high limit."
-					},
-					"hint": {
-						"en": "Limits the setpoint (CO/ECO) max. setting when in Room regulating mode (A/AF/A2). \nRange: 50 - 400 (5.0C - 40.0C) \nDefault: 50",
-						"nl": "Limits the setpoint (CO/ECO) max. setting when in Room regulating mode (A/AF/A2). \nBereik: 50 - 400 (5.0C - 40.0C)\nStandaard: 400"
-					}
-				},
-				{
 					"id": "CO_setpoint",
 					"type": "number",
 					"attr": {
@@ -592,40 +402,6 @@
 					"hint": {
 						"en": "Temperature setpoint used when in COOL mode (only if enabled). \nRange: 50 - 400 (5.0C - 40.0C) \nDefault: 210",
 						"nl": "Temperature setpoint used when in COOL mode (only if enabled). \nBereik: 50 - 400 (5.0C - 40.0C)\nStandaard: 210"
-					}
-				},
-				{
-					"id": "PLO_temp_min",
-					"type": "number",
-					"attr": {
-						"min": 0,
-						"max": 9
-					},
-					"value": 0,
-					"label": {
-						"en": "PLo: Minimum power level for Power Reg mode",
-						"nl": "PLo: Minimum power level for Power Reg mode"
-					},
-					"hint": {
-						"en": "Min power level in Power Regulator Mode (setting 2. Temperature sensor - P). \nRange: 0 - 9 (0% - 90%)\nDefault: 0",
-						"nl": "Min power level in Power Regulator Mode (setting 2. Temperature sensor - P). \nBereik: 0 - 9 (0% - 90%)\nStandaard: 0"
-					}
-				},
-				{
-					"id": "P_setting",
-					"type": "number",
-					"attr": {
-						"min": 0,
-						"max": 10
-					},
-					"value": 2,
-					"label": {
-						"en": "Power level in Power regulator mode",
-						"nl": "Power level in Power regulator mode"
-					},
-					"hint": {
-						"en": "Power level in Power regulator mode. \nRange: 0 - 10 (0% - 100%) \nDefault: 2",
-						"nl": "Power level in Power regulator mode. \nBereik: 0 - 10 (0% - 100%)\nStandaard: 2"
 					}
 				},
 				{
