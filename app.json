@@ -142,15 +142,16 @@
 		"thermofloor_onoff": {
 			"type": "boolean",
 			"title": {
-				"en": "Turned on",
-				"nl": "Aangezet"
+				"en": "State",
+				"nl": "Status"
 			},
 			"desc": {
 				"en": "State of the thermostat",
 				"nl": "Status van de thermostaat"
 			},
-			"getable": false,
-			"setable": false
+			"getable": true,
+			"setable": false,
+			"greyout": true
 		},
 		"thermofloor_mode": {
 			"type": "enum",
@@ -213,6 +214,9 @@
 					"min": 5,
 					"max": 40,
 					"step": 0.5
+				},
+				"thermofloor_onoff": {
+					"greyout": true
 				}
 			},
 			"mobile": {
@@ -232,7 +236,7 @@
 								"thermofloor_onoff": "/drivers/TF_Thermostat/assets/thermofloor_onoff.svg"
 							},
 							"thermofloor_onoff": {
-								"noblink": true,
+								"noblink": false,
 								"greyout": true,
 								"label": {
 									"true": {
