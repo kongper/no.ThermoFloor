@@ -16,6 +16,17 @@ const Mode2Setpoint = {
 		Setting: 'COOL_setpoint',
 	},
 };
+const Setpoint2Setting = {
+	'Energy Save Heating': {
+		Setting: 'ECO_setpoint',
+	},
+	'Heating 1': {
+		Setting: 'CO_setpoint',
+	},
+	'Cooling 1': {
+		Setting: 'COOL_setpoint',
+	},
+};
 
 // http://products.z-wavealliance.org/products/1584
 
@@ -62,11 +73,17 @@ module.exports = new ZwaveDriver(path.basename(__dirname), {
 				if (!value) value = 18;
 				let newTemp = new Buffer(2);
 				newTemp.writeUIntBE((value * 2).toFixed() / 2 * 10, 0, 2);
-				updateSetpoint(node, 'fSETPOINT_SET', node.state.thermofloor_mode, null);
+
 				let mode = 'Heating 1';
 				if (node && typeof node.state.thermofloor_mode !== 'undefined') {
 					mode = Mode2Setpoint[node.state.thermofloor_mode].Setpoint;
 				}
+				// Update setting based on reported setpoint
+				const updateSetting = Setpoint2Setting[mode].Setting;
+				module.exports._debug('New Setpoint SET to: ', value * 10, 'update setting : ', updateSetting);
+				module.exports.setSettings(node.device_data, {
+					[updateSetting]: value * 10,
+				});
 				return {
 					Level: {
 						'Setpoint Type': mode,
@@ -86,7 +103,6 @@ module.exports = new ZwaveDriver(path.basename(__dirname), {
 					report.hasOwnProperty('Level2') &&
 					typeof report.Level2.Precision === 'number' &&
 					typeof report.Level2.Size === 'number') {
-
 					let targetValue;
 					try {
 						targetValue = report.Value.readUIntBE(0, report.Level2.Size);
@@ -94,12 +110,31 @@ module.exports = new ZwaveDriver(path.basename(__dirname), {
 					catch (err) {
 						return null;
 					}
-					updateSetpoint(node, 'fSETPOINT_REPORT', node.state.thermofloor_mode, report);
-					// check if setpoint of report corresponds to setpoint belonging to mode
-					Homey.log('Mode>Setpoint: ', Mode2Setpoint[node.state.thermofloor_mode].Setpoint);
-					Homey.log('Report>Setpoint: ', report.Level['Setpoint Type']);
-					if (typeof targetValue === 'number' && Mode2Setpoint[node.state.thermofloor_mode].Setpoint === report.Level['Setpoint Type']) return targetValue / Math.pow(10, report.Level2.Precision);
-					return null;
+
+					// Update setting based on reported setpoint
+					if (typeof targetValue === 'number') {
+						const newtargetValue = targetValue / Math.pow(10, report.Level2.Precision);
+						const reportSetpoint = report.Level['Setpoint Type'];
+						// report back new values to debug log
+						module.exports._debug('New Setpoint report received, Setpoint: ',
+							reportSetpoint, ' and new target value: ', newtargetValue);
+
+						// Update setting based on reported setpoint
+						if (typeof node.state.thermofloor_mode !== 'undefined' && node.state.thermofloor_mode !== 'Off') {
+							const updateSetting = Setpoint2Setting[reportSetpoint].Setting;
+							module.exports._debug('New setpoint REPORTED: ', targetValue, 'update setting: ', updateSetting);
+							module.exports.setSettings(node.device_data, {
+								[updateSetting]: targetValue,
+							});
+						}
+						// Update target_temperature state only if reported setpoint matches the current thermostat mode state
+						if (typeof node.state.thermofloor_mode !== 'undefined' &&
+							Mode2Setpoint[node.state.thermofloor_mode].Setpoint === report.Level['Setpoint Type']) {
+							module.exports._debug('Target Temperature state will be updated to: ', newtargetValue);
+							return newtargetValue;
+						}
+						return null;
+					}
 				}
 				return null;
 			},
@@ -231,18 +266,3 @@ function updateSetpoint(node, origen, mode, report) {
 		}
 	}
 }
-
-// module.exports.on('initNode', token => {
-// 	const node = module.exports.nodes[token];
-//	if (node && typeof node.instance.CommandClass.COMMAND_CLASS_BASIC !== 'undefined') {
-//		node.instance.CommandClass.COMMAND_CLASS_BASIC.on('report', (command, report) => {
-//			if (command.name === 'BASIC_SET' &&
-//				report &&
-//				report.hasOwnProperty('Value')) {
-//				module.exports._debug('change state of thermostat to:', report.Value > 0);
-//				module.exports.realtime(node.device_data, 'thermofloor_onoff', report.Value > 0);
-//				module.exports._debug('state of thermostat changed to:', node.state.thermofloor_onoff);
-//			}
-//		});
-//	}
-// });
