@@ -4,7 +4,7 @@
 		"en": "Thermo-Floor AS",
 		"nl": "Thermo-Floor AS"
 	},
-	"version": "0.1.1",
+	"version": "0.1.2",
 	"compatibility": ">=1.0.5",
 	"author": {
 		"name": "Ted Tolboom",
@@ -137,7 +137,7 @@
 							},
 							{
 								"id": "Cool",
-								"title": {
+								"label": {
 									"en": "Cooling",
 									"nl": "Koelen"
 								}

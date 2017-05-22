@@ -34,6 +34,10 @@ If you like the app, consider a donation to support development
 [![Paypal Donate](https://www.paypalobjects.com/en_US/NL/i/btn/btn_donateCC_LG.gif)](https://www.paypal.com/cgi-bin/webscr?cmd=_donations&business=5JCN4Q3XSBTBJ&lc=NL&item_name=Athom%20Homey%20apps&item_number=ThermoFloor%20app&currency_code=EUR&bn=PP%2dDonationsBF%3abtn_donateCC_LG%2egif%3aNonHosted)
 
 ## Changelog:
+v0.1.2    
+* Update of setpoint parsing and updating the corresponding settings    
+* Update of response time for MODE change; setpoint will be updated based on stored values   
+
 v0.1.0    
 * Major update based on test results, setpoint optimization    
 * Added functionality cooling mode, state icon in mobile card   
