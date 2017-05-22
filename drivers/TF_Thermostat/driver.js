@@ -54,13 +54,13 @@ module.exports = new ZwaveDriver(path.basename(__dirname), {
 			command_class: 'COMMAND_CLASS_THERMOSTAT_SETPOINT',
 			command_get: 'THERMOSTAT_SETPOINT_GET',
 			command_get_parser: node => {
-				// check in case of COOL
+				// enable initial GET
 				let mode = 'Heating 1';
+				// GET the setpoint for the active mode
 				if (node && typeof node.state.thermofloor_mode !== 'undefined') {
 					mode = Mode2Setpoint[node.state.thermofloor_mode].Setpoint;
 				}
-				//const node_mode = node.state.thermofloor_mode;
-				Homey.log('SETPOINT_GET Setpoint', mode);
+				module.exports._debug('SETPOINT_GET - Setpoint GET for:', mode);
 				return {
 					Level: {
 						'Setpoint Type': mode,
@@ -80,7 +80,7 @@ module.exports = new ZwaveDriver(path.basename(__dirname), {
 				}
 				// Update setting based on reported setpoint
 				const updateSetting = Setpoint2Setting[mode].Setting;
-				module.exports._debug('New Setpoint SET to: ', value * 10, 'update setting : ', updateSetting);
+				module.exports._debug('SETPOINT_SET - Update setting', updateSetting, 'with the reported setpoint:', value * 10);
 				module.exports.setSettings(node.device_data, {
 					[updateSetting]: value * 10,
 				});
@@ -115,22 +115,20 @@ module.exports = new ZwaveDriver(path.basename(__dirname), {
 					if (typeof targetValue === 'number') {
 						const newtargetValue = targetValue / Math.pow(10, report.Level2.Precision);
 						const reportSetpoint = report.Level['Setpoint Type'];
-						// report back new values to debug log
-						module.exports._debug('New Setpoint report received, Setpoint: ',
-							reportSetpoint, ' and new target value: ', newtargetValue);
 
 						// Update setting based on reported setpoint
 						if (typeof node.state.thermofloor_mode !== 'undefined' && node.state.thermofloor_mode !== 'Off') {
 							const updateSetting = Setpoint2Setting[reportSetpoint].Setting;
-							module.exports._debug('New setpoint REPORTED: ', targetValue, 'update setting: ', updateSetting);
+							module.exports._debug('SETPOINT REPORT - Update setting:', updateSetting, 'with the reported setpoint:', targetValue);
 							module.exports.setSettings(node.device_data, {
 								[updateSetting]: targetValue,
 							});
 						}
 						// Update target_temperature state only if reported setpoint matches the current thermostat mode state
 						if (typeof node.state.thermofloor_mode !== 'undefined' &&
-							Mode2Setpoint[node.state.thermofloor_mode].Setpoint === report.Level['Setpoint Type']) {
-							module.exports._debug('Target Temperature state will be updated to: ', newtargetValue);
+							Mode2Setpoint[node.state.thermofloor_mode].Setpoint === report.Level['Setpoint Type'] &&
+							newtargetValue !== node.state.target_temperature) {
+							module.exports._debug('SETPOINT REPORT - Update setpoint state (Target_Temperature) to:', newtargetValue);
 							return newtargetValue;
 						}
 						return null;
@@ -143,7 +141,7 @@ module.exports = new ZwaveDriver(path.basename(__dirname), {
 			command_class: 'COMMAND_CLASS_BASIC',
 			command_report: 'BASIC_SET',
 			command_report_parser: report => {
-				Homey.log('thermofloor_onoff state:', report.Value === 255);
+				module.exports._debug('ONOFF REPORT - Thermostat state changed to:', report.Value === 255);
 				return report.Value === 255;
 			},
 		},
@@ -152,7 +150,8 @@ module.exports = new ZwaveDriver(path.basename(__dirname), {
 			command_get: 'THERMOSTAT_MODE_GET',
 			command_set: 'THERMOSTAT_MODE_SET',
 			command_set_parser: (value, node) => {
-				updateSetpoint(node, 'mode', node.state.thermofloor_mode, null);
+				// update state based on stored setpoint
+				updateSetpoint(node, value);
 				return {
 					Level: {
 						'No of Manufacturer Data fields': 0,
@@ -163,10 +162,10 @@ module.exports = new ZwaveDriver(path.basename(__dirname), {
 			},
 			command_report: 'THERMOSTAT_MODE_REPORT',
 			command_report_parser: (report, node) => {
+				// open work: add update setpoint state based on parameters stored
 				if (!report) return null;
 				if (report.hasOwnProperty('Level') && report.Level.hasOwnProperty('Mode')) {
 					if (node) {
-						updateSetpoint(node, 'mode', report.Level.Mode, null);
 						Homey.manager('flow').triggerDevice('thermofloor_mode_changed', {
 							mode: report.Level.Mode,
 							mode_name: __("mode." + report.Level.Mode)
@@ -175,6 +174,8 @@ module.exports = new ZwaveDriver(path.basename(__dirname), {
 							mode: report.Level.Mode
 						}, node.device_data);
 					}
+					// update state based on stored setpoint
+					updateSetpoint(node, report.Level.Mode);
 					return report.Level.Mode;
 				}
 				return null;
@@ -221,10 +222,12 @@ module.exports = new ZwaveDriver(path.basename(__dirname), {
 		CO_setpoint: {
 			index: 10,
 			size: 2,
+			// open work: add parser to update setpoint / state if active
 		},
 		ECO_setpoint: {
 			index: 11,
 			size: 2,
+			// opene work: add parser to update setpoint / state if active
 		},
 		P_setting: {
 			index: 12,
@@ -233,6 +236,7 @@ module.exports = new ZwaveDriver(path.basename(__dirname), {
 		COOL_setpoint: {
 			index: 13,
 			size: 2,
+			// open work: add parser to update setpoint / state if active
 		},
 	},
 });
@@ -245,24 +249,25 @@ Homey.manager('flow').on('trigger.thermofloor_mode_changed_to', (callback, args,
 	else return callback('unknown_error', false);
 });
 
-function updateSetpoint(node, origen, mode, report) {
+function updateSetpoint(node, mode) {
 	if (typeof mode !== 'undefined' && mode !== 'Off') {
-		Homey.log(origen, Mode2Setpoint[mode].Setpoint);
-		Homey.log(origen, Mode2Setpoint[mode].Setting);
-		// if (typeof report !== 'undefined' && typeof report.Level !== 'undefined') {
-		//	Homey.log('SETPOINT_REPORT Setpoint type [report]:', report.Level['Setpoint Type']);
-		// }
-		if (origen === 'mode') {
 
-			//	module.exports.realtime(node.device_data, 'target_temperature', 'temperature');
-			// module.exports._debug('mode instance', node.instance.CommandClass.COMMAND_CLASS_THERMOSTAT_SETPOINT.THERMOSTAT_SETPOINT_GET({
-			//	Level: {
-			//		'Setpoint Type': Mode2Setpoint[mode].Setpoint
-			//	}
-			// }));
-			// module.exports.setSettings(node.device_data, {
-			//	forced_brightness_level: parsedForcedBrightnessLevel,
-			// });
-		}
+		const SetpointSetting = Mode2Setpoint[mode].Setting;
+
+		// update state based on stored setpoint
+		module.exports.getSettings(node.device_data, (err, settings) => {
+			if (!err &&
+				settings &&
+				typeof node.state.target_temperature !== 'undefined' &&
+				settings.hasOwnProperty(SetpointSetting)) {
+
+				const newSetpoint = settings[SetpointSetting] / 10;
+
+				if (newSetpoint !== node.state.target_temperature) {
+					module.exports._debug('MODE CHANGE: new setpoint', newSetpoint, 'retrieved from:', SetpointSetting);
+					module.exports.realtime(node.device_data, 'target_temperature', newSetpoint);
+				}
+			}
+		});
 	}
 }
