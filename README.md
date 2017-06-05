@@ -9,9 +9,8 @@ This app adds support for devices made by [ThermoFloor](http://www.thermo-floor.
 [ThermoFloor Github repository](https://github.com/TedTolboom/no.ThermoFloor)             
 
 ## Devices supported:
-### Multireg Z-wave thermostat (TF 016)
+### Multireg / Magnum Z-wave thermostat (TF 016)
 ### Heatit Z-Wave thermostat (TF 021)
-### Magnum Z-Wave thermostat (TF 016)
 <a href="https://github.com/TedTolboom/no.ThermoFloor">
   <img src="https://rawgit.com/TedTolboom/no.ThermoFloor/master/drivers/TF_Thermostat/assets/icon.svg" width="25%" height="25%">
 </a>  
@@ -36,6 +35,13 @@ This app is compatible with the [Heating schedule app](https://apps.athom.com/ap
 ## Supported Languages:
 * English   
 * Dutch    
+
+## Acknowledgements:
+This app and driver development has been supported by:   
+* The alpha release testers (much appreciated): N.Peters, D.Bonsaksen and D.Janssen   
+* Robbshop by providing a thermostat for debugging:   
+<a href="https://www.robbshop.nl/heat-it-wandthermostaat-zwaveplus-zwart">
+  <img src="https://www.robbshop.nl/skin/frontend/robbshop/default/images/logo.svg" width="25%">
 
 ## Feedback:
 Any requests please post them in the [ThermoFloor (Heatit) app topic on the Athom Forum](https://forum.athom.com/discussion/3181/) or contact me on [Slack](https://athomcommunity.slack.com/team/tedtolboom)    
