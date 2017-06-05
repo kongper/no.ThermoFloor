@@ -1,6 +1,6 @@
 {
 	"name": "no.ThermoFloor",
-	"version": "0.0.1",
+	"version": "1.0.0",
 	"description": "This app adds support for devices made by [ThermoFloor](http://www.thermo-floor.no).",
 	"main": "app.js",
 	"dependencies": {
