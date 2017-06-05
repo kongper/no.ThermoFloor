@@ -4,7 +4,7 @@
 		"en": "Thermo-Floor AS",
 		"nl": "Thermo-Floor AS"
 	},
-	"version": "0.1.2",
+	"version": "0.2.0",
 	"compatibility": ">=1.0.5",
 	"author": {
 		"name": "Ted Tolboom",
@@ -143,6 +143,114 @@
 								}
 							}
 						]
+					}
+				]
+			}
+		],
+		"actions": [
+			{
+				"id": "thermofloor_change_mode",
+				"title": {
+					"en": "Change the thermostat mode",
+					"nl": "Verander de modus van de thermostaat"
+				},
+				"hint": {
+					"en": "Change the mode of the thermostat (Comfort / Economic / Off / Heating)",
+					"nl": "Change the mode of the thermostat (Comfort / Economic / Off / Heating)"
+				},
+				"args": [
+					{
+						"name": "device",
+						"type": "device",
+						"filter": "driver_id=TF_Thermostat"
+					},
+					{
+						"name": "setpointType",
+						"type": "dropdown",
+						"values": [
+							{
+								"id": "Off",
+								"label": {
+									"en": "Off (6°C)",
+									"nl": "Uit (6°C)"
+								}
+							},
+							{
+								"id": "Heat",
+								"label": {
+									"en": "Comfortable",
+									"nl": "Comfortabel"
+								}
+							},
+							{
+								"id": "Energy Save Heat",
+								"label": {
+									"en": "Economic",
+									"nl": "Economische"
+								}
+							},
+							{
+								"id": "Cool",
+								"label": {
+									"en": "Cooling",
+									"nl": "Koelen"
+								}
+							}
+						]
+					}
+				]
+			},
+			{
+				"id": "thermofloor_change_mode_setpoint",
+				"title": {
+					"en": "Change the setpoint of a thermostat mode",
+					"nl": "Verander de instelling van een modus van de thermostaat"
+				},
+				"hint": {
+					"en": "Change the setpoint of a specific thermostat mode (Comfort / Economic / Off / Heating)",
+					"nl": "Change the setpoint of a specific thermostat mode (Comfort / Economic / Off / Heating)"
+				},
+				"args": [
+					{
+						"name": "device",
+						"type": "device",
+						"filter": "driver_id=TF_Thermostat"
+					},
+					{
+						"name": "setpointType",
+						"type": "dropdown",
+						"values": [
+							{
+								"id": "Heat",
+								"label": {
+									"en": "Comfortable",
+									"nl": "Comfortabel"
+								}
+							},
+							{
+								"id": "Energy Save Heat",
+								"label": {
+									"en": "Economic",
+									"nl": "Economische"
+								}
+							},
+							{
+								"id": "Cool",
+								"label": {
+									"en": "Cooling",
+									"nl": "Koelen"
+								}
+							}
+						]
+					},
+					{
+						"name": "setpointValue",
+						"type": "range",
+						"min": 5,
+						"max": 40,
+						"step": 0.5,
+						"label": "°C",
+						"labelDecimals": 1
 					}
 				]
 			}
