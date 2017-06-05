@@ -4,7 +4,7 @@
 		"en": "Thermo-Floor AS",
 		"nl": "Thermo-Floor AS"
 	},
-	"version": "0.0.2",
+	"version": "1.0.0",
 	"compatibility": ">=1.0.5",
 	"author": {
 		"name": "Ted Tolboom",
@@ -27,23 +27,33 @@
 			"floor heating",
 			"electrical floor heating",
 			"heat",
+			"cooling",
 			"thermostat",
 			"temperature control",
+			"Multireg",
+			"Heatit",
+			"Heat it",
+			"Magnum",
 			"underfloor heating"
 		],
 		"nl": [
 			"centrale verwarming",
 			"vloerverwarming",
 			"vloer verwarming",
-			"electrische vloerverwarming"
+			"electrische vloerverwarming",
 			"warmte",
+			"koelen",
 			"thermostaat",
-			"temperatuur regeling"
+			"temperatuur regeling",
+			"Multireg",
+			"Heatit",
+			"Heat it",
+			"Magnum"
 		]
 	},
 	"description": {
-		"en": "Drivers for Thermo-Floor AS (Heatit) devices",
-		"nl": "Drivers voor Thermo-Floor AS (Heatit) apparaten"
+		"en": "Drivers for Thermo-Floor AS devices",
+		"nl": "Drivers voor Thermo-Floor AS apparaten"
 	},
 	"images": {
 		"large": "/assets/images/large.jpg",
@@ -54,7 +64,7 @@
 			{
 				"id": "thermofloor_mode_changed",
 				"title": {
-					"en": "Thermostatic mode has changed",
+					"en": "Thermostat mode has changed",
 					"nl": "Thermostaat modus is veranderd"
 				},
 				"args": [
@@ -82,8 +92,8 @@
 							"nl": "Naam"
 						},
 						"example": {
-							"en": "Comfortable",
-							"nl": "Comfortabel"
+							"en": "Comfort",
+							"nl": "Comfort"
 						}
 					}
 				]
@@ -91,7 +101,7 @@
 			{
 				"id": "thermofloor_mode_changed_to",
 				"title": {
-					"en": "Thermostatic mode has changed to",
+					"en": "Thermostat mode has changed to",
 					"nl": "Thermostaat modus is veranderd naar"
 				},
 				"args": [
@@ -107,38 +117,160 @@
 							{
 								"id": "Off",
 								"label": {
-									"en": "Off (6°C)",
-									"nl": "Uit (6°C)"
+									"en": "Off",
+									"nl": "Uit"
 								}
 							},
 							{
 								"id": "Heat",
 								"label": {
-									"en": "Comfortable",
-									"nl": "Comfortabel"
+									"en": "Comfort",
+									"nl": "Comfort"
 								}
 							},
 							{
 								"id": "Energy Save Heat",
 								"label": {
-									"en": "Economic",
-									"nl": "Economische"
+									"en": "Energy Saving",
+									"nl": "Energiebesparing"
 								}
 							},
 							{
-								"id": "MANUFACTURER SPECIFC",
+								"id": "Cool",
 								"label": {
-									"en": "Manual",
-									"nl": "Handmatig"
+									"en": "Cooling",
+									"nl": "Koelen"
 								}
 							}
 						]
 					}
 				]
 			}
+		],
+		"actions": [
+			{
+				"id": "thermofloor_change_mode",
+				"title": {
+					"en": "Set the thermostat mode",
+					"nl": "Stel de thermostaat modus in"
+				},
+				"hint": {
+					"en": "Set the thermostat mode (Comfort / Energy Saving / Off / Cooling) and activate instantly",
+					"nl": "Stel de thermostaat modus (Comfort / Energiebesparing / Uit / Koelen) in en activeer direct"
+				},
+				"args": [
+					{
+						"name": "device",
+						"type": "device",
+						"filter": "driver_id=TF_Thermostat"
+					},
+					{
+						"name": "setpointMode",
+						"type": "dropdown",
+						"values": [
+							{
+								"id": "Heat",
+								"label": {
+									"en": "Comfort",
+									"nl": "Comfort"
+								}
+							},
+							{
+								"id": "Energy Save Heat",
+								"label": {
+									"en": "Energy Saving",
+									"nl": "Energiebesparing"
+								}
+							},
+							{
+								"id": "Off",
+								"label": {
+									"en": "Off",
+									"nl": "Uit"
+								}
+							},
+							{
+								"id": "Cool",
+								"label": {
+									"en": "Cooling",
+									"nl": "Koelen"
+								}
+							}
+						]
+					}
+				]
+			},
+			{
+				"id": "thermofloor_change_mode_setpoint",
+				"title": {
+					"en": "Set a setpoint of a thermostat mode",
+					"nl": "Stel de temperatuur in van een thermostaat modus"
+				},
+				"hint": {
+					"en": "Change the setpoint of a specific thermostat mode (Comfort / Energy Saving / Heating). Note: does NOT activate this mode",
+					"nl": "Stel de temperatuur in van een thermostaat modus (Comfort / Energy Saving / Heating). Let op: activeert deze modus niet"
+				},
+				"args": [
+					{
+						"name": "device",
+						"type": "device",
+						"filter": "driver_id=TF_Thermostat"
+					},
+					{
+						"name": "setpointMode",
+						"type": "dropdown",
+						"values": [
+							{
+								"id": "Heat",
+								"label": {
+									"en": "Comfort",
+									"nl": "Comfort"
+								}
+							},
+							{
+								"id": "Energy Save Heat",
+								"label": {
+									"en": "Energy Saving",
+									"nl": "Energiebesparing"
+								}
+							},
+							{
+								"id": "Cool",
+								"label": {
+									"en": "Cooling",
+									"nl": "Koelen"
+								}
+							}
+						]
+					},
+					{
+						"name": "setpointValue",
+						"type": "range",
+						"min": 5,
+						"max": 40,
+						"step": 0.5,
+						"label": "°C",
+						"labelDecimals": 1
+					}
+				]
+			}
 		]
 	},
 	"capabilities": {
+		"thermofloor_onoff": {
+			"type": "boolean",
+			"title": {
+				"en": "State",
+				"nl": "Status"
+			},
+			"desc": {
+				"en": "State of the thermostat",
+				"nl": "Status van de thermostaat"
+			},
+			"getable": true,
+			"setable": false,
+			"greyout": true
+		},
 		"thermofloor_mode": {
 			"type": "enum",
 			"title": {
@@ -151,31 +283,31 @@
 			},
 			"values": [
 				{
-					"id": "Off",
-					"title": {
-						"en": "Off (6°C)",
-						"nl": "Uit (6°C)"
-					}
-				},
-				{
 					"id": "Heat",
 					"title": {
-						"en": "Comfortable",
-						"nl": "Comfortabel"
+						"en": "Comfort",
+						"nl": "Comfort"
 					}
 				},
 				{
 					"id": "Energy Save Heat",
 					"title": {
-						"en": "Economic",
-						"nl": "Economische"
+						"en": "Energy Saving",
+						"nl": "Energiebesparing"
 					}
 				},
 				{
-					"id": "MANUFACTURER SPECIFC",
+					"id": "Off",
 					"title": {
-						"en": "Manual",
-						"nl": "Handmatig"
+						"en": "Off",
+						"nl": "Uit"
+					}
+				},
+				{
+					"id": "Cool",
+					"title": {
+						"en": "Cooling",
+						"nl": "Koelen"
 					}
 				}
 			],
@@ -187,8 +319,8 @@
 		{
 			"id": "TF_Thermostat",
 			"name": {
-				"en": "Thermo-Floor Z-wave thermostat (Multireg / Heatit)",
-				"nl": "Thermo-Floor Z-wave thermostat (Multireg / Heatit)"
+				"en": "Thermo-Floor Z-wave thermostat (Multireg / Heatit / Magnum)",
+				"nl": "Thermo-Floor Z-wave thermostat (Multireg / Heatit / Magnum)"
 			},
 			"icon": "/drivers/TF_Thermostat/assets/icon.svg",
 			"images": {
@@ -197,26 +329,55 @@
 			},
 			"class": "thermostat",
 			"capabilities": [
-				"thermofloor_mode",
 				"measure_temperature",
+				"thermofloor_onoff",
+				"thermofloor_mode",
 				"target_temperature"
 			],
 			"capabilitiesOptions": {
 				"target_temperature": {
-					"min": 4,
-					"max": 28,
+					"min": 5,
+					"max": 40,
 					"step": 0.5
+				},
+				"thermofloor_onoff": {
+					"greyout": true
 				}
 			},
 			"mobile": {
 				"components": [
 					{
-						"id": "icon"
+						"id": "icon",
+						"capabilities": []
 					},
 					{
 						"id": "sensor",
 						"capabilities": [
-							"measure_temperature"
+							"measure_temperature",
+							"thermofloor_onoff"
+						],
+						"options": {
+							"icons": {
+								"thermofloor_onoff": "/drivers/TF_Thermostat/assets/thermofloor_onoff.svg"
+							},
+							"thermofloor_onoff": {
+								"noblink": false,
+								"greyout": true,
+								"label": {
+									"true": {
+										"en": "Active"
+									},
+									"false": {
+										"en": "Idle"
+									}
+								}
+							}
+						}
+					},
+					{
+						"id": "picker",
+						"capabilities": [
+							"thermofloor_mode"
 						]
 					},
 					{
@@ -237,19 +398,20 @@
 				"learnmode": {
 					"image": "/drivers/TF_Thermostat/assets/learnmode.svg",
 					"instruction": {
-						"en": "To include the thermostat to Homey: \n1. press the Center (confirm) button for 10 seconds. The display will show OFF. \n2. Press Right(down) button 4 times till you see Con in the display.\n3. Now start add a device to Homey.\n4. Start inclusion mode by pressing Center(confirm) button for approximately 2 seconds. The inclusion / exclusion icon will appear in the display.\n5. Confirmation will show Inc in the display.\nIf inclusion fails, Err(error) will appear.",
-						"nl": "To include the thermostat to Homey: \n1. press the Center (confirm) button for 10 seconds. The display will show OFF. \n2. Press Right(down) button 4 times till you see Con in the display.\n3. Now start add a device to Homey.\n4. Start inclusion mode by pressing Center(confirm) button for approximately 2 seconds. The inclusion / exclusion icon will appear in the display.\n5. Confirmation will show Inc in the display.\nIf inclusion fails, Err(error) will appear."
+						"en": "To include the thermostat to Homey: \n1. press the Center (confirm) button for 10 seconds. The display will show OFF. \n2. Press Right(down) button 5 times till you see Con in the display.\n3. Now start add a device to Homey.\n4. Start inclusion mode by pressing Center(confirm) button for approximately 2 seconds. The inclusion / exclusion icon will appear in the display.\n5. Confirmation will show Inc in the display. If inclusion fails, Err(error) will appear.",
+						"nl": "Om de thermostaat aan Homey toe te voegen: \n1. druk of de Center (confirm) knop voor 10 seconden. Het display toont OFF. \n2. Druk rechter (down) toets 5 keer tot Con op het display staat.\n3. Start voeg een apparaat toe aan Homey.\n4. Start inclusion modus door de Center(confirm) gedurende 2 seconden in te drukken. Het inclusion / exclusion icon wordt getoond in het display.\n5. Wanneer toevoegen geslaagd is, staat Inc op het display getoond en anders Err(error)."
 					}
 				},
 				"unlearnmode": {
 					"image": "/drivers/TF_Thermostat/assets/learnmode.svg",
 					"instruction": {
-						"en": "To remove the thermostat from Homey: \n1. press the Center (confirm) button for 10 seconds. The display will show OFF. \n2. Press Right(down) button 4 times till you see Con in the display.\n3. Now start to remove the device from Homey.\n4. Start exclusion mode by pressing Center(confirm) button for approximately 2 seconds. The inclusion / exclusion icon will appear in the display.\n5. Confirmation will show EcL in the display.\nIf exclusion fails, Err(error) will appear.",
-						"nl": "To remove the thermostat from Homey: \n1. press the Center (confirm) button for 10 seconds. The display will show OFF. \n2. Press Right(down) button 4 times till you see Con in the display.\n3. Now start to remove the device from Homey.\n4. Start exclusion mode by pressing Center(confirm) button for approximately 2 seconds. The inclusion / exclusion icon will appear in the display.\n5. Confirmation will show EcL in the display.\nIf exclusion fails, Err(error) will appear."
+						"en": "To remove the thermostat from Homey: \n1. press the Center (confirm) button for 10 seconds. The display will show OFF. \n2. Press Right(down) button 5 times till you see Con in the display.\n3. Now start to remove the device from Homey.\n4. Start exclusion mode by pressing Center(confirm) button for approximately 2 seconds. The inclusion / exclusion icon will appear in the display.\n5. Confirmation will show EcL in the display. If exclusion fails, Err(error) will appear.",
+						"nl": "Om de thermostaat van Homey te verwijderen: \n1. druk of de Center (confirm) knop voor 10 seconden. Het display toont OFF. \n2. Druk rechter (down) toets 5 keer tot Con op het display staat.\n3. Druk op het kruisje van de thermostaat.\n4. Start exclusion modus door de Center(confirm) gedurende 2 seconden in te drukken. Het inclusion / exclusion icon wordt getoond in het display.\n5. Wanneer het verwijderen geslaagd is, staat EcL op het display getoond en anders Err(error)."
 					}
 				},
 				"associationGroups": [
-					1
+					1,
+					2
 				],
 				"associationGroupsOptions": {
 					"1": {
@@ -260,8 +422,8 @@
 					},
 					"2": {
 						"hint": {
-							"en": "On/off  control: This controls external heaters replicating the state of the internal relay. Uses BASIC_SET command, values 0x00 (on) and 0xFF (on).",
-							"nl": "On/off  control: This controls external heaters replicating the state of the internal relay. Uses BASIC_SET command, values 0x00 (on) and 0xFF (on)."
+							"en": "On/off  control: This controls external heaters replicating the state of the internal relay. \nUses BASIC_SET command, values 0x00 (on) and 0xFF (on).\nDefault: 1 (Homey's ID), required to track the thermostat state (Active / Idle)",
+							"nl": "On/off  control: Deze groep schakelt externe verwarmings of koelings elementen. \nMaakt gebruik van het BASIC_SET command, values 0x00 (on) and 0xFF (on).\nStandaard: 1 (Homey's ID), nodig om de toestand van de thermostat (Actief / Inactief) bij te houden"
 						}
 					}
 				}
@@ -271,26 +433,34 @@
 					"id": "operation_mode",
 					"type": "dropdown",
 					"label": {
-						"en": "Thermostat operation mode",
-						"nl": "Thermostat operation mode"
+						"en": "Thermostat mode",
+						"nl": "Thermostaat modus"
 					},
-					"value": "11",
+					"value": "1",
 					"hint": {
-						"en": "Thermostat operation mode. (default: Energy save heat (default)",
-						"nl": "Thermostat operation mode. (standaard: Energiebesparing)"
+						"en": "Thermostat mode. (default: Energy saving",
+						"nl": "Thermostaat modus. (standaard: Energiebesparing)"
 					},
-					"values": [{
+					"values": [
+						{
+							"id": "1",
+							"label": {
+								"en": "Comfort",
+								"nl": "Comfort"
+							}
+						},
+						{
+							"id": "11",
+							"label": {
+								"en": "Energy Saving",
+								"nl": "Energiebesparing"
+							}
+						},
+						{
 							"id": "0",
 							"label": {
 								"en": "Off",
 								"nl": "Uitgeschakeld"
-							}
-						},
-						{
-							"id": "1",
-							"label": {
-								"en": "Heat",
-								"nl": "Verwarmen"
 							}
 						},
 						{
@@ -299,212 +469,8 @@
 								"en": "Cool",
 								"nl": "Koelen"
 							}
-						},
-						{
-							"id": "11",
-							"label": {
-								"en": "Energy save heat (default)",
-								"nl": "Energiebesparing (standaard)"
-							}
 						}
 					]
-				},
-				{
-					"id": "temp_sensor",
-					"type": "dropdown",
-					"label": {
-						"en": "Temperature sensor mode",
-						"nl": "Temperature sensor mode"
-					},
-					"value": "0",
-					"hint": {
-						"en": "Temperature regulation mode. (default: Floor mode)",
-						"nl": "Temperature regulation mode. (standaard: Floor mode)"
-					},
-					"values": [{
-							"id": "0",
-							"label": {
-								"en": "F  - Floor mode (default)",
-								"nl": "F  - Floor mode (standaard)"
-							}
-						},
-						{
-							"id": "1",
-							"label": {
-								"en": "A  - Room temperature mode",
-								"nl": "A  - Room temperature mode"
-							}
-						},
-						{
-							"id": "2",
-							"label": {
-								"en": "AF - Room mode w/floor limitations",
-								"nl": "AF - Room mode w/floor limitations"
-							}
-						},
-						{
-							"id": "3",
-							"label": {
-								"en": "A2 - Room temperature mode",
-								"nl": "A2 - Room temperature mode"
-							}
-						},
-						{
-							"id": "4",
-							"label": {
-								"en": "P  - Power regulator",
-								"nl": "P  - Power regulator"
-							}
-						},
-						{
-							"id": "5",
-							"label": {
-								"en": "FP - Floor mode with minimum power limitation",
-								"nl": "FP - Floor mode with minimum power limitation"
-							}
-						}
-					]
-				},
-				{
-					"id": "floor_sensor",
-					"type": "dropdown",
-					"label": {
-						"en": "Floor sensor type",
-						"nl": "Floor sensor type"
-					},
-					"value": "0",
-					"hint": {
-						"en": "Sensor type selection. Selects the type of floor/external sensor. (default: 10k ntc)",
-						"nl": "Sensor type selection. Selects the type of  oor/external sensor. (#1, standaard: 10k ntc)"
-					},
-					"values": [{
-							"id": "0",
-							"label": {
-								"en": "10k ntc (default)",
-								"nl": "10k ntc (standaard)"
-							}
-						},
-						{
-							"id": "1",
-							"label": {
-								"en": "12k ntc",
-								"nl": "12k ntc"
-							}
-						},
-						{
-							"id": "2",
-							"label": {
-								"en": "15k ntc",
-								"nl": "15k ntc"
-							}
-						},
-						{
-							"id": "3",
-							"label": {
-								"en": "22k ntc",
-								"nl": "22k ntc"
-							}
-						},
-						{
-							"id": "4",
-							"label": {
-								"en": "33k ntc",
-								"nl": "33k ntc"
-							}
-						},
-						{
-							"id": "5",
-							"label": {
-								"en": "47k ntc",
-								"nl": "47k ntc"
-							}
-						}
-					]
-				},
-				{
-					"id": "temperature_control_hysteresis",
-					"type": "number",
-					"attr": {
-						"min": 2,
-						"max": 30
-					},
-					"value": 5,
-					"label": {
-						"en": "DIFF l. Temperature control Hysteresis",
-						"nl": "DIFF l. Temperature control Hysteresis"
-					},
-					"hint": {
-						"en": "Range: 2-30 (0,2C - 3.0C) \nDefault: 5",
-						"nl": "Bereik: 2-30 (0,2C - 3.0C)\nStandaard: 5"
-					}
-				},
-				{
-					"id": "FLO_floor_min",
-					"type": "number",
-					"attr": {
-						"min": 50,
-						"max": 400
-					},
-					"value": 50,
-					"label": {
-						"en": "FLo: Floor temperature low limit",
-						"nl": "FLo: Floor temperature low limit"
-					},
-					"hint": {
-						"en": "Limits the lowest allowed floor temperature to this value. Operational in modes AF/F/FP. In F or FP mode, setpoint is also limited. \nRange: 50 - 400 (5.0C - 40.0C) \nDefault: 50",
-						"nl": "Limits the lowest allowed floor temperature to this value. Operational in modes AF/F/FP. In F or FP mode, setpoint is also limited. \nBereik: 50 - 400 (5.0C - 40.0C)\nStandaard: 5"
-					}
-				},
-				{
-					"id": "FHI_floor_max",
-					"type": "number",
-					"attr": {
-						"min": 50,
-						"max": 400
-					},
-					"value": 400,
-					"label": {
-						"en": "FHi: Floor temperature high limit",
-						"nl": "FHi: Floor temperature high limit."
-					},
-					"hint": {
-						"en": "Limits the highest allowed floor temperature to this value. Operational in modes AF/F/FP. In F or FP mode, setpoint is also limited. \nRange: 50 - 400 (5.0C - 40.0C) \nDefault: 50",
-						"nl": "Limits the highest allowed floor temperature to this value. Operational in modes AF/F/FP. In F or FP mode, setpoint is also limited. \nBereik: 50 - 400 (5.0C - 40.0C)\nStandaard: 400"
-					}
-				},
-				{
-					"id": "ALO_air_min",
-					"type": "number",
-					"attr": {
-						"min": 50,
-						"max": 400
-					},
-					"value": 50,
-					"label": {
-						"en": "ALo: Room temperature low limit",
-						"nl": "FLo: Room temperature low limit"
-					},
-					"hint": {
-						"en": "Limits the setpoint (CO/ECO) min. setting when in Room regulating mode (A/AF/A2). \nRange: 50 - 400 (5.0C - 40.0C) \nDefault: 50",
-						"nl": "Limits the setpoint (CO/ECO) min. setting when in Room regulating mode (A/AF/A2). \nBereik: 50 - 400 (5.0C - 40.0C)\nStandaard: 50"
-					}
-				},
-				{
-					"id": "AHI_air_max",
-					"type": "number",
-					"attr": {
-						"min": 50,
-						"max": 400
-					},
-					"value": 400,
-					"label": {
-						"en": "AHi: Room temperature high limit",
-						"nl": "AHi: Room temperature high limit."
-					},
-					"hint": {
-						"en": "Limits the setpoint (CO/ECO) max. setting when in Room regulating mode (A/AF/A2). \nRange: 50 - 400 (5.0C - 40.0C) \nDefault: 50",
-						"nl": "Limits the setpoint (CO/ECO) max. setting when in Room regulating mode (A/AF/A2). \nBereik: 50 - 400 (5.0C - 40.0C)\nStandaard: 400"
-					}
 				},
 				{
 					"id": "CO_setpoint",
@@ -513,14 +479,14 @@
 						"min": 50,
 						"max": 400
 					},
-					"value": 210,
+					"value": 205,
 					"label": {
-						"en": "CO mode setpoint",
-						"nl": "CO mode setpoint"
+						"en": "Comfort mode temperature",
+						"nl": "Comfort modus temperatuur"
 					},
 					"hint": {
-						"en": "Temperature setpoint used when in Comfort mode. \nRange: 50 - 400 (5.0C - 40.0C) \nDefault: 210",
-						"nl": "Temperature setpoint used when in Comfort mode. \nBereik: 50 - 400 (5.0C - 40.0C)\nStandaard: 210"
+						"en": "Temperature setpoint used when in Comfort (CO) mode. \nRange: 50 - 400 (5.0C - 40.0C) \nDefault: 205",
+						"nl": "Temperatuur setpoint gebruikt in Comfort (CO) mode. \nBereik: 50 - 400 (5.0C - 40.0C)\nStandaard: 205"
 					}
 				},
 				{
@@ -532,12 +498,12 @@
 					},
 					"value": 180,
 					"label": {
-						"en": "ECO mode setpoint",
-						"nl": "ECO mode setpoint"
+						"en": "Energy saving mode temperature",
+						"nl": "Energiebesparings modus temperatuur"
 					},
 					"hint": {
-						"en": "Temperature setpoint used when in Economy mode. \nRange: 50 - 400 (5.0C - 40.0C) \nDefault: 50",
-						"nl": "Temperature setpoint used when in Economy mode. \nBereik: 50 - 400 (5.0C - 40.0C)\nStandaard: 400"
+						"en": "Temperature setpoint used when in Energy saving (ECO) mode. \nRange: 50 - 400 (5.0C - 40.0C) \nDefault: 180",
+						"nl": "Temperatuur setpoint gebruikt in Energiebesparings (ECO) mode. \nBereik: 50 - 400 (5.0C - 40.0C)\nStandaard: 180"
 					}
 				},
 				{
@@ -547,48 +513,31 @@
 						"min": 50,
 						"max": 400
 					},
-					"value": 180,
+					"value": 210,
 					"label": {
-						"en": "COOL mode setpoint",
-						"nl": "COOL mode setpoint"
+						"en": "Cooling mode temperature",
+						"nl": "Koelen mode temperatuur"
 					},
 					"hint": {
-						"en": "Temperature setpoint used when in COOL mode (only if enabled). \nRange: 50 - 400 (5.0C - 40.0C) \nDefault: 180",
-						"nl": "Temperature setpoint used when in COOL mode (only if enabled). \nBereik: 50 - 400 (5.0C - 40.0C)\nStandaard: 180"
+						"en": "Temperature setpoint used when in Cooling (COOL) mode (only if enabled). \nRange: 50 - 400 (5.0C - 40.0C) \nDefault: 210",
+						"nl": "Temperatuur setpoint gebruikt in Koelen (COOL) modus (indien beschikbaar). \nBereik: 50 - 400 (5.0C - 40.0C)\nStandaard: 210"
 					}
 				},
 				{
-					"id": "PLO_temp_min",
+					"id": "poll_interval",
 					"type": "number",
 					"attr": {
-						"min": 0,
-						"max": 9
+						"min": 60,
+						"max": 3600
 					},
-					"value": 0,
+					"value": 300,
 					"label": {
-						"en": "PLo: Minimum power level for Power Reg mode",
-						"nl": "PLo: Minimum power level for Power Reg mode"
+						"en": "Poll interval temperature",
+						"nl": "Poll interval temperatuur"
 					},
 					"hint": {
-						"en": "Min power level in Power Regulator Mode (setting 2. Temperature sensor - P). \nRange: 0 - 9 (0% - 90%)\nDefault: 0",
-						"nl": "Min power level in Power Regulator Mode (setting 2. Temperature sensor - P). \nBereik: 0 - 9 (0% - 90%)\nStandaard: 0"
-					}
-				},
-				{
-					"id": "P_setting",
-					"type": "number",
-					"attr": {
-						"min": 0,
-						"max": 10
-					},
-					"value": 2,
-					"label": {
-						"en": "Power level in Power regulator mode",
-						"nl": "Power level in Power regulator mode"
-					},
-					"hint": {
-						"en": "Power level in Power regulator mode. \nRange: 0 - 10 (0% - 100%) \nDefault: 2",
-						"nl": "Power level in Power regulator mode. \nBereik: 0 - 10 (0% - 100%)\nStandaard: 2"
+						"en": "The amount of seconds between asking the device for a status (meausured temperature) update \nDefault: 300 [s].",
+						"nl": "Aantal seconden tussen het opvragen van een status (gemeten temperatuur) update aan het apparaat \nStandaard: 300 [s]."
 					}
 				}
 			]
