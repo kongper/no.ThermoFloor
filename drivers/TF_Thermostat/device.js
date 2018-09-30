@@ -218,35 +218,60 @@ class TF_ThermostatDevice extends ZwaveDevice {
 			},
 		});
 
-		this.registerCapability('FAN_mode', 'THERMOSTAT_FAN_MODE', {
-			getOpts: {
-				// getOnOnline: true,
-				getOnStart: true, // get the initial value on app start
-				pollInterval: 'poll_interval_THERMOSTAT_FAN_MODE', // maps to device settings
-				pollMultiplication: 60000,
-			},
-			get: 'THERMOSTAT_FAN_MODE_GET', // RAW NodeID, 0x44,0x02
-			set: 'THERMOSTAT_FAN_MODE_SET',
-			setParserV2: value => {
-				this.log('Setting FAN mode to:', value);
-				return {
-					Level: {
-						'Fan Mode': value,
-						Off: false,
-					},
-				};
-			},
-			report: 'THERMOSTAT_FAN_MODE_REPORT',
-			reportParserV2: report => {
-				if (!report) return null;
-				if (report.hasOwnProperty('Level') && report.Level.hasOwnProperty('Fan Mode')) {
-					this.log('FAN Mode Report received:', report.Level['Fan Mode']);
-					return report.Level['Fan Mode'];
-				}
-				return null;
-			},
-		});
+		// Registere triggerCapabilityListener
 
+		//thermofloor_mode_changed
+
+		//thermofloor_mode_changed_to
+
+
+		// Register actions for flows thermofloor_change_mode
+		this._actionZXTThermostatMode = new Homey.FlowCardAction('action_ZXT_SetMode')
+			.register()
+			.registerRunListener((args, state) => {
+				this.log('FlowCardAction triggered for ', args.device.getName(), 'to change Thermostat mode to', args.mode);
+				return args.device.triggerCapabilityListener('AC_mode', args.mode, {});
+			});
+
+		// Register actions for flows
+		this._actionZXTSetThermostatSetpoint = new Homey.FlowCardAction('action_ZXT_SetSetpoint')
+			.register()
+			.registerRunListener(this._actionZXTSetThermostatSetpointRunListener.bind(this));
+	}
+
+	// thermofloor_change_mode_setpoint
+	async _actionZXTSetThermostatSetpointRunListener(args, state) {
+		this.log('FlowCardAction triggered for ', args.device.getName(), 'to change setpoint value', args.setPointValue, 'for', args.setPointType);
+
+		if (!args.hasOwnProperty('setPointType')) return Promise.reject('setPointType_property_missing');
+		if (!args.hasOwnProperty('setPointValue')) return Promise.reject('setPointValue_property_missing');
+		if (typeof args.setPointValue !== 'number') return Promise.reject('setPointValue_is_not_a_number');
+
+		// Create value buffer
+		const bufferValue = new Buffer(2);
+		bufferValue.writeUInt16BE((Math.round(args.setPointValue * 2) / 2 * 10).toFixed(0));
+		const setPointType = args.setPointType;
+		const setPointValue = args.setPointValue;
+
+		// Store the reported setpointValue if supported
+
+		args.device.thermostatSetpointValue[setPointType] = setPointValue;
+		args.device.log('thermostatSetpointValue updated', args.device.thermostatSetpointValue);
+
+		if (args.device.node.CommandClass.COMMAND_CLASS_THERMOSTAT_SETPOINT) {
+			return await args.device.node.CommandClass.COMMAND_CLASS_THERMOSTAT_SETPOINT.THERMOSTAT_SETPOINT_SET({
+				Level: {
+					'Setpoint Type': setPointType,
+				},
+				Level2: {
+					Size: 2,
+					Scale: 0,
+					Precision: 1,
+				},
+				Value: bufferValue,
+			});
+		}
+		return Promise.reject('unknown_error');
 	}
 }
 module.exports = TF_ThermostatDevice;

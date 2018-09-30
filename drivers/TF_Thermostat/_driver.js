@@ -59,6 +59,7 @@ for (const mode in MasterData) {
 module.exports = new ZwaveDriver(path.basename(__dirname), {
 	debug: false,
 	capabilities: {
+		/*
 		measure_temperature: {
 			command_class: 'COMMAND_CLASS_SENSOR_MULTILEVEL',
 			command_get: 'SENSOR_MULTILEVEL_GET',
@@ -76,6 +77,7 @@ module.exports = new ZwaveDriver(path.basename(__dirname), {
 			},
 			pollInterval: 'poll_interval',
 		},
+		*/
 		target_temperature: {
 			command_class: 'COMMAND_CLASS_THERMOSTAT_SETPOINT',
 			command_get: 'THERMOSTAT_SETPOINT_GET',
@@ -156,6 +158,7 @@ module.exports = new ZwaveDriver(path.basename(__dirname), {
 				return null;
 			},
 		},
+		/*
 		thermofloor_onoff: {
 			command_class: 'COMMAND_CLASS_BASIC',
 			command_report: 'BASIC_SET',
@@ -164,6 +167,7 @@ module.exports = new ZwaveDriver(path.basename(__dirname), {
 				return report.Value === 255;
 			},
 		},
+		*/
 		thermofloor_mode: {
 			command_class: 'COMMAND_CLASS_THERMOSTAT_MODE',
 			command_get: 'THERMOSTAT_MODE_GET',
@@ -206,6 +210,7 @@ module.exports = new ZwaveDriver(path.basename(__dirname), {
 			},
 		},
 	},
+	/*
 	settings: {
 		operation_mode: {
 			index: 1,
@@ -263,6 +268,7 @@ module.exports = new ZwaveDriver(path.basename(__dirname), {
 			// open work: add parser to update setpoint / state if active
 		},
 	},
+	*/
 });
 
 Homey.manager('flow').on('trigger.thermofloor_mode_changed_to', (callback, args, state) => {
