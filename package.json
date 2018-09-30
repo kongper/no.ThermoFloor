@@ -4,8 +4,7 @@
 	"description": "This app adds support for devices made by [ThermoFloor](http://www.thermo-floor.no).",
 	"main": "app.js",
 	"dependencies": {
-		"homey-log": "^1.0.1",
-		"homey-zwavedriver": "git+https://github.com/athombv/node-homey-zwavedriver.git"
+		"homey-meshdriver": "^1.2.27"
 	},
 	"devDependencies": {},
 	"scripts": {
@@ -17,7 +16,7 @@
 		"url": "git+https://github.com/TedTolboom/no.ThermoFloor.git"
 	},
 	"author": "Ted Tolboom",
-	"license": "ISC",
+	"license": "MIT",
 	"bugs": {
 		"url": "https://github.com/TedTolboom/no.ThermoFloor/issues"
 	},
