@@ -173,7 +173,7 @@
             "filter": "driver_id=TF_Thermostat"
           },
           {
-            "name": "setpointMode",
+            "name": "mode",
             "type": "dropdown",
             "values": [
               {
@@ -225,7 +225,7 @@
             "filter": "driver_id=TF_Thermostat"
           },
           {
-            "name": "setpointMode",
+            "name": "setPointMode",
             "type": "dropdown",
             "values": [
               {
@@ -252,7 +252,7 @@
             ]
           },
           {
-            "name": "setpointValue",
+            "name": "setPointValue",
             "type": "range",
             "min": 5,
             "max": 40,
@@ -268,8 +268,7 @@
     {
       "id": "TF_Thermostat",
       "name": {
-        "en": "Thermo-Floor Z-wave thermostat (Multireg / Heatit / Magnum)",
-        "nl": "Thermo-Floor Z-wave thermostat (Multireg / Heatit / Magnum)"
+        "en": "Thermo-Floor Z-wave thermostat (Multireg / Heatit / Magnum)"
       },
       "icon": "/drivers/TF_Thermostat/assets/icon.svg",
       "images": {
@@ -489,7 +488,7 @@
           }
         },
         {
-          "id": "poll_interval",
+          "id": "poll_interval_TEMPERATURE",
           "type": "number",
           "attr": {
             "min": 60,

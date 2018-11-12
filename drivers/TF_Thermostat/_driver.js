@@ -77,7 +77,7 @@ module.exports = new ZwaveDriver(path.basename(__dirname), {
 			},
 			pollInterval: 'poll_interval',
 		},
-		*/
+
 		target_temperature: {
 			command_class: 'COMMAND_CLASS_THERMOSTAT_SETPOINT',
 			command_get: 'THERMOSTAT_SETPOINT_GET',
@@ -96,6 +96,7 @@ module.exports = new ZwaveDriver(path.basename(__dirname), {
 				};
 			},
 			command_set: 'THERMOSTAT_SETPOINT_SET',
+
 			command_set_parser: (value, node) => {
 				// Create 2 byte buffer of value, with value rounded to xx.5
 				if (!value) value = 18;
@@ -122,6 +123,7 @@ module.exports = new ZwaveDriver(path.basename(__dirname), {
 					Value: setpointValue,
 				};
 			},
+
 			command_report: 'THERMOSTAT_SETPOINT_REPORT',
 			command_report_parser: (report, node) => {
 				if (report &&
@@ -158,6 +160,7 @@ module.exports = new ZwaveDriver(path.basename(__dirname), {
 				return null;
 			},
 		},
+		*/
 		/*
 		thermofloor_onoff: {
 			command_class: 'COMMAND_CLASS_BASIC',
@@ -271,6 +274,7 @@ module.exports = new ZwaveDriver(path.basename(__dirname), {
 	*/
 });
 
+/*
 Homey.manager('flow').on('trigger.thermofloor_mode_changed_to', (callback, args, state) => {
 	if (!args) return callback('arguments_error', false);
 	else if (!state) return callback('state_error', false);
@@ -279,7 +283,9 @@ Homey.manager('flow').on('trigger.thermofloor_mode_changed_to', (callback, args,
 		args.mode === state.mode) return callback(null, true);
 	else return callback('unknown_error', false);
 });
+*/
 
+/*
 Homey.manager('flow').on('action.thermofloor_change_mode', (callback, args) => {
 	const node = module.exports.nodes[args.device.token];
 	// args == setpointType based on ID's
@@ -313,8 +319,9 @@ Homey.manager('flow').on('action.thermofloor_change_mode', (callback, args) => {
 	}
 	else return callback('unknown_error');
 });
+*/
 
-
+/*
 Homey.manager('flow').on('action.thermofloor_change_mode_setpoint', (callback, args) => {
 	const node = module.exports.nodes[args.device.token];
 	// args == setpointType based on ID's and setpointValue (degrees)
@@ -362,6 +369,7 @@ Homey.manager('flow').on('action.thermofloor_change_mode_setpoint', (callback, a
 	}
 	else return callback('unknown_error');
 });
+*/
 
 function updateMode(node, mode) {
 	// If thermostat mode has been changed get thermostat setpoint from stored settings
@@ -404,6 +412,7 @@ function updateMode(node, mode) {
 	}
 }
 
+/*
 function updateSetpoint(node, setpointValue, setpointType) {
 	// If thermostat mode has been changed get thermostat setpoint from stored settings
 	// Update setting based on reported setpoint if mode is not equal to 'Off'
@@ -415,4 +424,5 @@ function updateSetpoint(node, setpointValue, setpointType) {
 			[setpointSetting]: setpointValue * 10,
 		});
 	}
+	*/
 }

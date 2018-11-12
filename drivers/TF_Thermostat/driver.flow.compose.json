@@ -87,7 +87,7 @@
 			},
 			"args": [
 				{
-					"name": "setpointMode",
+					"name": "mode",
 					"type": "dropdown",
 					"values": [
 						{
@@ -134,7 +134,7 @@
 			},
 			"args": [
 				{
-					"name": "setpointMode",
+					"name": "setPointMode",
 					"type": "dropdown",
 					"values": [
 						{
@@ -161,7 +161,7 @@
 						]
 					},
 				{
-					"name": "setpointValue",
+					"name": "setPointValue",
 					"type": "range",
 					"min": 5,
 					"max": 40,

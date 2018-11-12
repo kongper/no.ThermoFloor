@@ -1,5 +1,7 @@
 'use strict';
 
+const Homey = require('homey');
+
 const ZwaveDevice = require('homey-meshdriver').ZwaveDevice;
 
 const MasterData = {
@@ -30,28 +32,28 @@ const MasterData = {
 	},
 };
 
-// Create Mode2Setting array based on MasterData array
-const Mode2Setting = {};
+// Create mapMode2Setting array based on MasterData array
+const mapMode2Setting = {};
 for (const mode in MasterData) {
-	Mode2Setting[MasterData[mode].Mode] = MasterData[mode].Setting;
+	mapMode2Setting[MasterData[mode].Mode] = MasterData[mode].Setting;
 }
 
-// Create Mode2Setpoint array based on MasterData array
-const Mode2Setpoint = {};
+// Create mapMode2Setpoint array based on MasterData array
+const mapMode2Setpoint = {};
 for (const mode in MasterData) {
-	Mode2Setpoint[MasterData[mode].Mode] = MasterData[mode].Setpoint;
+	mapMode2Setpoint[MasterData[mode].Mode] = MasterData[mode].Setpoint;
 }
 
-// Create Setpoint2Setting array based on MasterData array
-const Setpoint2Setting = {};
+// Create mapSetpoint2Setting array based on MasterData array
+const mapSetpoint2Setting = {};
 for (const mode in MasterData) {
-	Setpoint2Setting[MasterData[mode].Setpoint] = MasterData[mode].Setting;
+	mapSetpoint2Setting[MasterData[mode].Setpoint] = MasterData[mode].Setting;
 }
 
-// Create Mode2Number array based on MasterData array
-const Mode2Number = {};
+// Create mapMode2Number array based on MasterData array
+const mapMode2Number = {};
 for (const mode in MasterData) {
-	Mode2Number[MasterData[mode].Mode] = MasterData[mode].Mode_no;
+	mapMode2Number[MasterData[mode].Mode] = MasterData[mode].Mode_no;
 }
 
 
@@ -73,7 +75,13 @@ class TF_ThermostatDevice extends ZwaveDevice {
 			},
 		});
 
-		this.registerCapability('thermofloor_onoff', 'BASIC_SET');
+		this.registerCapability('thermofloor_onoff', 'BASIC', {
+			report: 'BASIC_SET',
+			reportParser: report => {
+				if (report && report.hasOwnProperty('Value')) return report.Value === 255;
+				return null;
+			}
+		});
 
 		this.registerCapability('thermofloor_mode', 'THERMOSTAT_MODE', {
 			getOpts: {
@@ -91,17 +99,29 @@ class TF_ThermostatDevice extends ZwaveDevice {
 
 				// Update setPoint Value or trigger get command to retrieve setpoint
 				if (setPointType !== 'not supported') {
-					this.setCapabilityValue('target_temperature', this.getStoreValue(`thermostatSetpointValue.${setPointType}`) || null);
+					this.setCapabilityValue('target_temperature', this.getStoreValue(`thermostatsetPointValue.${setPointType}`) || null);
 				}
 				else {
 					this.setCapabilityValue('target_temperature', null);
 				}
 
-				// Update AC_onoff capability
-				this.setCapabilityValue('AC_onoff', value !== 'Off');
+				// Update thermofloor_onoff capability
+				// this.setCapabilityValue('thermofloor_onoff', value !== 'Off');
 
-				// Update thermostat mode
-				this.setStoreValue(`thermostatSetpointType`, setPointType);
+				// Update thermostat mode in Store
+				this.setStoreValue(`thermostatsetPointType`, setPointType);
+
+				// >>>>// FIXME:
+				/*
+				// Trigger mode trigger cards
+				this.triggerThermofloorModeChanged.trigger(this, {
+					mode: report.Level.Mode,
+					mode_name: Homey.__("mode." + report.Level.Mode),
+				}, null);
+				this.triggerThermofloorModeChangedTo.trigger(this, null, {
+					mode: report.Level.Mode
+				}, );
+				*/
 
 				return {
 					Level: {
@@ -119,18 +139,26 @@ class TF_ThermostatDevice extends ZwaveDevice {
 
 					// Update thermostat setpoint based on matching thermostat mode
 					const setPointType = mapMode2Setpoint[report.Level.Mode];
-					this.setStoreValue(`thermostatSetpointType`, setPointType);
+					this.setStoreValue(`thermostatsetPointType`, setPointType);
 					// Update setPoint Value or trigger get command to retrieve setpoint
 					if (setPointType !== 'not supported') {
-						this.setCapabilityValue('target_temperature', this.getStoreValue(`thermostatSetpointValue.${setPointType}`) || null);
+						this.setCapabilityValue('target_temperature', this.getStoreValue(`thermostatsetPointValue.${setPointType}`) || null);
 					}
 					else {
 						this.setCapabilityValue('target_temperature', null);
 					}
 					this.log('Updated Thermostat setpoint Type', setPointType);
 
-					// Update AC_onoff capability
-					this.setCapabilityValue('AC_onoff', report.Level.Mode !== 'Off');
+					// Update thermofloor_onoff capability
+					// this.setCapabilityValue('thermofloor_onoff', report.Level.Mode !== 'Off');
+
+					this.triggerThermofloorModeChanged.trigger(this, {
+						mode: report.Level.Mode,
+						mode_name: Homey.__("mode." + report.Level.Mode),
+					}, null);
+					this.triggerThermofloorModeChangedTo.trigger(this, null, {
+						mode: report.Level.Mode
+					}, );
 
 					// Update thermostat mode
 					return report.Level.Mode;
@@ -146,7 +174,7 @@ class TF_ThermostatDevice extends ZwaveDevice {
 				pollMultiplication: 60000,
 			},
 			getParser: () => {
-				const setPointType = (this.getStoreValue(`thermostatSetpointType`) !== 'not supported' ? this.getStoreValue(`thermostatSetpointType`) || 'Heating 1' : 'Heating 1')
+				const setPointType = (this.getStoreValue(`thermostatsetPointType`) !== 'not supported' ? this.getStoreValue(`thermostatsetPointType`) || 'Heating 1' : 'Heating 1')
 				return {
 					Level: {
 						'Setpoint Type': setPointType,
@@ -159,11 +187,19 @@ class TF_ThermostatDevice extends ZwaveDevice {
 				// Create value buffer
 				const bufferValue = new Buffer(2);
 				bufferValue.writeUInt16BE((Math.round(value * 2) / 2 * 10).toFixed(0));
-				const setPointType = this.getStoreValue(`thermostatSetpointType`) || 'Heating 1';
+				const setPointType = this.getStoreValue(`thermostatsetPointType`) || 'Heating 1';
 
-				// Store the reported setpointValue if supported
+				// Store the reported setPointValue if supported
 				if (mapMode2Setpoint.setPointType !== 'not supported') {
-					this.setStoreValue(`thermostatSetpointValue.${setPointType}`, value);
+					this.setStoreValue(`thermostatsetPointValue.${setPointType}`, value);
+				}
+				// function updateSetpoint(node, setPointValue, setpointMode)
+				if (setPointType !== 'Off') {
+					const setpointSetting = mapSetpoint2Setting[setPointType];
+					this.log('SETPOINT CHANGE - Update setting:', setpointSetting, 'with the setpoint value:', value * 10);
+					this.setSettings({
+						[setpointSetting]: value * 10
+					});
 				}
 
 				return {
@@ -198,14 +234,24 @@ class TF_ThermostatDevice extends ZwaveDevice {
 						const setPointValue = readValue / Math.pow(10, report.Level2.Precision);
 						const setPointType = report.Level['Setpoint Type'];
 
+						// function updateSetpoint(node, setPointValue, setpointMode)
+
+						if (setPointType !== 'Off') {
+							const setpointSetting = mapSetpoint2Setting[setPointType];
+							this.log('SETPOINT CHANGE - Update setting:', setpointSetting, 'with the setpoint value:', setPointValue * 10);
+							this.setSettings({
+								[setpointSetting]: setPointValue * 10
+							});
+						}
+
 						this.log('Setpoint Report received: Setpoint type', setPointType, ' Setpoint value', setPointValue);
 
-						// Store the reported setpointValue if supported
+						// Store the reported setPointValue if supported
 						if (mapMode2Setpoint.setPointType !== 'not supported') {
-							this.setStoreValue(`thermostatSetpointValue.${setPointType}`, setPointValue);
+							this.setStoreValue(`thermostatsetPointValue.${setPointType}`, setPointValue);
 						}
-						// If setPointType === this.thermostatSetpointType, return the setPointValue to update the UI, else return nul
-						if (setPointType === this.getStoreValue('thermostatSetpointType')) {
+						// If setPointType === this.thermostatsetPointType, return the setPointValue to update the UI, else return nul
+						if (setPointType === this.getStoreValue('thermostatsetPointType')) {
 							this.log('Thermostat setpoint updated on UI to', setPointValue);
 							return setPointValue;
 						}
@@ -221,42 +267,49 @@ class TF_ThermostatDevice extends ZwaveDevice {
 		// Registere triggerCapabilityListener
 
 		//thermofloor_mode_changed
+		this.triggerThermofloorModeChanged = new Homey.FlowCardTriggerDevice('thermofloor_mode_changed');
+		this.triggerThermofloorModeChanged
+			.register();
 
 		//thermofloor_mode_changed_to
-
+		this.triggerThermofloorModeChangedTo = new Homey.FlowCardTriggerDevice('thermofloor_mode_changed_to');
+		this.triggerThermofloorModeChangedTo
+			.register()
+			.registerRunListener((args, state) =>
+				Promise.resolve(args.mode === state.mode));
 
 		// Register actions for flows thermofloor_change_mode
-		this._actionZXTThermostatMode = new Homey.FlowCardAction('action_ZXT_SetMode')
+		this._actionThermofloorChangeMode = new Homey.FlowCardAction('thermofloor_change_mode')
 			.register()
 			.registerRunListener((args, state) => {
 				this.log('FlowCardAction triggered for ', args.device.getName(), 'to change Thermostat mode to', args.mode);
-				return args.device.triggerCapabilityListener('AC_mode', args.mode, {});
+				return args.device.triggerCapabilityListener('thermofloor_mode', args.mode, {});
 			});
 
 		// Register actions for flows
-		this._actionZXTSetThermostatSetpoint = new Homey.FlowCardAction('action_ZXT_SetSetpoint')
+		this._actionThermofloorChangeSetpoint = new Homey.FlowCardAction('thermofloor_change_mode_setpoint')
 			.register()
-			.registerRunListener(this._actionZXTSetThermostatSetpointRunListener.bind(this));
+			.registerRunListener(this._actionThermofloorChangeSetpointRunListener.bind(this));
 	}
 
 	// thermofloor_change_mode_setpoint
-	async _actionZXTSetThermostatSetpointRunListener(args, state) {
-		this.log('FlowCardAction triggered for ', args.device.getName(), 'to change setpoint value', args.setPointValue, 'for', args.setPointType);
+	async _actionThermofloorChangeSetpointRunListener(args, state) {
+		this.log('FlowCardAction triggered for ', args.device.getName(), 'to change setpoint value', args.setPointValue, 'for', args.setPointMode);
 
-		if (!args.hasOwnProperty('setPointType')) return Promise.reject('setPointType_property_missing');
+		if (!args.hasOwnProperty('setPointMode')) return Promise.reject('setPointMode_property_missing');
 		if (!args.hasOwnProperty('setPointValue')) return Promise.reject('setPointValue_property_missing');
 		if (typeof args.setPointValue !== 'number') return Promise.reject('setPointValue_is_not_a_number');
 
 		// Create value buffer
 		const bufferValue = new Buffer(2);
 		bufferValue.writeUInt16BE((Math.round(args.setPointValue * 2) / 2 * 10).toFixed(0));
-		const setPointType = args.setPointType;
+		const setPointType = mapMode2Setpoint[args.setPointMode];
 		const setPointValue = args.setPointValue;
 
-		// Store the reported setpointValue if supported
+		// Store the reported setPointValue if supported
 
-		args.device.thermostatSetpointValue[setPointType] = setPointValue;
-		args.device.log('thermostatSetpointValue updated', args.device.thermostatSetpointValue);
+		this.setStoreValue(`thermostatsetPointValue.${setPointType}`, setPointValue);
+		this.log('thermostatsetPointValue ', setPointType, ' updated to:', setPointValue);
 
 		if (args.device.node.CommandClass.COMMAND_CLASS_THERMOSTAT_SETPOINT) {
 			return await args.device.node.CommandClass.COMMAND_CLASS_THERMOSTAT_SETPOINT.THERMOSTAT_SETPOINT_SET({
