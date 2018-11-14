@@ -1,0 +1,14 @@
+{
+	"type": "boolean",
+	"title": {
+		"en": "State",
+		"nl": "Status"
+	},
+	"desc": {
+		"en": "State of the thermostat",
+		"nl": "Status van de thermostaat"
+	},
+	"getable": true,
+	"setable": false,
+	"greyout": true
+}

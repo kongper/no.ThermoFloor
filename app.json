@@ -1,546 +1,569 @@
 {
-	"id": "no.thermofloor",
-	"name": {
-		"en": "Thermo-Floor AS",
-		"nl": "Thermo-Floor AS"
-	},
-	"version": "1.0.0",
-	"compatibility": ">=1.0.5",
-	"author": {
-		"name": "Ted Tolboom",
-		"email": "dTNL.Homey@gmail.com"
-	},
-	"contributors": {
-		"developers": [
-			{
-				"name": "Ted Tolboom",
-				"email": "dTNL.Homey@gmail.com"
-			}
-		]
-	},
-	"category": [
-		"climate"
-	],
-	"tags": {
-		"en": [
-			"central heating",
-			"floor heating",
-			"electrical floor heating",
-			"heat",
-			"cooling",
-			"thermostat",
-			"temperature control",
-			"Multireg",
-			"Heatit",
-			"Heat it",
-			"Magnum",
-			"underfloor heating"
-		],
-		"nl": [
-			"centrale verwarming",
-			"vloerverwarming",
-			"vloer verwarming",
-			"electrische vloerverwarming",
-			"warmte",
-			"koelen",
-			"thermostaat",
-			"temperatuur regeling",
-			"Multireg",
-			"Heatit",
-			"Heat it",
-			"Magnum"
-		]
-	},
-	"description": {
-		"en": "Drivers for Thermo-Floor AS devices",
-		"nl": "Drivers voor Thermo-Floor AS apparaten"
-	},
-	"images": {
-		"large": "/assets/images/large.jpg",
-		"small": "/assets/images/small.jpg"
-	},
-	"flow": {
-		"triggers": [
-			{
-				"id": "thermofloor_mode_changed",
-				"title": {
-					"en": "Thermostat mode has changed",
-					"nl": "Thermostaat modus is veranderd"
-				},
-				"args": [
-					{
-						"name": "device",
-						"type": "device",
-						"filter": "driver_id=TF_Thermostat"
-					}
-				],
-				"tokens": [
-					{
-						"name": "mode",
-						"title": {
-							"en": "ID",
-							"nl": "ID"
-						},
-						"example": {
-							"en": "Heat"
-						}
-					},
-					{
-						"name": "mode_name",
-						"title": {
-							"en": "Name",
-							"nl": "Naam"
-						},
-						"example": {
-							"en": "Comfort",
-							"nl": "Comfort"
-						}
-					}
-				]
-			},
-			{
-				"id": "thermofloor_mode_changed_to",
-				"title": {
-					"en": "Thermostat mode has changed to",
-					"nl": "Thermostaat modus is veranderd naar"
-				},
-				"args": [
-					{
-						"name": "device",
-						"type": "device",
-						"filter": "driver_id=TF_Thermostat"
-					},
-					{
-						"name": "mode",
-						"type": "dropdown",
-						"values": [
-							{
-								"id": "Off",
-								"label": {
-									"en": "Off",
-									"nl": "Uit"
-								}
-							},
-							{
-								"id": "Heat",
-								"label": {
-									"en": "Comfort",
-									"nl": "Comfort"
-								}
-							},
-							{
-								"id": "Energy Save Heat",
-								"label": {
-									"en": "Energy Saving",
-									"nl": "Energiebesparing"
-								}
-							},
-							{
-								"id": "Cool",
-								"label": {
-									"en": "Cooling",
-									"nl": "Koelen"
-								}
-							}
-						]
-					}
-				]
-			}
-		],
-		"actions": [
-			{
-				"id": "thermofloor_change_mode",
-				"title": {
-					"en": "Set the thermostat mode",
-					"nl": "Stel de thermostaat modus in"
-				},
-				"hint": {
-					"en": "Set the thermostat mode (Comfort / Energy Saving / Off / Cooling) and activate instantly",
-					"nl": "Stel de thermostaat modus (Comfort / Energiebesparing / Uit / Koelen) in en activeer direct"
-				},
-				"args": [
-					{
-						"name": "device",
-						"type": "device",
-						"filter": "driver_id=TF_Thermostat"
-					},
-					{
-						"name": "setpointMode",
-						"type": "dropdown",
-						"values": [
-							{
-								"id": "Heat",
-								"label": {
-									"en": "Comfort",
-									"nl": "Comfort"
-								}
-							},
-							{
-								"id": "Energy Save Heat",
-								"label": {
-									"en": "Energy Saving",
-									"nl": "Energiebesparing"
-								}
-							},
-							{
-								"id": "Off",
-								"label": {
-									"en": "Off",
-									"nl": "Uit"
-								}
-							},
-							{
-								"id": "Cool",
-								"label": {
-									"en": "Cooling",
-									"nl": "Koelen"
-								}
-							}
-						]
-					}
-				]
-			},
-			{
-				"id": "thermofloor_change_mode_setpoint",
-				"title": {
-					"en": "Set a setpoint of a thermostat mode",
-					"nl": "Stel de temperatuur in van een thermostaat modus"
-				},
-				"hint": {
-					"en": "Change the setpoint of a specific thermostat mode (Comfort / Energy Saving / Heating). Note: does NOT activate this mode",
-					"nl": "Stel de temperatuur in van een thermostaat modus (Comfort / Energy Saving / Heating). Let op: activeert deze modus niet"
-				},
-				"args": [
-					{
-						"name": "device",
-						"type": "device",
-						"filter": "driver_id=TF_Thermostat"
-					},
-					{
-						"name": "setpointMode",
-						"type": "dropdown",
-						"values": [
-							{
-								"id": "Heat",
-								"label": {
-									"en": "Comfort",
-									"nl": "Comfort"
-								}
-							},
-							{
-								"id": "Energy Save Heat",
-								"label": {
-									"en": "Energy Saving",
-									"nl": "Energiebesparing"
-								}
-							},
-							{
-								"id": "Cool",
-								"label": {
-									"en": "Cooling",
-									"nl": "Koelen"
-								}
-							}
-						]
-					},
-					{
-						"name": "setpointValue",
-						"type": "range",
-						"min": 5,
-						"max": 40,
-						"step": 0.5,
-						"label": "°C",
-						"labelDecimals": 1
-					}
-				]
-			}
-		]
-	},
-	"capabilities": {
-		"thermofloor_onoff": {
-			"type": "boolean",
-			"title": {
-				"en": "State",
-				"nl": "Status"
-			},
-			"desc": {
-				"en": "State of the thermostat",
-				"nl": "Status van de thermostaat"
-			},
-			"getable": true,
-			"setable": false,
-			"greyout": true
-		},
-		"thermofloor_mode": {
-			"type": "enum",
-			"title": {
-				"en": "Thermostat mode",
-				"nl": "Thermostaat modus"
-			},
-			"desc": {
-				"en": "Mode of the thermostat",
-				"nl": "Modus van de thermostaat"
-			},
-			"values": [
-				{
-					"id": "Heat",
-					"title": {
-						"en": "Comfort",
-						"nl": "Comfort"
-					}
-				},
-				{
-					"id": "Energy Save Heat",
-					"title": {
-						"en": "Energy Saving",
-						"nl": "Energiebesparing"
-					}
-				},
-				{
-					"id": "Off",
-					"title": {
-						"en": "Off",
-						"nl": "Uit"
-					}
-				},
-				{
-					"id": "Cool",
-					"title": {
-						"en": "Cooling",
-						"nl": "Koelen"
-					}
-				}
-			],
-			"getable": true,
-			"setable": true
-		}
-	},
-	"drivers": [
-		{
-			"id": "TF_Thermostat",
-			"name": {
-				"en": "Thermo-Floor Z-wave thermostat (Multireg / Heatit / Magnum)",
-				"nl": "Thermo-Floor Z-wave thermostat (Multireg / Heatit / Magnum)"
-			},
-			"icon": "/drivers/TF_Thermostat/assets/icon.svg",
-			"images": {
-				"large": "/drivers/TF_Thermostat/assets/images/large.jpg",
-				"small": "/drivers/TF_Thermostat/assets/images/small.jpg"
-			},
-			"class": "thermostat",
-			"capabilities": [
-				"measure_temperature",
-				"thermofloor_onoff",
-				"thermofloor_mode",
-				"target_temperature"
-			],
-			"capabilitiesOptions": {
-				"target_temperature": {
-					"min": 5,
-					"max": 40,
-					"step": 0.5
-				},
-				"thermofloor_onoff": {
-					"greyout": true
-				}
-			},
-			"mobile": {
-				"components": [
-					{
-						"id": "icon",
-						"capabilities": []
-					},
-					{
-						"id": "sensor",
-						"capabilities": [
-							"measure_temperature",
-							"thermofloor_onoff"
-						],
-						"options": {
-							"icons": {
-								"thermofloor_onoff": "/drivers/TF_Thermostat/assets/thermofloor_onoff.svg"
-							},
-							"thermofloor_onoff": {
-								"noblink": false,
-								"greyout": true,
-								"label": {
-									"true": {
-										"en": "Active"
-									},
-									"false": {
-										"en": "Idle"
-									}
-								}
-							}
-						}
-					},
-					{
-						"id": "picker",
-						"capabilities": [
-							"thermofloor_mode"
-						]
-					},
-					{
-						"id": "thermostat",
-						"capabilities": [
-							"target_temperature"
-						]
-					}
-				]
-			},
-			"zwave": {
-				"manufacturerId": 411,
-				"productTypeId": 1,
-				"productId": 1,
-				"productDocumentation": "http://products.z-wavealliance.org/ProductManual/File?folder=&filename=Manuals/1182/Manual_Multireg Z-Wave_Ver2015-A.pdf",
-				"pid": 1182,
-				"imageRemotePath": "http://products.z-wavealliance.org/ProductImages/Index?productName=ZC10-15010002",
-				"learnmode": {
-					"image": "/drivers/TF_Thermostat/assets/learnmode.svg",
-					"instruction": {
-						"en": "To include the thermostat to Homey: \n1. press the Center (confirm) button for 10 seconds. The display will show OFF. \n2. Press Right(down) button 5 times till you see Con in the display.\n3. Now start add a device to Homey.\n4. Start inclusion mode by pressing Center(confirm) button for approximately 2 seconds. The inclusion / exclusion icon will appear in the display.\n5. Confirmation will show Inc in the display. If inclusion fails, Err(error) will appear.",
-						"nl": "Om de thermostaat aan Homey toe te voegen: \n1. druk of de Center (confirm) knop voor 10 seconden. Het display toont OFF. \n2. Druk rechter (down) toets 5 keer tot Con op het display staat.\n3. Start voeg een apparaat toe aan Homey.\n4. Start inclusion modus door de Center(confirm) gedurende 2 seconden in te drukken. Het inclusion / exclusion icon wordt getoond in het display.\n5. Wanneer toevoegen geslaagd is, staat Inc op het display getoond en anders Err(error)."
-					}
-				},
-				"unlearnmode": {
-					"image": "/drivers/TF_Thermostat/assets/learnmode.svg",
-					"instruction": {
-						"en": "To remove the thermostat from Homey: \n1. press the Center (confirm) button for 10 seconds. The display will show OFF. \n2. Press Right(down) button 5 times till you see Con in the display.\n3. Now start to remove the device from Homey.\n4. Start exclusion mode by pressing Center(confirm) button for approximately 2 seconds. The inclusion / exclusion icon will appear in the display.\n5. Confirmation will show EcL in the display. If exclusion fails, Err(error) will appear.",
-						"nl": "Om de thermostaat van Homey te verwijderen: \n1. druk of de Center (confirm) knop voor 10 seconden. Het display toont OFF. \n2. Druk rechter (down) toets 5 keer tot Con op het display staat.\n3. Druk op het kruisje van de thermostaat.\n4. Start exclusion modus door de Center(confirm) gedurende 2 seconden in te drukken. Het inclusion / exclusion icon wordt getoond in het display.\n5. Wanneer het verwijderen geslaagd is, staat EcL op het display getoond en anders Err(error)."
-					}
-				},
-				"associationGroups": [
-					1,
-					2
-				],
-				"associationGroupsOptions": {
-					"1": {
-						"hint": {
-							"en": "Lifeline. All run-time reporting is addressed to this group. Only one node can be assigned to this association group. \nDefault: 1 (Homey's ID)",
-							"nl": "Lifeline: Association Groep 1 wordt gebruikt om alle rapportages door te geven. Slechts een node kan toegevoegd worden aan deze associatie groep. \nStandaard: 1 (Homey's ID)"
-						}
-					},
-					"2": {
-						"hint": {
-							"en": "On/off  control: This controls external heaters replicating the state of the internal relay. \nUses BASIC_SET command, values 0x00 (on) and 0xFF (on).\nDefault: 1 (Homey's ID), required to track the thermostat state (Active / Idle)",
-							"nl": "On/off  control: Deze groep schakelt externe verwarmings of koelings elementen. \nMaakt gebruik van het BASIC_SET command, values 0x00 (on) and 0xFF (on).\nStandaard: 1 (Homey's ID), nodig om de toestand van de thermostat (Actief / Inactief) bij te houden"
-						}
-					}
-				}
-			},
-			"settings": [
-				{
-					"id": "operation_mode",
-					"type": "dropdown",
-					"label": {
-						"en": "Thermostat mode",
-						"nl": "Thermostaat modus"
-					},
-					"value": "1",
-					"hint": {
-						"en": "Thermostat mode. (default: Energy saving",
-						"nl": "Thermostaat modus. (standaard: Energiebesparing)"
-					},
-					"values": [
-						{
-							"id": "1",
-							"label": {
-								"en": "Comfort",
-								"nl": "Comfort"
-							}
-						},
-						{
-							"id": "11",
-							"label": {
-								"en": "Energy Saving",
-								"nl": "Energiebesparing"
-							}
-						},
-						{
-							"id": "0",
-							"label": {
-								"en": "Off",
-								"nl": "Uitgeschakeld"
-							}
-						},
-						{
-							"id": "2",
-							"label": {
-								"en": "Cool",
-								"nl": "Koelen"
-							}
-						}
-					]
-				},
-				{
-					"id": "CO_setpoint",
-					"type": "number",
-					"attr": {
-						"min": 50,
-						"max": 400
-					},
-					"value": 205,
-					"label": {
-						"en": "Comfort mode temperature",
-						"nl": "Comfort modus temperatuur"
-					},
-					"hint": {
-						"en": "Temperature setpoint used when in Comfort (CO) mode. \nRange: 50 - 400 (5.0C - 40.0C) \nDefault: 205",
-						"nl": "Temperatuur setpoint gebruikt in Comfort (CO) mode. \nBereik: 50 - 400 (5.0C - 40.0C)\nStandaard: 205"
-					}
-				},
-				{
-					"id": "ECO_setpoint",
-					"type": "number",
-					"attr": {
-						"min": 50,
-						"max": 400
-					},
-					"value": 180,
-					"label": {
-						"en": "Energy saving mode temperature",
-						"nl": "Energiebesparings modus temperatuur"
-					},
-					"hint": {
-						"en": "Temperature setpoint used when in Energy saving (ECO) mode. \nRange: 50 - 400 (5.0C - 40.0C) \nDefault: 180",
-						"nl": "Temperatuur setpoint gebruikt in Energiebesparings (ECO) mode. \nBereik: 50 - 400 (5.0C - 40.0C)\nStandaard: 180"
-					}
-				},
-				{
-					"id": "COOL_setpoint",
-					"type": "number",
-					"attr": {
-						"min": 50,
-						"max": 400
-					},
-					"value": 210,
-					"label": {
-						"en": "Cooling mode temperature",
-						"nl": "Koelen mode temperatuur"
-					},
-					"hint": {
-						"en": "Temperature setpoint used when in Cooling (COOL) mode (only if enabled). \nRange: 50 - 400 (5.0C - 40.0C) \nDefault: 210",
-						"nl": "Temperatuur setpoint gebruikt in Koelen (COOL) modus (indien beschikbaar). \nBereik: 50 - 400 (5.0C - 40.0C)\nStandaard: 210"
-					}
-				},
-				{
-					"id": "poll_interval",
-					"type": "number",
-					"attr": {
-						"min": 60,
-						"max": 3600
-					},
-					"value": 300,
-					"label": {
-						"en": "Poll interval temperature",
-						"nl": "Poll interval temperatuur"
-					},
-					"hint": {
-						"en": "The amount of seconds between asking the device for a status (meausured temperature) update \nDefault: 300 [s].",
-						"nl": "Aantal seconden tussen het opvragen van een status (gemeten temperatuur) update aan het apparaat \nStandaard: 300 [s]."
-					}
-				}
-			]
-		}
-	]
+  "id": "no.thermofloor",
+  "sdk": 2,
+  "name": {
+    "en": "Thermo-Floor / Heatit"
+  },
+  "version": "2.0.0",
+  "compatibility": ">=1.5.0",
+  "homeyCommunityTopicId": 166,
+  "author": {
+    "name": "Ted Tolboom",
+    "email": "dTNL.Homey@gmail.com"
+  },
+  "contributing": {
+    "donate": {
+      "paypal": {
+        "username": "TedTolboom"
+      }
+    }
+  },
+  "contributors": {
+    "developers": [
+      {
+        "name": "Ted Tolboom",
+        "email": "dTNL.Homey@gmail.com"
+      }
+    ]
+  },
+  "category": [
+    "climate"
+  ],
+  "tags": {
+    "en": [
+      "central heating",
+      "floor heating",
+      "electrical floor heating",
+      "heat",
+      "cooling",
+      "thermostat",
+      "temperature control",
+      "Multireg",
+      "Heatit",
+      "Heat it",
+      "Magnum",
+      "underfloor heating"
+    ],
+    "nl": [
+      "centrale verwarming",
+      "vloerverwarming",
+      "vloer verwarming",
+      "electrische vloerverwarming",
+      "warmte",
+      "koelen",
+      "thermostaat",
+      "temperatuur regeling",
+      "Multireg",
+      "Heatit",
+      "Heat it",
+      "Magnum"
+    ]
+  },
+  "description": {
+    "en": "Drivers for Thermo-Floor AS devices",
+    "nl": "Drivers voor Thermo-Floor AS apparaten"
+  },
+  "images": {
+    "large": "/assets/images/large.jpg",
+    "small": "/assets/images/small.jpg"
+  },
+  "flow": {
+    "triggers": [
+      {
+        "id": "thermofloor_mode_changed",
+        "title": {
+          "en": "Thermostat mode has changed",
+          "nl": "Thermostaat modus is veranderd"
+        },
+        "tokens": [
+          {
+            "name": "mode",
+            "title": {
+              "en": "ID",
+              "nl": "ID"
+            },
+            "example": {
+              "en": "Heat"
+            }
+          },
+          {
+            "name": "mode_name",
+            "title": {
+              "en": "Name",
+              "nl": "Naam"
+            },
+            "example": {
+              "en": "Comfort",
+              "nl": "Comfort"
+            }
+          }
+        ],
+        "args": [
+          {
+            "type": "device",
+            "name": "device",
+            "filter": "driver_id=TF_Thermostat"
+          }
+        ]
+      },
+      {
+        "id": "thermofloor_mode_changed_to",
+        "title": {
+          "en": "Thermostat mode has changed to",
+          "nl": "Thermostaat modus is veranderd naar"
+        },
+        "args": [
+          {
+            "type": "device",
+            "name": "device",
+            "filter": "driver_id=TF_Thermostat"
+          },
+          {
+            "name": "mode",
+            "type": "dropdown",
+            "values": [
+              {
+                "id": "Off",
+                "label": {
+                  "en": "Off",
+                  "nl": "Uit"
+                }
+              },
+              {
+                "id": "Heat",
+                "label": {
+                  "en": "Comfort",
+                  "nl": "Comfort"
+                }
+              },
+              {
+                "id": "Energy Save Heat",
+                "label": {
+                  "en": "Energy Saving",
+                  "nl": "Energiebesparing"
+                }
+              },
+              {
+                "id": "Cool",
+                "label": {
+                  "en": "Cooling",
+                  "nl": "Koelen"
+                }
+              }
+            ]
+          }
+        ]
+      }
+    ],
+    "actions": [
+      {
+        "id": "thermofloor_change_mode",
+        "title": {
+          "en": "Set the thermostat mode",
+          "nl": "Stel de thermostaat modus in"
+        },
+        "hint": {
+          "en": "Set the thermostat mode (Comfort / Energy Saving / Off / Cooling) and activate instantly",
+          "nl": "Stel de thermostaat modus (Comfort / Energiebesparing / Uit / Koelen) in en activeer direct"
+        },
+        "args": [
+          {
+            "type": "device",
+            "name": "device",
+            "filter": "driver_id=TF_Thermostat"
+          },
+          {
+            "name": "mode",
+            "type": "dropdown",
+            "values": [
+              {
+                "id": "Heat",
+                "label": {
+                  "en": "Comfort",
+                  "nl": "Comfort"
+                }
+              },
+              {
+                "id": "Energy Save Heat",
+                "label": {
+                  "en": "Energy Saving",
+                  "nl": "Energiebesparing"
+                }
+              },
+              {
+                "id": "Off",
+                "label": {
+                  "en": "Off",
+                  "nl": "Uit"
+                }
+              },
+              {
+                "id": "Cool",
+                "label": {
+                  "en": "Cooling",
+                  "nl": "Koelen"
+                }
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "id": "thermofloor_change_mode_setpoint",
+        "title": {
+          "en": "Set a setpoint of a thermostat mode",
+          "nl": "Stel de temperatuur in van een thermostaat modus"
+        },
+        "hint": {
+          "en": "Change the setpoint of a specific thermostat mode (Comfort / Energy Saving / Heating). Note: does NOT activate this mode",
+          "nl": "Stel de temperatuur in van een thermostaat modus (Comfort / Energy Saving / Heating). Let op: activeert deze modus niet"
+        },
+        "args": [
+          {
+            "type": "device",
+            "name": "device",
+            "filter": "driver_id=TF_Thermostat"
+          },
+          {
+            "name": "setpointMode",
+            "type": "dropdown",
+            "values": [
+              {
+                "id": "Heat",
+                "label": {
+                  "en": "Comfort",
+                  "nl": "Comfort"
+                }
+              },
+              {
+                "id": "Energy Save Heat",
+                "label": {
+                  "en": "Energy Saving",
+                  "nl": "Energiebesparing"
+                }
+              },
+              {
+                "id": "Cool",
+                "label": {
+                  "en": "Cooling",
+                  "nl": "Koelen"
+                }
+              }
+            ]
+          },
+          {
+            "name": "setpointValue",
+            "type": "range",
+            "min": 5,
+            "max": 40,
+            "step": 0.5,
+            "label": "°C",
+            "labelDecimals": 1
+          }
+        ]
+      }
+    ]
+  },
+  "drivers": [
+    {
+      "id": "TF_Thermostat",
+      "name": {
+        "en": "Thermo-Floor Z-wave thermostat (Multireg / Heatit / Magnum)"
+      },
+      "icon": "/drivers/TF_Thermostat/assets/icon.svg",
+      "images": {
+        "large": "/drivers/TF_Thermostat/assets/images/large.jpg",
+        "small": "/drivers/TF_Thermostat/assets/images/small.jpg"
+      },
+      "class": "thermostat",
+      "capabilities": [
+        "measure_temperature",
+        "thermofloor_onoff",
+        "thermofloor_mode",
+        "target_temperature"
+      ],
+      "capabilitiesOptions": {
+        "target_temperature": {
+          "min": 5,
+          "max": 40,
+          "step": 0.5
+        },
+        "thermofloor_onoff": {
+          "greyout": true
+        }
+      },
+      "mobile": {
+        "components": [
+          {
+            "id": "icon",
+            "capabilities": []
+          },
+          {
+            "id": "sensor",
+            "capabilities": [
+              "measure_temperature",
+              "thermofloor_onoff"
+            ],
+            "options": {
+              "icons": {
+                "thermofloor_onoff": "/drivers/TF_Thermostat/assets/thermofloor_onoff.svg"
+              },
+              "thermofloor_onoff": {
+                "noblink": false,
+                "greyout": true,
+                "label": {
+                  "true": {
+                    "en": "Active"
+                  },
+                  "false": {
+                    "en": "Idle"
+                  }
+                }
+              }
+            }
+          },
+          {
+            "id": "picker",
+            "capabilities": [
+              "thermofloor_mode"
+            ]
+          },
+          {
+            "id": "thermostat",
+            "capabilities": [
+              "target_temperature"
+            ]
+          }
+        ]
+      },
+      "zwave": {
+        "manufacturerId": 411,
+        "productTypeId": 1,
+        "productId": 1,
+        "productDocumentation": "http://products.z-wavealliance.org/ProductManual/File?folder=&filename=Manuals/1182/Manual_Multireg Z-Wave_Ver2015-A.pdf",
+        "pid": 1182,
+        "imageRemotePath": "http://products.z-wavealliance.org/ProductImages/Index?productName=ZC10-15010002",
+        "learnmode": {
+          "image": "/drivers/TF_Thermostat/assets/learnmode.svg",
+          "instruction": {
+            "en": "To include the thermostat to Homey: \n1. press the Center (confirm) button for 10 seconds. The display will show OFF. \n2. Press Right(down) button 5 times till you see Con in the display.\n3. Now start add a device to Homey.\n4. Start inclusion mode by pressing Center(confirm) button for approximately 2 seconds. The inclusion / exclusion icon will appear in the display.\n5. Confirmation will show Inc in the display. If inclusion fails, Err(error) will appear.",
+            "nl": "Om de thermostaat aan Homey toe te voegen: \n1. druk of de Center (confirm) knop voor 10 seconden. Het display toont OFF. \n2. Druk rechter (down) toets 5 keer tot Con op het display staat.\n3. Start voeg een apparaat toe aan Homey.\n4. Start inclusion modus door de Center(confirm) gedurende 2 seconden in te drukken. Het inclusion / exclusion icon wordt getoond in het display.\n5. Wanneer toevoegen geslaagd is, staat Inc op het display getoond en anders Err(error)."
+          }
+        },
+        "unlearnmode": {
+          "image": "/drivers/TF_Thermostat/assets/learnmode.svg",
+          "instruction": {
+            "en": "To remove the thermostat from Homey: \n1. press the Center (confirm) button for 10 seconds. The display will show OFF. \n2. Press Right(down) button 5 times till you see Con in the display.\n3. Now start to remove the device from Homey.\n4. Start exclusion mode by pressing Center(confirm) button for approximately 2 seconds. The inclusion / exclusion icon will appear in the display.\n5. Confirmation will show EcL in the display. If exclusion fails, Err(error) will appear.",
+            "nl": "Om de thermostaat van Homey te verwijderen: \n1. druk of de Center (confirm) knop voor 10 seconden. Het display toont OFF. \n2. Druk rechter (down) toets 5 keer tot Con op het display staat.\n3. Druk op het kruisje van de thermostaat.\n4. Start exclusion modus door de Center(confirm) gedurende 2 seconden in te drukken. Het inclusion / exclusion icon wordt getoond in het display.\n5. Wanneer het verwijderen geslaagd is, staat EcL op het display getoond en anders Err(error)."
+          }
+        },
+        "associationGroups": [
+          1,
+          2
+        ],
+        "associationGroupsOptions": {
+          "1": {
+            "hint": {
+              "en": "Lifeline. All run-time reporting is addressed to this group. Only one node can be assigned to this association group. \nDefault: 1 (Homey's ID)",
+              "nl": "Lifeline: Association Groep 1 wordt gebruikt om alle rapportages door te geven. Slechts een node kan toegevoegd worden aan deze associatie groep. \nStandaard: 1 (Homey's ID)"
+            }
+          },
+          "2": {
+            "hint": {
+              "en": "On/off  control: This controls external heaters replicating the state of the internal relay. \nUses BASIC_SET command, values 0x00 (on) and 0xFF (on).\nDefault: 1 (Homey's ID), required to track the thermostat state (Active / Idle)",
+              "nl": "On/off  control: Deze groep schakelt externe verwarmings of koelings elementen. \nMaakt gebruik van het BASIC_SET command, values 0x00 (on) and 0xFF (on).\nStandaard: 1 (Homey's ID), nodig om de toestand van de thermostat (Actief / Inactief) bij te houden"
+            }
+          }
+        }
+      },
+      "settings": [
+        {
+          "id": "operation_mode",
+          "zwave": {
+            "index": 1,
+            "size": 2
+          },
+          "type": "dropdown",
+          "label": {
+            "en": "Thermostat mode",
+            "nl": "Thermostaat modus"
+          },
+          "value": "1",
+          "hint": {
+            "en": "Thermostat mode. (default: Energy saving",
+            "nl": "Thermostaat modus. (standaard: Energiebesparing)"
+          },
+          "values": [
+            {
+              "id": "1",
+              "label": {
+                "en": "Comfort",
+                "nl": "Comfort"
+              }
+            },
+            {
+              "id": "11",
+              "label": {
+                "en": "Energy Saving",
+                "nl": "Energiebesparing"
+              }
+            },
+            {
+              "id": "0",
+              "label": {
+                "en": "Off",
+                "nl": "Uitgeschakeld"
+              }
+            },
+            {
+              "id": "2",
+              "label": {
+                "en": "Cool",
+                "nl": "Koelen"
+              }
+            }
+          ]
+        },
+        {
+          "id": "CO_setpoint",
+          "zwave": {
+            "index": 10,
+            "size": 2
+          },
+          "type": "number",
+          "attr": {
+            "min": 50,
+            "max": 400
+          },
+          "value": 205,
+          "label": {
+            "en": "Comfort mode temperature",
+            "nl": "Comfort modus temperatuur"
+          },
+          "hint": {
+            "en": "Temperature setpoint used when in Comfort (CO) mode. \nRange: 50 - 400 (5.0C - 40.0C) \nDefault: 205",
+            "nl": "Temperatuur setpoint gebruikt in Comfort (CO) mode. \nBereik: 50 - 400 (5.0C - 40.0C)\nStandaard: 205"
+          }
+        },
+        {
+          "id": "ECO_setpoint",
+          "zwave": {
+            "index": 11,
+            "size": 2
+          },
+          "type": "number",
+          "attr": {
+            "min": 50,
+            "max": 400
+          },
+          "value": 180,
+          "label": {
+            "en": "Energy saving mode temperature",
+            "nl": "Energiebesparings modus temperatuur"
+          },
+          "hint": {
+            "en": "Temperature setpoint used when in Energy saving (ECO) mode. \nRange: 50 - 400 (5.0C - 40.0C) \nDefault: 180",
+            "nl": "Temperatuur setpoint gebruikt in Energiebesparings (ECO) mode. \nBereik: 50 - 400 (5.0C - 40.0C)\nStandaard: 180"
+          }
+        },
+        {
+          "id": "COOL_setpoint",
+          "zwave": {
+            "index": 13,
+            "size": 2
+          },
+          "type": "number",
+          "attr": {
+            "min": 50,
+            "max": 400
+          },
+          "value": 210,
+          "label": {
+            "en": "Cooling mode temperature",
+            "nl": "Koelen mode temperatuur"
+          },
+          "hint": {
+            "en": "Temperature setpoint used when in Cooling (COOL) mode (only if enabled). \nRange: 50 - 400 (5.0C - 40.0C) \nDefault: 210",
+            "nl": "Temperatuur setpoint gebruikt in Koelen (COOL) modus (indien beschikbaar). \nBereik: 50 - 400 (5.0C - 40.0C)\nStandaard: 210"
+          }
+        },
+        {
+          "id": "poll_interval_TEMPERATURE",
+          "type": "number",
+          "attr": {
+            "min": 60,
+            "max": 3600
+          },
+          "value": 300,
+          "label": {
+            "en": "Poll interval temperature",
+            "nl": "Poll interval temperatuur"
+          },
+          "hint": {
+            "en": "The amount of seconds between asking the device for a status (meausured temperature) update \nDefault: 300 [s].",
+            "nl": "Aantal seconden tussen het opvragen van een status (gemeten temperatuur) update aan het apparaat \nStandaard: 300 [s]."
+          }
+        }
+      ]
+    }
+  ],
+  "capabilities": {
+    "thermofloor_mode": {
+      "type": "enum",
+      "title": {
+        "en": "Thermostat mode",
+        "nl": "Thermostaat modus"
+      },
+      "desc": {
+        "en": "Mode of the thermostat",
+        "nl": "Modus van de thermostaat"
+      },
+      "values": [
+        {
+          "id": "Heat",
+          "title": {
+            "en": "Comfort",
+            "nl": "Comfort"
+          }
+        },
+        {
+          "id": "Energy Save Heat",
+          "title": {
+            "en": "Energy Saving",
+            "nl": "Energiebesparing"
+          }
+        },
+        {
+          "id": "Off",
+          "title": {
+            "en": "Off",
+            "nl": "Uit"
+          }
+        },
+        {
+          "id": "Cool",
+          "title": {
+            "en": "Cooling",
+            "nl": "Koelen"
+          }
+        }
+      ],
+      "getable": true,
+      "setable": true
+    },
+    "thermofloor_onoff": {
+      "type": "boolean",
+      "title": {
+        "en": "State",
+        "nl": "Status"
+      },
+      "desc": {
+        "en": "State of the thermostat",
+        "nl": "Status van de thermostaat"
+      },
+      "getable": true,
+      "setable": false,
+      "greyout": true
+    }
+  }
 }

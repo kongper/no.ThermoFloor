@@ -5,8 +5,8 @@ This app adds support for devices made by [ThermoFloor](http://www.thermo-floor.
 </a>  
 
 ## Links:
-[ThermoFloor (Heatit) Athom apps](https://apps.athom.com/app/no.ThermoFloor)                      
-[ThermoFloor Github repository](https://github.com/TedTolboom/no.ThermoFloor)             
+[ThermoFloor / Heatit app at Athom apps](https://apps.athom.com/app/no.ThermoFloor)                      
+[ThermoFloor / Heatit Github repository](https://github.com/TedTolboom/no.ThermoFloor)             
 
 ## Devices supported:
 ### Multireg / Magnum Z-wave thermostat (TF 016)
@@ -44,14 +44,19 @@ This app and driver development has been supported by:
   <img src="https://www.robbshop.nl/skin/frontend/robbshop/default/images/logo.svg" width="25%">
 
 ## Feedback:
-Any requests please post them in the [ThermoFloor (Heatit) app topic on the Athom Forum](https://forum.athom.com/discussion/3181/) or contact me on [Slack](https://athomcommunity.slack.com/team/tedtolboom)    
+Any requests please post them in the [ThermoFloor / Heatit app topic on the Homey community Forum](https://community.athom.com/t/166) or contact me on [Slack](https://athomcommunity.slack.com/team/tedtolboom)    
 If possible, please report issues at the [issues section on Github](https://github.com/TedTolboom/no.ThermoFloor/issues) otherwise in the above mentioned topic.     
 
 ### Donate:
 If you like the app, consider a donation to support development    
-[![Paypal Donate](https://www.paypalobjects.com/en_US/NL/i/btn/btn_donateCC_LG.gif)](https://www.paypal.com/cgi-bin/webscr?cmd=_donations&business=5JCN4Q3XSBTBJ&lc=NL&item_name=Athom%20Homey%20apps&item_number=ThermoFloor%20app&currency_code=EUR&bn=PP%2dDonationsBF%3abtn_donateCC_LG%2egif%3aNonHosted)
+[![Paypal Donate](https://www.paypalobjects.com/en_US/NL/i/btn/btn_donateCC_LG.gif)](https://www.paypal.me/TedTolboom)
 
 ## Changelog:
+v2.0.0
+* SDK2 rewrite of the ThermoFloor / Heatit app  
+* SDK2 rewrite of the Multireg / Heatit Z-Wave thermostat device driver   
+* Update to meshdriver v1.2.28
+
 v1.0.0
 * App store ready update   
 * Added 2 additional action cards ('change themostat mode' and 'change setpoint of specific thermostat mode')      
