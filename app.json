@@ -225,7 +225,7 @@
             "filter": "driver_id=TF_Thermostat"
           },
           {
-            "name": "setPointMode",
+            "name": "setpointMode",
             "type": "dropdown",
             "values": [
               {
@@ -252,7 +252,7 @@
             ]
           },
           {
-            "name": "setPointValue",
+            "name": "setpointValue",
             "type": "range",
             "min": 5,
             "max": 40,
