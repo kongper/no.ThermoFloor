@@ -52,6 +52,9 @@ If you like the app, consider a donation to support development
 [![Paypal Donate](https://www.paypalobjects.com/en_US/NL/i/btn/btn_donateCC_LG.gif)](https://www.paypal.me/TedTolboom)
 
 ## Changelog:
+v2.0.1
+* Add thermostat onoff state trigger- and condition cards   
+
 v2.0.0
 * SDK2 rewrite of the ThermoFloor / Heatit app  
 * SDK2 rewrite of the Multireg / Heatit Z-Wave thermostat device driver   
