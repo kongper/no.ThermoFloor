@@ -29,8 +29,8 @@ class TF_ThermostatDevice extends ZwaveDevice {
 				if (report && report.hasOwnProperty('Value')) {
 					const thermofloor_onoff_state = report.Value === 255;
 					if (thermofloor_onoff_state !== this.getCapabilityValue('thermofloor_onoff')) {
-						this.log('triggering onoff with state', thermofloor_onoff_state);
-						Homey.app[`triggerThermofloorOnoff${thermofloor_onoff_state ? 'True' : 'False'}`].trigger(this, null, null);
+						// Not needed since capability change will trigger the trigger card automatically
+						// Homey.app[`triggerThermofloorOnoff${thermofloor_onoff_state ? 'True' : 'False'}`].trigger(this, null, null);
 						return thermofloor_onoff_state;
 					}
 				}
@@ -121,7 +121,7 @@ class TF_ThermostatDevice extends ZwaveDevice {
 						// 4. Update onoff state when the thermostat mode is off
 						if (thermostatMode === 'Off') {
 							this.setCapabilityValue('thermofloor_onoff', false);
-							Homey.app[`triggerThermofloorOnoffFalse`].trigger(this, {}, {});
+							// Homey.app[`triggerThermofloorOnoffFalse`].trigger(this, {}, {});
 						}
 					};
 
