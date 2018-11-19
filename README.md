@@ -23,14 +23,16 @@ The following triggers are supported:
 * Thermostat mode has changed to   
 * The temperature has changed   
 * The target temperature has changed   
+* Thermostat turned on / off  
+
+The following conditions are supported:
+* Thermostat is on / off   
 
 The following action cards are supported:
 
 * Set the temperature (of current thermostat mode)   
 * Set the thermostat mode   
-* Set the setpoint of a thermostat mode   
-
-This app is compatible with the [Heating schedule app](https://apps.athom.com/app/de.codeking.heatingschedule) updating the target temperature of the active thermostat mode       
+* Set the setpoint of a thermostat mode      
 
 ## Supported Languages:
 * English   
