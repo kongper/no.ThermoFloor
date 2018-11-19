@@ -23,14 +23,16 @@ The following triggers are supported:
 * Thermostat mode has changed to   
 * The temperature has changed   
 * The target temperature has changed   
+* Thermostat turned on / off  
+
+The following conditions are supported:
+* Thermostat is on / off   
 
 The following action cards are supported:
 
 * Set the temperature (of current thermostat mode)   
 * Set the thermostat mode   
-* Set the setpoint of a thermostat mode   
-
-This app is compatible with the [Heating schedule app](https://apps.athom.com/app/de.codeking.heatingschedule) updating the target temperature of the active thermostat mode       
+* Set the setpoint of a thermostat mode      
 
 ## Supported Languages:
 * English   
@@ -52,6 +54,9 @@ If you like the app, consider a donation to support development
 [![Paypal Donate](https://www.paypalobjects.com/en_US/NL/i/btn/btn_donateCC_LG.gif)](https://www.paypal.me/TedTolboom)
 
 ## Changelog:
+v2.0.1
+* Add thermostat onoff state trigger- and condition cards   
+
 v2.0.0
 * SDK2 rewrite of the ThermoFloor / Heatit app  
 * SDK2 rewrite of the Multireg / Heatit Z-Wave thermostat device driver   

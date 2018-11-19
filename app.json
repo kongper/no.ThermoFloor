@@ -4,7 +4,7 @@
   "name": {
     "en": "Thermo-Floor / Heatit"
   },
-  "version": "2.0.0",
+  "version": "2.0.1",
   "compatibility": ">=1.5.0",
   "homeyCommunityTopicId": 166,
   "author": {
@@ -75,6 +75,13 @@
           "en": "Thermostat mode has changed",
           "nl": "Thermostaat modus is veranderd"
         },
+        "args": [
+          {
+            "name": "device",
+            "type": "device",
+            "filter": "driver_id=TF_Thermostat"
+          }
+        ],
         "tokens": [
           {
             "name": "mode",
@@ -97,13 +104,6 @@
               "nl": "Comfort"
             }
           }
-        ],
-        "args": [
-          {
-            "type": "device",
-            "name": "device",
-            "filter": "driver_id=TF_Thermostat"
-          }
         ]
       },
       {
@@ -114,8 +114,8 @@
         },
         "args": [
           {
-            "type": "device",
             "name": "device",
+            "type": "device",
             "filter": "driver_id=TF_Thermostat"
           },
           {
@@ -153,6 +153,50 @@
             ]
           }
         ]
+      },
+      {
+        "id": "thermofloor_onoff_false",
+        "title": {
+          "en": "Thermostat turned off",
+          "nl": "Thermostaat uitgezet"
+        },
+        "args": [
+          {
+            "name": "device",
+            "type": "device",
+            "filter": "driver_id=TF_Thermostat"
+          }
+        ]
+      },
+      {
+        "id": "thermofloor_onoff_true",
+        "title": {
+          "en": "Thermostat turned on",
+          "nl": "Thermostaat aangezet"
+        },
+        "args": [
+          {
+            "name": "device",
+            "type": "device",
+            "filter": "driver_id=TF_Thermostat"
+          }
+        ]
+      }
+    ],
+    "conditions": [
+      {
+        "id": "thermofloor_onoff_is_on",
+        "title": {
+          "en": "Thermostat is !{{on|off}}",
+          "nl": "Thermostat is !{{aan|uit}}"
+        },
+        "args": [
+          {
+            "name": "device",
+            "type": "device",
+            "filter": "driver_id=TF_Thermostat"
+          }
+        ]
       }
     ],
     "actions": [
@@ -168,8 +212,8 @@
         },
         "args": [
           {
-            "type": "device",
             "name": "device",
+            "type": "device",
             "filter": "driver_id=TF_Thermostat"
           },
           {
@@ -220,8 +264,8 @@
         },
         "args": [
           {
-            "type": "device",
             "name": "device",
+            "type": "device",
             "filter": "driver_id=TF_Thermostat"
           },
           {
