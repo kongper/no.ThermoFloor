@@ -74,7 +74,7 @@ class Z_PushButton_8 extends ZwaveDevice {
 					button: rawReport['Scene Number'].toString(),
 					scene: rawReport.Properties1['Key Attributes'],
 				};
-				if (lastKey !== remoteValue.button + ' ' + remoteValue.scene;) {
+				if (lastKey !== remoteValue.button + ' ' + remoteValue.scene) {
 					lastKey = remoteValue.button + ' ' + remoteValue.scene;
 					this.log('Triggering sequence:', rawReport['Sequence Number'], 'remoteValue', remoteValue);
 
