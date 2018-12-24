@@ -3,6 +3,7 @@
 const Homey = require('homey');
 
 const ZwaveDevice = require('homey-meshdriver').ZwaveDevice;
+let lastKey = null;
 
 class Z_PushButton_8 extends ZwaveDevice {
 	async onMeshInit() {
@@ -15,29 +16,45 @@ class Z_PushButton_8 extends ZwaveDevice {
 
 		// supported scenes and their reported attribute numbers (all based on reported data)
 		this.buttonMap = {
-			Group2: {
-				button: 'Group 2 (upper)',
+			1: {
+				button: 'Group2-I',
 			},
-			Group3: {
-				button: 'Group 3',
+			2: {
+				button: 'Group2-O',
 			},
-			Group4: {
-				button: 'Group 4',
+			3: {
+				button: 'Group3-I',
 			},
-			Group5: {
-				button: 'Group 5 (bottom)',
+			4: {
+				button: 'Group3-O',
 			},
+			5: {
+				button: 'Group4-I',
+			},
+			6: {
+				button: 'Group4-O',
+			},
+			7: {
+				button: 'Group5-I',
+			},
+			8: {
+				button: 'Group5-O',
+			},
+
 		};
 
 		this.sceneMap = {
-			1: {
+			'Key Pressed 1 time': {
 				scene: 'Key Pressed 1 time'
 			},
-			2: {
+			'Key Pressed 2 times': {
 				scene: 'Key Pressed 2 times'
 			},
-			0: {
-				scene: 'Key long pressed'
+			'Key Held Down': {
+				scene: 'Key Held Down'
+			},
+			'Key Released': {
+				scene: 'Key Released'
 			},
 		};
 
@@ -52,17 +69,56 @@ class Z_PushButton_8 extends ZwaveDevice {
 				rawReport.Properties1.hasOwnProperty('Key Attributes') &&
 				rawReport.hasOwnProperty('Scene Number') &&
 				rawReport.hasOwnProperty('Sequence Number')) {
+
 				const remoteValue = {
 					button: rawReport['Scene Number'].toString(),
 					scene: rawReport.Properties1['Key Attributes'],
 				};
-				this.log('Triggering sequence:', rawReport['Sequence Number'], 'remoteValue', remoteValue);
-				// Trigger the trigger card with 2 dropdown options
-				// triggerSCN04_scene.trigger(this, triggerSCN04_scene.getArgumentValues, remoteValue);
-				// Trigger the trigger card with tokens
-				// triggerSCN_button.trigger(this, remoteValue, null);
+				if (lastKey !== remoteValue.button + ' ' + remoteValue.scene;) {
+					lastKey = remoteValue.button + ' ' + remoteValue.scene;
+					this.log('Triggering sequence:', rawReport['Sequence Number'], 'remoteValue', remoteValue);
+
+					// Trigger the trigger card with 2 autocomplete options
+					Homey.app.triggerZPushButton_scene.trigger(this, null, remoteValue);
+					// Trigger the trigger card with tokens
+					Homey.app.triggerZPushButton_button.trigger(this, remoteValue, null);
+				}
+
 			}
 		});
+
+		onSceneAutocomplete(query, args, callback) {
+			let resultArray = [];
+			for (let sceneID in this.sceneMap) {
+				resultArray.push({
+					id: this.sceneMap[sceneID].scene,
+					name: Homey.__(this.sceneMap[sceneID].scene),
+				});
+			}
+			// filter for query
+			resultArray = resultArray.filter(result => {
+				return result.name.toLowerCase().indexOf(query.toLowerCase()) > -1;
+			});
+			this.log(resultArray);
+			return Promise.resolve(resultArray);
+		}
+
+		onButtonAutocomplete(query, args, callback) {
+			let resultArray = [];
+			for (let sceneID in this.buttonMap) {
+				resultArray.push({
+					id: this.buttonMap[sceneID].button,
+					name: Homey.__(this.buttonMap[sceneID].button),
+				});
+			}
+
+			// filter for query
+			resultArray = resultArray.filter(result => {
+				return result.name.toLowerCase().indexOf(query.toLowerCase()) > -1;
+			});
+			this.log(resultArray);
+			return Promise.resolve(resultArray);
+		}
 
 	}
 
