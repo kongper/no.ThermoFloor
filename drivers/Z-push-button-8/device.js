@@ -83,43 +83,42 @@ class Z_PushButton_8 extends ZwaveDevice {
 					// Trigger the trigger card with tokens
 					Homey.app.triggerZPushButton_button.trigger(this, remoteValue, null);
 				}
-
 			}
 		});
 
-		onSceneAutocomplete(query, args, callback) {
-			let resultArray = [];
-			for (let sceneID in this.sceneMap) {
-				resultArray.push({
-					id: this.sceneMap[sceneID].scene,
-					name: Homey.__(this.sceneMap[sceneID].scene),
-				});
-			}
-			// filter for query
-			resultArray = resultArray.filter(result => {
-				return result.name.toLowerCase().indexOf(query.toLowerCase()) > -1;
+	}
+
+	onSceneAutocomplete(query, args, callback) {
+		let resultArray = [];
+		for (let sceneID in this.sceneMap) {
+			resultArray.push({
+				id: this.sceneMap[sceneID].scene,
+				name: Homey.__(this.sceneMap[sceneID].scene),
 			});
-			this.log(resultArray);
-			return Promise.resolve(resultArray);
+		}
+		// filter for query
+		resultArray = resultArray.filter(result => {
+			return result.name.toLowerCase().indexOf(query.toLowerCase()) > -1;
+		});
+		this.log(resultArray);
+		return Promise.resolve(resultArray);
+	}
+
+	onButtonAutocomplete(query, args, callback) {
+		let resultArray = [];
+		for (let sceneID in this.buttonMap) {
+			resultArray.push({
+				id: this.buttonMap[sceneID].button,
+				name: Homey.__(this.buttonMap[sceneID].button),
+			});
 		}
 
-		onButtonAutocomplete(query, args, callback) {
-			let resultArray = [];
-			for (let sceneID in this.buttonMap) {
-				resultArray.push({
-					id: this.buttonMap[sceneID].button,
-					name: Homey.__(this.buttonMap[sceneID].button),
-				});
-			}
-
-			// filter for query
-			resultArray = resultArray.filter(result => {
-				return result.name.toLowerCase().indexOf(query.toLowerCase()) > -1;
-			});
-			this.log(resultArray);
-			return Promise.resolve(resultArray);
-		}
-
+		// filter for query
+		resultArray = resultArray.filter(result => {
+			return result.name.toLowerCase().indexOf(query.toLowerCase()) > -1;
+		});
+		this.log(resultArray);
+		return Promise.resolve(resultArray);
 	}
 
 }
