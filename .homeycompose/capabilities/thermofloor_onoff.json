@@ -8,6 +8,8 @@
 		"en": "State of the thermostat",
 		"nl": "Status van de thermostaat"
 	},
+	"uiComponent": "sensor",
+	"icon": "/assets/thermofloor_onoff.svg",
 	"getable": true,
 	"setable": false,
 	"greyout": true
