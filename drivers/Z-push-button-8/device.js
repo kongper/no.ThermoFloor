@@ -74,15 +74,13 @@ class Z_PushButton_8 extends ZwaveDevice {
 					button: this.buttonMap[rawReport['Scene Number'].toString()].button,
 					scene: rawReport.Properties1['Key Attributes'],
 				};
-				if (lastKey !== remoteValue.button + ' ' + remoteValue.scene) {
-					lastKey = remoteValue.button + ' ' + remoteValue.scene;
-					this.log('Triggering sequence:', rawReport['Sequence Number'], 'remoteValue', remoteValue);
 
-					// Trigger the trigger card with 2 autocomplete options
-					Homey.app.triggerZPushButton_scene.trigger(this, null, remoteValue);
-					// Trigger the trigger card with tokens
-					Homey.app.triggerZPushButton_button.trigger(this, remoteValue, null);
-				}
+				this.log('Triggering sequence:', rawReport['Sequence Number'], 'remoteValue', remoteValue);
+
+				// Trigger the trigger card with 2 autocomplete options
+				Homey.app.triggerZPushButton_scene.trigger(this, null, remoteValue);
+				// Trigger the trigger card with tokens
+				Homey.app.triggerZPushButton_button.trigger(this, remoteValue, null);
 			}
 		});
 
