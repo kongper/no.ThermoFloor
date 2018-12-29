@@ -80,7 +80,7 @@
           {
             "name": "device",
             "type": "device",
-            "filter": "driver_id=TF_Thermostat|Z-TRM2fx"
+            "filter": "driver_id=TF_Thermostat"
           }
         ],
         "tokens": [
@@ -117,7 +117,7 @@
           {
             "name": "device",
             "type": "device",
-            "filter": "driver_id=TF_Thermostat|Z-TRM2fx"
+            "filter": "driver_id=TF_Thermostat"
           },
           {
             "name": "mode",
@@ -165,7 +165,7 @@
           {
             "name": "device",
             "type": "device",
-            "filter": "driver_id=TF_Thermostat|Z-TRM2fx"
+            "filter": "driver_id=TF_Thermostat"
           }
         ]
       },
@@ -179,7 +179,7 @@
           {
             "name": "device",
             "type": "device",
-            "filter": "driver_id=TF_Thermostat|Z-TRM2fx"
+            "filter": "driver_id=TF_Thermostat"
           }
         ]
       },
@@ -263,7 +263,7 @@
           {
             "name": "device",
             "type": "device",
-            "filter": "driver_id=TF_Thermostat|Z-TRM2fx"
+            "filter": "driver_id=TF_Thermostat"
           }
         ]
       }
@@ -283,7 +283,7 @@
           {
             "name": "device",
             "type": "device",
-            "filter": "driver_id=TF_Thermostat|Z-TRM2fx"
+            "filter": "driver_id=TF_Thermostat"
           },
           {
             "name": "mode",
@@ -335,7 +335,7 @@
           {
             "name": "device",
             "type": "device",
-            "filter": "driver_id=TF_Thermostat|Z-TRM2fx"
+            "filter": "driver_id=TF_Thermostat"
           },
           {
             "name": "setpointMode",
@@ -383,7 +383,7 @@
       "name": {
         "en": "Thermo-Floor Z-wave thermostat (Multireg / Heatit / Magnum)"
       },
-      "icon": "/drivers/TF_Thermostat/assets/assets/icon.svg",
+      "icon": "/drivers/TF_Thermostat/assets/icon.svg",
       "images": {
         "large": "/drivers/TF_Thermostat/assets/images/large.jpg",
         "small": "/drivers/TF_Thermostat/assets/images/small.jpg"
@@ -712,25 +712,25 @@
         },
         "associationGroups": [
           1
-           ],
+        ],
         "associationGroupsOptions": {
           "1": {
             "hint": {
-               "en": "Lifeline. Scene Notification and battery reporting is addressed to this group. Only one node can be assigned to this association group. \nDefault: 1 (Homey's ID)",
+              "en": "Lifeline. Scene Notification and battery reporting is addressed to this group. Only one node can be assigned to this association group. \nDefault: 1 (Homey's ID)",
               "nl": "Lifeline: Association Groep 1 wordt gebruikt om alle rapportages door te geven. Slechts een node kan toegevoegd worden aan deze associatie groep. \nStandaard: 1 (Homey's ID)"
             }
           },
           "2": {
             "hint": {
-               "en": "Group 2 (upper rockers): Adding other Z-wave devices to this group will enable direct control from Z-push-button to that device:\nShort press: on/off (BASIC_SET) command \nLong press: increase / decrease dim-level command (SWITCH_MULTILEVEL).",
+              "en": "Group 2 (upper rockers): Adding other Z-wave devices to this group will enable direct control from Z-push-button to that device:\nShort press: on/off (BASIC_SET) command \nLong press: increase / decrease dim-level command (SWITCH_MULTILEVEL).",
               "nl": "Groep 2 (bovenste knoppen): Het toevoegen van andere Z-wave devices aan deze groep zal directe controle van de Z-push-button over deze devices toevoegen:\nKort ingedrukt: on/off (BASIC_SET) commando\nLang ingedrukt: verhoog / verlaag dim-level commando (SWITCH_MULTILEVEL)."
-              }
+            }
           },
           "3": {
             "hint": {
               "en": "Group 3: Adding other Z-wave devices to this group will enable direct control from Z-push-button to that device:\nShort press: on/off (BASIC_SET) command \nLong press: increase / decrease dim-level command (SWITCH_MULTILEVEL).",
               "nl": "Groep 3: Het toevoegen van andere Z-wave devices aan deze groep zal directe controle van de Z-push-button over deze devices toevoegen:\nKort ingedrukt: on/off (BASIC_SET) commando\nLang ingedrukt: verhoog / verlaag dim-level commando (SWITCH_MULTILEVEL)."
-              }
+            }
           },
           "4": {
             "hint": {
@@ -745,280 +745,7 @@
             }
           }
         }
-      },
-      {
-      "id": "Z-TRM2fx",
-      "name": {
-        "en": "Heatit Z-TRM2fx thermostat"
-      },
-      "icon": "/drivers/Z-TRM2fx/assets/icon.svg",
-      "images": {
-        "large": "/drivers/Z-TRM2fx/assets/images/large.png",
-        "small": "/drivers/Z-TRM2fx/assets/images/small.png"
-      },
-      "class": "thermostat",
-      "capabilities": [
-        "measure_temperature",
-        "measure_temperature.external",
-        "measure_temperature.floor",
-        "thermofloor_onoff",
-        "measure_power",
-        "measure_voltage",
-        "meter_power",
-        "thermofloor_mode",
-        "target_temperature"
-      ],
-      "capabilitiesOptions": {
-        "target_temperature": {
-          "min": 5,
-          "max": 40,
-          "step": 0.5
-        },
-        "thermofloor_onoff": {
-          "greyout": true
-        },
-        "measure_temperature": {
-          "title": "internal temperature"
-        },
-        "measure_temperature.external": {
-          "title": "external temperature"
-        },
-        "measure_temperature.floor": {
-          "title": "floor temperature"
-        }
-      },
-      "mobile": {
-        "components": [
-          {
-            "id": "icon",
-            "capabilities": []
-          },
-          {
-            "id": "sensor",
-            "capabilities": [
-              "measure_temperature",
-              "measure_temperature.external",
-              "measure_temperature.floor",
-              "thermofloor_onoff",
-              "measure_power",
-              "measure_voltage",
-              "meter_power"
-            ],
-            "options": {
-              "icons": {
-                "thermofloor_onoff": "/drivers/Z-TRM2fx/assets/thermofloor_onoff.svg"
-              },
-              "thermofloor_onoff": {
-                "noblink": false,
-                "greyout": true,
-                "label": {
-                  "true": {
-                    "en": "Active"
-                  },
-                  "false": {
-                    "en": "Idle"
-                  }
-                }
-              }
-            }
-          },
-          {
-            "id": "picker",
-            "capabilities": [
-              "thermofloor_mode"
-            ]
-          },
-          {
-            "id": "thermostat",
-            "capabilities": [
-              "target_temperature"
-            ]
-          }
-        ]
-      },
-      "zwave": {
-        "manufacturerId": 411,
-        "productTypeId": 3,
-        "productId": 514,
-        "productDocumentation": "https://products.z-wavealliance.org/ProductManual/File?folder=&filename=Manuals/3065/Manual_Heatit_Z-TRM2fx_ENG_3.1.pdf",
-        "pid": 3065,
-        "imageRemotePath": "https://products.z-wavealliance.org/ProductImages/Index?productName=ZC10-18116305",
-        "learnmode": {
-          "image": "/drivers/Z-TRM2fx/assets/learnmode.svg",
-          "instruction": {
-            "en": "To include the thermostat to Homey: \n1. press the Center (confirm) button for 10 seconds. The display will show OFF. \n2. Press Right(down) button 5 times till you see Con in the display.\n3. Now start add a device to Homey.\n4. Start inclusion mode by pressing Center(confirm) button for approximately 2 seconds. The inclusion / exclusion icon will appear in the display.\n5. Confirmation will show Inc in the display. If inclusion fails, Err(error) will appear.",
-            "nl": "Om de thermostaat aan Homey toe te voegen: \n1. druk of de Center (confirm) knop voor 10 seconden. Het display toont OFF. \n2. Druk rechter (down) toets 5 keer tot Con op het display staat.\n3. Start voeg een apparaat toe aan Homey.\n4. Start inclusion modus door de Center(confirm) gedurende 2 seconden in te drukken. Het inclusion / exclusion icon wordt getoond in het display.\n5. Wanneer toevoegen geslaagd is, staat Inc op het display getoond en anders Err(error)."
-          }
-        },
-        "unlearnmode": {
-          "image": "/drivers/Z-TRM2fx/assets/learnmode.svg",
-          "instruction": {
-            "en": "To remove the thermostat from Homey: \n1. press the Center (confirm) button for 10 seconds. The display will show OFF. \n2. Press Right(down) button 5 times till you see Con in the display.\n3. Now start to remove the device from Homey.\n4. Start exclusion mode by pressing Center(confirm) button for approximately 2 seconds. The inclusion / exclusion icon will appear in the display.\n5. Confirmation will show EcL in the display. If exclusion fails, Err(error) will appear.",
-            "nl": "Om de thermostaat van Homey te verwijderen: \n1. druk of de Center (confirm) knop voor 10 seconden. Het display toont OFF. \n2. Druk rechter (down) toets 5 keer tot Con op het display staat.\n3. Druk op het kruisje van de thermostaat.\n4. Start exclusion modus door de Center(confirm) gedurende 2 seconden in te drukken. Het inclusion / exclusion icon wordt getoond in het display.\n5. Wanneer het verwijderen geslaagd is, staat EcL op het display getoond en anders Err(error)."
-          }
-        },
-        "associationGroups": [
-          1,
-          2,
-          3,
-          4
-        ],
-        "associationGroupsOptions": {
-          "1": {
-            "hint": {
-              "en": "Lifeline. All run-time reporting is addressed to this group. Only one node can be assigned to this association group. \nDefault: 1 (Homey's ID)",
-              "nl": "Lifeline: Association Groep 1 wordt gebruikt om alle rapportages door te geven. Slechts een node kan toegevoegd worden aan deze associatie groep. \nStandaard: 1 (Homey's ID)"
-            }
-          },
-          "2": {
-            "hint": {
-              "en": "Send Multilevel Sensor Reports for the external room temperature sensor. \nDefault: 1 (Homey's ID), required to track the thermostat state (Active / Idle)",
-              "nl": "Stuurt Multilevel Sensor Reports voor de externe ruimte temperatuur sensor.\nStandaard: 1 (Homey's ID), nodig om de toestand van de thermostat (Actief / Inactief) bij te houden"
-            }
-          },
-          "3": {
-            "hint": {
-              "en": "Send Multilevel Sensor Reports for the floor temperature sensor. \nDefault: 1 (Homey's ID), required to track the thermostat state (Active / Idle)",
-              "nl": "Stuurt Multilevel Sensor Reports voor de externe ruimte temperatuursensor.\nStandaard: 1 (Homey's ID), nodig om de toestand van de thermostat (Actief / Inactief) bij te houden"
-            }
-          },
-          "4": {
-            "hint": {
-              "en": "On/off  control: This controls external heaters replicating the state of the internal relay. \nUses BASIC_SET command, values 0x00 (on) and 0xFF (on).\nDefault: 1 (Homey's ID), required to track the thermostat state (Active / Idle)",
-              "nl": "On/off  control: Deze groep schakelt externe verwarmings of koelings elementen. \nMaakt gebruik van het BASIC_SET command, values 0x00 (on) and 0xFF (on).\nStandaard: 1 (Homey's ID), nodig om de toestand van de thermostat (Actief / Inactief) bij te houden"
-            }
-          }
-        }
-      },
-      "settings": [
-        {
-          "id": "operation_mode",
-          "zwave": {
-            "index": 1,
-            "size": 2
-          },
-          "type": "dropdown",
-          "label": {
-            "en": "Thermostat mode",
-            "nl": "Thermostaat modus"
-          },
-          "value": "1",
-          "hint": {
-            "en": "Thermostat mode. (default: Energy saving",
-            "nl": "Thermostaat modus. (standaard: Energiebesparing)"
-          },
-          "values": [
-            {
-              "id": "1",
-              "label": {
-                "en": "Comfort",
-                "nl": "Comfort"
-              }
-            },
-            {
-              "id": "11",
-              "label": {
-                "en": "Energy Saving",
-                "nl": "Energiebesparing"
-              }
-            },
-            {
-              "id": "0",
-              "label": {
-                "en": "Off",
-                "nl": "Uitgeschakeld"
-              }
-            },
-            {
-              "id": "2",
-              "label": {
-                "en": "Cool",
-                "nl": "Koelen"
-              }
-            }
-          ]
-        },
-        {
-          "id": "CO_setpoint",
-          "zwave": {
-            "index": 9,
-            "size": 2
-          },
-          "type": "number",
-          "attr": {
-            "min": 50,
-            "max": 400
-          },
-          "value": 205,
-          "label": {
-            "en": "Comfort mode temperature",
-            "nl": "Comfort modus temperatuur"
-          },
-          "hint": {
-            "en": "Temperature setpoint used when in Comfort (CO) mode. \nRange: 50 - 400 (5.0C - 40.0C) \nDefault: 205",
-            "nl": "Temperatuur setpoint gebruikt in Comfort (CO) mode. \nBereik: 50 - 400 (5.0C - 40.0C)\nStandaard: 205"
-          }
-        },
-        {
-          "id": "ECO_setpoint",
-          "zwave": {
-            "index": 10,
-            "size": 2
-          },
-          "type": "number",
-          "attr": {
-            "min": 50,
-            "max": 400
-          },
-          "value": 180,
-          "label": {
-            "en": "Energy saving mode temperature",
-            "nl": "Energiebesparings modus temperatuur"
-          },
-          "hint": {
-            "en": "Temperature setpoint used when in Energy saving (ECO) mode. \nRange: 50 - 400 (5.0C - 40.0C) \nDefault: 180",
-            "nl": "Temperatuur setpoint gebruikt in Energiebesparings (ECO) mode. \nBereik: 50 - 400 (5.0C - 40.0C)\nStandaard: 180"
-          }
-        },
-        {
-          "id": "COOL_setpoint",
-          "zwave": {
-            "index": 11,
-            "size": 2
-          },
-          "type": "number",
-          "attr": {
-            "min": 50,
-            "max": 400
-          },
-          "value": 210,
-          "label": {
-            "en": "Cooling mode temperature",
-            "nl": "Koelen mode temperatuur"
-          },
-          "hint": {
-            "en": "Temperature setpoint used when in Cooling (COOL) mode (only if enabled). \nRange: 50 - 400 (5.0C - 40.0C) \nDefault: 210",
-            "nl": "Temperatuur setpoint gebruikt in Koelen (COOL) modus (indien beschikbaar). \nBereik: 50 - 400 (5.0C - 40.0C)\nStandaard: 210"
-          }
-        },
-        {
-          "id": "poll_interval_TEMPERATURE",
-          "type": "number",
-          "attr": {
-            "min": 60,
-            "max": 3600
-          },
-          "value": 300,
-          "label": {
-            "en": "Poll interval temperature",
-            "nl": "Poll interval temperatuur"
-          },
-          "hint": {
-            "en": "The amount of seconds between asking the device for a status (meausured temperature) update \nDefault: 300 [s].",
-            "nl": "Aantal seconden tussen het opvragen van een status (gemeten temperatuur) update aan het apparaat \nStandaard: 300 [s]."
-          }
-        }
-      ]
+      }
     }
   ],
   "capabilities": {
@@ -1033,7 +760,6 @@
         "en": "Mode of the thermostat",
         "nl": "Modus van de thermostaat"
       },
-      "uiComponent": "picker",
       "values": [
         {
           "id": "Heat",
@@ -1089,8 +815,6 @@
         "en": "State of the thermostat",
         "nl": "Status van de thermostaat"
       },
-      "uiComponent": "sensor",
-      "icon": "/assets/thermofloor_onoff.svg",
       "getable": true,
       "setable": false
     }
