@@ -23,6 +23,25 @@ class ThermoFloorApp extends Homey.App {
 		this.triggerThermofloorOnoffTrue = new Homey.FlowCardTriggerDevice('thermofloor_onoff_true').register();
 		this.triggerThermofloorOnoffFalse = new Homey.FlowCardTriggerDevice('thermofloor_onoff_false').register();
 
+		//Z-button scene trigger cards
+		this.triggerZPushButton_scene = new Homey.FlowCardTriggerDevice('Z-push-button_scene');
+		this.triggerZPushButton_scene
+			.register()
+			.registerRunListener((args, state) =>
+				Promise.resolve(args.button.id === state.button && args.scene.id === state.scene));
+
+		this.triggerZPushButton_scene
+			.getArgument('scene')
+			.registerAutocompleteListener((query, args, callback) => args.device.onSceneAutocomplete(query, args, callback));
+		this.triggerZPushButton_scene
+			.getArgument('button')
+			.registerAutocompleteListener((query, args, callback) => args.device.onButtonAutocomplete(query, args, callback));
+
+		//Z-button button trigger cards
+		this.triggerZPushButton_button = new Homey.FlowCardTriggerDevice('Z-push-button_button');
+		this.triggerZPushButton_button
+			.register();
+
 		// Register conditions for flows
 		this.conditionThermofloorOnoffOn = new Homey.FlowCardCondition('thermofloor_onoff_is_on')
 			.register()

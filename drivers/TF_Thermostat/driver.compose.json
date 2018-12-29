@@ -3,7 +3,7 @@
 	"name": {
 		"en": "Thermo-Floor Z-wave thermostat (Multireg / Heatit / Magnum)"
 	},
-	"icon": "{{driverAssetsPath}}/assets/icon.svg",
+	"icon": "{{driverAssetsPath}}/icon.svg",
 	"images": {
 		"large": "{{driverAssetsPath}}/images/large.jpg",
 		"small": "{{driverAssetsPath}}/images/small.jpg"

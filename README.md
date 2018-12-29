@@ -1,5 +1,5 @@
-# ThermoFloor App - Multireg / Heatit Z-wave thermostat for electrical floor heating
-This app adds support for devices made by [ThermoFloor](http://www.thermo-floor.no/).  
+# ThermoFloor / Heatit App
+This app adds support for devices made by [ThermoFloor](http://www.thermo-floor.no/) and branded as [Heatit](http://www.heatit.com).  
 <a href="https://github.com/TedTolboom/hk.com.remotec">
   <img src="https://raw.githubusercontent.com/TedTolboom/no.ThermoFloor/master/assets/images/small.jpg">
 </a>  
@@ -34,16 +34,55 @@ The following action cards are supported:
 * Set the thermostat mode   
 * Set the setpoint of a thermostat mode      
 
+### Heatit Z-Push button-2  
+<a href="https://github.com/TedTolboom/no.ThermoFloor">
+  <img src="https://rawgit.com/TedTolboom/no.ThermoFloor/master/drivers/Z-push-button-2/assets/icon.svg" width="25%" height="25%">
+</a>
+The Heatit Z-Push Button 2 can control 1association group with up to 5 products or 4 scenarios through Homey.
+
+The following triggers are supported:  
+* Button Pressed 1x   
+* Button Pressed 2x     
+* Button held down     
+* Button released    
+* Any button pressed (including tokens)   
+
+In addition, by adding the NodeID in the corresponding association groups, the Z-Push Button 8 can directly control Z-wave switches / dimmers.
+
+### Heatit Z-Push button-8
+<a href="https://github.com/TedTolboom/no.ThermoFloor">
+  <img src="https://rawgit.com/TedTolboom/no.ThermoFloor/master/drivers/Z-push-button-8/assets/icon.svg" width="25%" height="25%">
+</a>
+
+The Heatit Z-Push Button 8 can control up to 4 separate association groups (onoff and dim) with up to 20 products or up to 16 scenes through Homey.
+
+The following triggers are supported:  
+* Button Pressed 1x   
+* Button Pressed 2x     
+* Button held down     
+* Button released    
+* Any button pressed (including tokens)   
+
+In addition, by adding the NodeID in the corresponding association groups, the Z-Push Button 8 can directly control Z-wave switches / dimmers.
+
 ## Supported Languages:
 * English   
 * Dutch    
 
 ## Acknowledgements:
 This app and driver development has been supported by:   
-* The alpha release testers (much appreciated): N.Peters, D.Bonsaksen and D.Janssen   
-* Robbshop by providing a thermostat for debugging:   
-<a href="https://www.robbshop.nl/heat-it-wandthermostaat-zwaveplus-zwart">
-  <img src="https://www.robbshop.nl/skin/frontend/robbshop/default/images/logo.svg" width="25%">
+
+* The alpha release testers (much appreciated): P.R.Johansen, N.Peters, D.Bonsaksen and D.Janssen    
+
+* Robbshop by providing a thermostat for debugging:    
+  <a href="https://www.robbshop.nl/">
+    <img src="https://www.robbshop.nl/skin/frontend/robbshop/default/images/logo.svg" width="25%">
+  </a>
+
+* ThermoFloor / Heatit by providing the required devices / documentation:   
+  <a href="https://www.heatit.com/z-wave/">
+    <img src="https://rawgit.com/TedTolboom/no.ThermoFloor/master/assets/icon.svg" width="25%">
+    </a>
 
 ## Feedback:
 Any requests please post them in the [ThermoFloor / Heatit app topic on the Homey community Forum](https://community.athom.com/t/166) or contact me on [Slack](https://athomcommunity.slack.com/team/tedtolboom)    
@@ -54,15 +93,19 @@ If you like the app, consider a donation to support development
 [![Paypal Donate](https://www.paypalobjects.com/en_US/NL/i/btn/btn_donateCC_LG.gif)](https://www.paypal.me/TedTolboom)
 
 ## Changelog:
-v2.0.1
+v2.0.2   
+* Add support for the Z-Push button 2 and Z-Push button 8 devices    
+* Minor (cosmetical) modifications to make the app Homey SW v2.0.0 compatible      
+
+v2.0.1   
 * Add thermostat onoff state trigger- and condition cards   
 
-v2.0.0
+v2.0.0   
 * SDK2 rewrite of the ThermoFloor / Heatit app  
 * SDK2 rewrite of the Multireg / Heatit Z-Wave thermostat device driver   
 * Update to meshdriver v1.2.28
 
-v1.0.0
+v1.0.0   
 * App store ready update   
 * Added 2 additional action cards ('change themostat mode' and 'change setpoint of specific thermostat mode')      
 
