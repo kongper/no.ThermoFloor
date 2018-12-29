@@ -1,0 +1,129 @@
+[
+	{
+		"id": "operation_mode",
+		"zwave": {
+			"index": 1,
+			"size": 2
+		},
+		"type": "dropdown",
+		"label": {
+			"en": "Thermostat mode",
+			"nl": "Thermostaat modus"
+		},
+		"value": "1",
+		"hint": {
+			"en": "Thermostat mode. (default: Energy saving",
+			"nl": "Thermostaat modus. (standaard: Energiebesparing)"
+		},
+		"values": [
+			{
+				"id": "1",
+				"label": {
+					"en": "Comfort",
+					"nl": "Comfort"
+				}
+      },
+			{
+				"id": "11",
+				"label": {
+					"en": "Energy Saving",
+					"nl": "Energiebesparing"
+				}
+      },
+			{
+				"id": "0",
+				"label": {
+					"en": "Off",
+					"nl": "Uitgeschakeld"
+				}
+      },
+			{
+				"id": "2",
+				"label": {
+					"en": "Cool",
+					"nl": "Koelen"
+				}
+      }
+    ]
+  },
+	{
+		"id": "CO_setpoint",
+		"zwave": {
+			"index": 9,
+			"size": 2
+		},
+		"type": "number",
+		"attr": {
+			"min": 50,
+			"max": 400
+		},
+		"value": 205,
+		"label": {
+			"en": "Comfort mode temperature",
+			"nl": "Comfort modus temperatuur"
+		},
+		"hint": {
+			"en": "Temperature setpoint used when in Comfort (CO) mode. \nRange: 50 - 400 (5.0C - 40.0C) \nDefault: 205",
+			"nl": "Temperatuur setpoint gebruikt in Comfort (CO) mode. \nBereik: 50 - 400 (5.0C - 40.0C)\nStandaard: 205"
+		}
+  },
+	{
+		"id": "ECO_setpoint",
+		"zwave": {
+			"index": 10,
+			"size": 2
+		},
+		"type": "number",
+		"attr": {
+			"min": 50,
+			"max": 400
+		},
+		"value": 180,
+		"label": {
+			"en": "Energy saving mode temperature",
+			"nl": "Energiebesparings modus temperatuur"
+		},
+		"hint": {
+			"en": "Temperature setpoint used when in Energy saving (ECO) mode. \nRange: 50 - 400 (5.0C - 40.0C) \nDefault: 180",
+			"nl": "Temperatuur setpoint gebruikt in Energiebesparings (ECO) mode. \nBereik: 50 - 400 (5.0C - 40.0C)\nStandaard: 180"
+		}
+  },
+	{
+		"id": "COOL_setpoint",
+		"zwave": {
+			"index": 11,
+			"size": 2
+		},
+		"type": "number",
+		"attr": {
+			"min": 50,
+			"max": 400
+		},
+		"value": 210,
+		"label": {
+			"en": "Cooling mode temperature",
+			"nl": "Koelen mode temperatuur"
+		},
+		"hint": {
+			"en": "Temperature setpoint used when in Cooling (COOL) mode (only if enabled). \nRange: 50 - 400 (5.0C - 40.0C) \nDefault: 210",
+			"nl": "Temperatuur setpoint gebruikt in Koelen (COOL) modus (indien beschikbaar). \nBereik: 50 - 400 (5.0C - 40.0C)\nStandaard: 210"
+		}
+  },
+	{
+		"id": "poll_interval_TEMPERATURE",
+		"type": "number",
+		"attr": {
+			"min": 60,
+			"max": 3600
+		},
+		"value": 300,
+		"label": {
+			"en": "Poll interval temperature",
+			"nl": "Poll interval temperatuur"
+		},
+		"hint": {
+			"en": "The amount of seconds between asking the device for a status (meausured temperature) update \nDefault: 300 [s].",
+			"nl": "Aantal seconden tussen het opvragen van een status (gemeten temperatuur) update aan het apparaat \nStandaard: 300 [s]."
+		}
+  }
+]

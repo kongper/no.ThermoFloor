@@ -9,6 +9,7 @@
 		"en": "Mode of the thermostat",
 		"nl": "Modus van de thermostaat"
 	},
+	"uiComponent": "picker",
 	"values": [
 		{
 			"id": "Heat",
