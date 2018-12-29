@@ -626,8 +626,8 @@
       },
       "icon": "/drivers/Z-push-button-2/assets/icon.svg",
       "images": {
-        "large": "/drivers/Z-push-button-2/assets/images/large.jpg",
-        "small": "/drivers/Z-push-button-2/assets/images/small.jpg"
+        "large": "/drivers/Z-push-button-2/assets/images/large.png",
+        "small": "/drivers/Z-push-button-2/assets/images/small.png"
       },
       "class": "sensor",
       "capabilities": [
@@ -681,8 +681,8 @@
       },
       "icon": "/drivers/Z-push-button-8/assets/icon.svg",
       "images": {
-        "large": "/drivers/Z-push-button-8/assets/images/large.jpg",
-        "small": "/drivers/Z-push-button-8/assets/images/small.jpg"
+        "large": "/drivers/Z-push-button-8/assets/images/large.png",
+        "small": "/drivers/Z-push-button-8/assets/images/small.png"
       },
       "class": "sensor",
       "capabilities": [
