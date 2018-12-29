@@ -383,7 +383,7 @@
       "name": {
         "en": "Thermo-Floor Z-wave thermostat (Multireg / Heatit / Magnum)"
       },
-      "icon": "/drivers/TF_Thermostat/assets/assets/icon.svg",
+      "icon": "/drivers/TF_Thermostat/assets/icon.svg",
       "images": {
         "large": "/drivers/TF_Thermostat/assets/images/large.jpg",
         "small": "/drivers/TF_Thermostat/assets/images/small.jpg"
@@ -712,25 +712,25 @@
         },
         "associationGroups": [
           1
-           ],
+        ],
         "associationGroupsOptions": {
           "1": {
             "hint": {
-               "en": "Lifeline. Scene Notification and battery reporting is addressed to this group. Only one node can be assigned to this association group. \nDefault: 1 (Homey's ID)",
+              "en": "Lifeline. Scene Notification and battery reporting is addressed to this group. Only one node can be assigned to this association group. \nDefault: 1 (Homey's ID)",
               "nl": "Lifeline: Association Groep 1 wordt gebruikt om alle rapportages door te geven. Slechts een node kan toegevoegd worden aan deze associatie groep. \nStandaard: 1 (Homey's ID)"
             }
           },
           "2": {
             "hint": {
-               "en": "Group 2 (upper rockers): Adding other Z-wave devices to this group will enable direct control from Z-push-button to that device:\nShort press: on/off (BASIC_SET) command \nLong press: increase / decrease dim-level command (SWITCH_MULTILEVEL).",
+              "en": "Group 2 (upper rockers): Adding other Z-wave devices to this group will enable direct control from Z-push-button to that device:\nShort press: on/off (BASIC_SET) command \nLong press: increase / decrease dim-level command (SWITCH_MULTILEVEL).",
               "nl": "Groep 2 (bovenste knoppen): Het toevoegen van andere Z-wave devices aan deze groep zal directe controle van de Z-push-button over deze devices toevoegen:\nKort ingedrukt: on/off (BASIC_SET) commando\nLang ingedrukt: verhoog / verlaag dim-level commando (SWITCH_MULTILEVEL)."
-              }
+            }
           },
           "3": {
             "hint": {
               "en": "Group 3: Adding other Z-wave devices to this group will enable direct control from Z-push-button to that device:\nShort press: on/off (BASIC_SET) command \nLong press: increase / decrease dim-level command (SWITCH_MULTILEVEL).",
               "nl": "Groep 3: Het toevoegen van andere Z-wave devices aan deze groep zal directe controle van de Z-push-button over deze devices toevoegen:\nKort ingedrukt: on/off (BASIC_SET) commando\nLang ingedrukt: verhoog / verlaag dim-level commando (SWITCH_MULTILEVEL)."
-              }
+            }
           },
           "4": {
             "hint": {
@@ -745,8 +745,9 @@
             }
           }
         }
-      },
-      {
+      }
+    },
+    {
       "id": "Z-TRM2fx",
       "name": {
         "en": "Heatit Z-TRM2fx thermostat"
@@ -1033,7 +1034,6 @@
         "en": "Mode of the thermostat",
         "nl": "Modus van de thermostaat"
       },
-      "uiComponent": "picker",
       "values": [
         {
           "id": "Heat",
@@ -1089,8 +1089,6 @@
         "en": "State of the thermostat",
         "nl": "Status van de thermostaat"
       },
-      "uiComponent": "sensor",
-      "icon": "/assets/thermofloor_onoff.svg",
       "getable": true,
       "setable": false
     }
