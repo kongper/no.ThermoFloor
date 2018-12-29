@@ -18,7 +18,7 @@ class Z_TRM2fxDevice extends ZwaveDevice {
 		this.registerCapability('measure_temperature', 'SENSOR_MULTILEVEL', {
 			getOpts: {
 				getOnStart: true,
-				pollInterval: 'poll_interval_TEMPERATURE',
+				// pollInterval: 'poll_interval_TEMPERATURE',
 				pollMultiplication: 60000,
 			},
 		});
@@ -27,7 +27,7 @@ class Z_TRM2fxDevice extends ZwaveDevice {
 		this.registerCapability('measure_temperature.external', 'SENSOR_MULTILEVEL', {
 			getOpts: {
 				getOnStart: true,
-				pollInterval: 'poll_interval_TEMPERATURE',
+				// pollInterval: 'poll_interval_TEMPERATURE',
 				pollMultiplication: 60000,
 			},
 			multiChannelNodeId: 2
@@ -37,20 +37,21 @@ class Z_TRM2fxDevice extends ZwaveDevice {
 		this.registerCapability('measure_temperature.floor', 'SENSOR_MULTILEVEL', {
 			getOpts: {
 				getOnStart: true,
-				pollInterval: 'poll_interval_TEMPERATURE',
+				// pollInterval: 'poll_interval_TEMPERATURE',
 				pollMultiplication: 60000,
 			},
 			multiChannelNodeId: 3
 		});
 
-		this.registerCapability('measure_power', 'SENSOR_MULTILEVEL');
+		this.registerCapability('measure_power', 'METER');
+		this.registerCapability('measure_voltage', 'METER');
 		this.registerCapability('meter_power', 'METER');
 
 		this.registerCapability('thermofloor_onoff', 'BASIC', {
-			report: 'BASIC_SET',
+			report: 'BASIC_REPORT',
 			reportParser: report => {
-				if (report && report.hasOwnProperty('Value')) {
-					const thermofloor_onoff_state = report.Value === 255;
+				if (report && report.hasOwnProperty('Current Value')) {
+					const thermofloor_onoff_state = report['Current Value'] === 255;
 					if (thermofloor_onoff_state !== this.getCapabilityValue('thermofloor_onoff')) {
 						// Not needed since capability change will trigger the trigger card automatically
 						// Homey.app[`triggerThermofloorOnoff${thermofloor_onoff_state ? 'True' : 'False'}`].trigger(this, null, null);
@@ -69,7 +70,7 @@ class Z_TRM2fxDevice extends ZwaveDevice {
 			},
 			get: 'THERMOSTAT_MODE_GET',
 			set: 'THERMOSTAT_MODE_SET',
-			setParserV2: thermostatMode => {
+			setParserV3: thermostatMode => {
 				this.log('Setting thermostat mode to:', thermostatMode);
 
 				// 1. Update thermostat setpoint based on matching thermostat mode
@@ -111,7 +112,7 @@ class Z_TRM2fxDevice extends ZwaveDevice {
 				};
 			},
 			report: 'THERMOSTAT_MODE_REPORT',
-			reportParserV2: report => {
+			reportParserV3: report => {
 				if (!report) return null;
 				if (report.hasOwnProperty('Level') && report.Level.hasOwnProperty('Mode')) {
 					const thermostatMode = report.Level.Mode;
@@ -173,7 +174,7 @@ class Z_TRM2fxDevice extends ZwaveDevice {
 				};
 			},
 			set: 'THERMOSTAT_SETPOINT_SET',
-			setParser(setpointValue) {
+			setParserV3: setpointValue => {
 				// 1. Retrieve the setpointType based on the thermostat mode
 				const setpointType = maps.Mode2Setpoint[this.getCapabilityValue('thermofloor_mode') || 'Heat'];
 
@@ -210,7 +211,7 @@ class Z_TRM2fxDevice extends ZwaveDevice {
 
 			},
 			report: 'THERMOSTAT_SETPOINT_REPORT',
-			reportParser: report => {
+			reportParserV3: report => {
 				if (report && report.hasOwnProperty('Level2') &&
 					report.Level2.hasOwnProperty('Scale') &&
 					report.Level2.hasOwnProperty('Precision') &&
