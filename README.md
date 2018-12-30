@@ -41,8 +41,7 @@ The following action cards are supported:
 The Heatit Z-Push Button 2 can control 1association group with up to 5 products or 4 scenarios through Homey.
 
 The following triggers are supported:  
-* Button Pressed 1x   
-* Button Pressed 2x     
+* Button Pressed 1x    
 * Button held down     
 * Button released    
 * Any button pressed (including tokens)   
@@ -57,8 +56,7 @@ In addition, by adding the NodeID in the corresponding association groups, the Z
 The Heatit Z-Push Button 8 can control up to 4 separate association groups (onoff and dim) with up to 20 products or up to 16 scenes through Homey.
 
 The following triggers are supported:  
-* Button Pressed 1x   
-* Button Pressed 2x     
+* Button Pressed 1x     
 * Button held down     
 * Button released    
 * Any button pressed (including tokens)   
@@ -93,6 +91,11 @@ If you like the app, consider a donation to support development
 [![Paypal Donate](https://www.paypalobjects.com/en_US/NL/i/btn/btn_donateCC_LG.gif)](https://www.paypal.me/TedTolboom)
 
 ## Changelog:
+v2.0.3
+* Fix battery icon not visible on mobile interface for 1.5.13 (re-inclusion required to fix)    
+* Remove not supported "Key Pressed 2 times" option from "A scene has been activated trigger card"    
+* Add explicit not to settings to wake-up the Z-push before saving changes to the settings / association groups    
+
 v2.0.2   
 * Add support for the Z-Push button 2 and Z-Push button 8 devices    
 * Minor (cosmetical) modifications to make the app Homey SW v2.0.0 compatible      
