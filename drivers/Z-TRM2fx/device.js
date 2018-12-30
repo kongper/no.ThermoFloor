@@ -19,7 +19,7 @@ class Z_TRM2fxDevice extends ZwaveDevice {
 			getOpts: {
 				getOnStart: true,
 				// pollInterval: 'poll_interval_TEMPERATURE',
-				pollMultiplication: 60000,
+				// pollMultiplication: 60000,
 			},
 		});
 
@@ -28,7 +28,7 @@ class Z_TRM2fxDevice extends ZwaveDevice {
 			getOpts: {
 				getOnStart: true,
 				// pollInterval: 'poll_interval_TEMPERATURE',
-				pollMultiplication: 60000,
+				// pollMultiplication: 60000,
 			},
 			multiChannelNodeId: 2
 		});
@@ -38,7 +38,7 @@ class Z_TRM2fxDevice extends ZwaveDevice {
 			getOpts: {
 				getOnStart: true,
 				// pollInterval: 'poll_interval_TEMPERATURE',
-				pollMultiplication: 60000,
+				// pollMultiplication: 60000,
 			},
 			multiChannelNodeId: 3
 		});

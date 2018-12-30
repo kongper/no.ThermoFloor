@@ -905,8 +905,8 @@
           },
           "value": "1",
           "hint": {
-            "en": "Thermostat mode. (default: Energy saving",
-            "nl": "Thermostaat modus. (standaard: Energiebesparing)"
+            "en": "Thermostat mode. \nZ-wave parameter 1\ndefault: Energy saving",
+            "nl": "Thermostaat modus. \nZ-wave parameter 1 \nstandaard: Energiebesparing"
           },
           "values": [
             {
@@ -919,8 +919,8 @@
             {
               "id": "11",
               "label": {
-                "en": "Energy Saving",
-                "nl": "Energiebesparing"
+                "en": "Energy Saving (default)",
+                "nl": "Energiebesparing (standaard)"
               }
             },
             {
@@ -956,8 +956,8 @@
             "nl": "Comfort modus temperatuur"
           },
           "hint": {
-            "en": "Temperature setpoint used when in Comfort (CO) mode. \nRange: 50 - 400 (5.0C - 40.0C) \nDefault: 205",
-            "nl": "Temperatuur setpoint gebruikt in Comfort (CO) mode. \nBereik: 50 - 400 (5.0C - 40.0C)\nStandaard: 205"
+            "en": "Temperature setpoint used when in Comfort (CO) mode. \nZ-wave parameter 9\nRange: 50 - 400 (5.0C - 40.0C) \nDefault: 205",
+            "nl": "Temperatuur setpoint gebruikt in Comfort (CO) mode. \nZ-wave parameter 9\nBereik: 50 - 400 (5.0C - 40.0C)\nStandaard: 205"
           }
         },
         {
@@ -977,8 +977,8 @@
             "nl": "Energiebesparings modus temperatuur"
           },
           "hint": {
-            "en": "Temperature setpoint used when in Energy saving (ECO) mode. \nRange: 50 - 400 (5.0C - 40.0C) \nDefault: 180",
-            "nl": "Temperatuur setpoint gebruikt in Energiebesparings (ECO) mode. \nBereik: 50 - 400 (5.0C - 40.0C)\nStandaard: 180"
+            "en": "Temperature setpoint used when in Energy saving (ECO) mode. \nZ-wave parameter 10\nRange: 50 - 400 (5.0C - 40.0C) \nDefault: 180",
+            "nl": "Temperatuur setpoint gebruikt in Energiebesparings (ECO) mode. \nZ-wave parameter 10\nBereik: 50 - 400 (5.0C - 40.0C)\nStandaard: 180"
           }
         },
         {
@@ -998,26 +998,282 @@
             "nl": "Koelen mode temperatuur"
           },
           "hint": {
-            "en": "Temperature setpoint used when in Cooling (COOL) mode (only if enabled). \nRange: 50 - 400 (5.0C - 40.0C) \nDefault: 210",
-            "nl": "Temperatuur setpoint gebruikt in Koelen (COOL) modus (indien beschikbaar). \nBereik: 50 - 400 (5.0C - 40.0C)\nStandaard: 210"
+            "en": "Temperature setpoint used when in Cooling (COOL) mode (only if enabled). \nZ-wave parameter 11\nRange: 50 - 400 (5.0C - 40.0C) \nDefault: 210",
+            "nl": "Temperatuur setpoint gebruikt in Koelen (COOL) modus (indien beschikbaar). \nZ-wave parameter 11\nBereik: 50 - 400 (5.0C - 40.0C)\nStandaard: 210"
           }
         },
         {
-          "id": "poll_interval_TEMPERATURE",
-          "type": "number",
-          "attr": {
-            "min": 60,
-            "max": 3600
-          },
-          "value": 300,
+          "type": "group",
           "label": {
-            "en": "Poll interval temperature",
-            "nl": "Poll interval temperatuur"
+            "en": "Sensor calibration",
+            "nl": "Sensor calibratie"
           },
-          "hint": {
-            "en": "The amount of seconds between asking the device for a status (meausured temperature) update \nDefault: 300 [s].",
-            "nl": "Aantal seconden tussen het opvragen van een status (gemeten temperatuur) update aan het apparaat \nStandaard: 300 [s]."
-          }
+          "collapsed": true,
+          "children": [
+            {
+              "id": "Floor_sensor_calibration",
+              "zwave": {
+                "index": 12,
+                "size": 1
+              },
+              "type": "number",
+              "attr": {
+                "min": -40,
+                "max": 40
+              },
+              "value": 0,
+              "label": {
+                "en": "Floor sensor calibration (°C)",
+                "nl": "Vloer sensor calibratie (°C)"
+              },
+              "hint": {
+                "en": "Floor sensor temperature calibration. \nZ-wave parameter 12 \nRange: -40 - 40 (-4.0 - 4.0°C)\nDefault: 0",
+                "nl": "Vloer sensor temperatuur calibratie. \nZ-wave parameter 12 \nBereik: -40 - 40 (-4.0 - 4.0°C)\nStandaard: 0"
+              }
+            },
+            {
+              "id": "External_sensor_calibration",
+              "zwave": {
+                "index": 13,
+                "size": 1
+              },
+              "type": "number",
+              "attr": {
+                "min": -40,
+                "max": 40
+              },
+              "value": 0,
+              "label": {
+                "en": "External sensor calibration (°C)",
+                "nl": "Externe sensor calibratie (°C)"
+              },
+              "hint": {
+                "en": "External room sensor temperature calibration. \nZ-wave parameter 13 \nRange: -40 - 40 (-4.0 - 4.0°C)\nDefault: 0",
+                "nl": "Externe ruimte sensor temperatuur calibratie. \nZ-wave parameter 13 \nBereik: -40 - 40 (-4.0 - 4.0°C)\nStandaard: 0"
+              }
+            }
+          ]
+        },
+        {
+          "type": "group",
+          "label": {
+            "en": "Display options",
+            "nl": "Scherm instellingen"
+          },
+          "collapsed": true,
+          "children": [
+            {
+              "id": "Temperature_display",
+              "zwave": {
+                "index": 14,
+                "size": 1
+              },
+              "type": "radio",
+              "label": {
+                "en": "Temperature display",
+                "nl": "Temperature weergave"
+              },
+              "value": "0",
+              "values": [
+                {
+                  "id": "0",
+                  "label": {
+                    "en": "Display setpoint temperature (Default)",
+                    "nl": "Toon de ingestelde temperatuur (Standaard)"
+                  }
+                },
+                {
+                  "id": "1",
+                  "label": {
+                    "en": "Display measured temperature",
+                    "nl": "Toon de gemeten temperatuur"
+                  }
+                }
+              ],
+              "hint": {
+                "en": "Temperature display. \nZ-wave parameter 14 \nDefault: 0",
+                "nl": "Temperature weergave. \nZ-wave parameter 14 \nStandaard: 0"
+              }
+            },
+            {
+              "id": "Button_brightness_dimmed",
+              "zwave": {
+                "index": 15,
+                "size": 1
+              },
+              "type": "number",
+              "attr": {
+                "min": 0,
+                "max": 100
+              },
+              "value": 50,
+              "label": {
+                "en": "Button brightness – dimmed state (%)",
+                "nl": "Helderheid knoppen - gedimde toestand (%)"
+              },
+              "hint": {
+                "en": "Button brightness – dimmed state. \nZ-wave parameter 15 \nRange: 0 - 100 (%)\nDefault: 50 (%)",
+                "nl": "Helderheid knoppen - gedimde toestand. \nZ-wave parameter 15 \nBereik: 0 - 100 (%)\nStandaard: 50 (%)"
+              }
+            },
+            {
+              "id": "Button_brightness_active",
+              "zwave": {
+                "index": 16,
+                "size": 1
+              },
+              "type": "number",
+              "attr": {
+                "min": 0,
+                "max": 100
+              },
+              "value": 100,
+              "label": {
+                "en": "Button brightness – active state (%)",
+                "nl": "Helderheid knoppen - geactiveerde toestand (%)"
+              },
+              "hint": {
+                "en": "Button brightness – active state. \nZ-wave parameter 16 \nRange: 0 - 100 (%)\nDefault: 100 (%)",
+                "nl": "Helderheid knoppen - geactiveerde toestand. \nZ-wave parameter 16 \nBereik: 0 - 100 (%)\nStandaard: 100 (%)"
+              }
+            },
+            {
+              "id": "Display_brightness_dimmed",
+              "zwave": {
+                "index": 17,
+                "size": 1
+              },
+              "type": "number",
+              "attr": {
+                "min": 0,
+                "max": 100
+              },
+              "value": 50,
+              "label": {
+                "en": "Display brightness – dimmed state (%)",
+                "nl": "Helderheid scherm - gedimde toestand (%)"
+              },
+              "hint": {
+                "en": "Display brightness – dimmed state. \nZ-wave parameter 17 \nRange: 0 - 100 (%)\nDefault: 50 (%)",
+                "nl": "Helderheid scherm - gedimde toestand. \nZ-wave parameter 17 \nBereik: 0 - 100 (%)\nStandaard: 50 (%)"
+              }
+            },
+            {
+              "id": "Display_brightness_active",
+              "zwave": {
+                "index": 18,
+                "size": 1
+              },
+              "type": "number",
+              "attr": {
+                "min": 0,
+                "max": 100
+              },
+              "value": 100,
+              "label": {
+                "en": "Display brightness – active state (%)",
+                "nl": "Helderheid scherm - geactiveerde toestand (%)"
+              },
+              "hint": {
+                "en": "Display brightness – active state. \nZ-wave parameter 18 \nRange: 0 - 100 (%)\nDefault: 100 (%)",
+                "nl": "Helderheid scherm - geactiveerde toestand. \nZ-wave parameter 18 \nBereik: 0 - 100 (%)\nStandaard: 100 (%)"
+              }
+            }
+          ]
+        },
+        {
+          "type": "group",
+          "label": {
+            "en": "Reporting",
+            "nl": "Rapportage"
+          },
+          "collapsed": false,
+          "children": [
+            {
+              "id": "Temperature_report_interval",
+              "zwave": {
+                "index": 19,
+                "size": 2
+              },
+              "type": "number",
+              "attr": {
+                "min": 0,
+                "max": 32767
+              },
+              "value": 60,
+              "label": {
+                "en": "Temperature report interval (s)",
+                "nl": "Temperatuur rapportage interval (s)"
+              },
+              "hint": {
+                "en": "Time interval between consecutive temperature reports. \nZ-wave parameter 19 \nRange: 0, 30 - 32767 (s)\nDefault: 60 (s)",
+                "nl": "Tijdsinterval tussen opeenvolgende temperatuur rapportages. \nZ-wave parameter 19 \nBereik: 0, 30 - 32767 (s)\nStandaard: 60 (s)"
+              }
+            },
+            {
+              "id": "Temperature_report_threshold",
+              "zwave": {
+                "index": 20,
+                "size": 1
+              },
+              "type": "number",
+              "attr": {
+                "min": 0,
+                "max": 100
+              },
+              "value": 10,
+              "label": {
+                "en": "Temperature report threshold (°C)",
+                "nl": "Temperatuur rapportage drempelwaarde (°C)"
+              },
+              "hint": {
+                "en": "The temperature report will be sent if there is a difference in temperature value from the previous value reported (threshold). \nZ-wave parameter 20 \nRange: 0 - 100 (0 - 10.0 °C)\nDefault: 10 (1.0 °C)",
+                "nl": "De temperatuur rapportage wordt verstuurd wanneer het verschil in temperatuurwaarde met de vorige gerapporteerde waarde de drempelwaarde overschrijd. \nZ-wave parameter 20 \nBereik: 0 - 100 (0 - 10.0 °C)\nStandaard: 10 (1.0 °C)"
+              }
+            },
+            {
+              "id": "Meter_report_interval",
+              "zwave": {
+                "index": 21,
+                "size": 2
+              },
+              "type": "number",
+              "attr": {
+                "min": 0,
+                "max": 32767
+              },
+              "value": 60,
+              "label": {
+                "en": "Meter report interval (s)",
+                "nl": "Meter rapportage interval (s)"
+              },
+              "hint": {
+                "en": "Time interval between consecutive meter reports. \nZ-wave parameter 21 \nRange: 0, 30 - 32767 (s)\nDefault: 60 (s)",
+                "nl": "Tijdsinterval tussen opeenvolgende temperatuur rapportages. \nZ-wave parameter 21 \nBereik: 0, 30 - 32767 (s)\nStandaard: 60 (s)"
+              }
+            },
+            {
+              "id": "Meter_report_threshold",
+              "zwave": {
+                "index": 22,
+                "size": 1
+              },
+              "type": "number",
+              "attr": {
+                "min": 0,
+                "max": 127
+              },
+              "value": 10,
+              "label": {
+                "en": "Meter report threshold",
+                "nl": "Meter rapportage drempelwaarde"
+              },
+              "hint": {
+                "en": "The meter report will be sent if there is a difference in meter value from the previous value reported (threshold). \nZ-wave parameter 22 \nRange: 0 - 127 (0 - 12.7 kWh)\nDefault: 10 (1.0 kWh)",
+                "nl": "De meter rapportage wordt verstuurd wanneer het verschil in meter waarde met de vorige gerapporteerde waarde de drempelwaarde overschrijd. \nZ-wave parameter 22 \nBereik: 0 - 127 (0 - 12.7 kWh)\nStandaard: 10 (1.0 kWh)"
+              }
+            }
+          ]
         }
       ]
     }
