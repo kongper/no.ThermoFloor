@@ -28,9 +28,6 @@ class Z_PushButton_2 extends ZwaveDevice {
 			'Key Pressed 1 time': {
 				scene: 'Key Pressed 1 time'
 			},
-			'Key Pressed 2 times': {
-				scene: 'Key Pressed 2 times'
-			},
 			'Key Held Down': {
 				scene: 'Key Held Down'
 			},
