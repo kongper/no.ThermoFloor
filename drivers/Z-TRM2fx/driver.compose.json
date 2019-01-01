@@ -30,6 +30,9 @@
 			"greyout": true
 		},
 		"measure_temperature": {
+			"title": "temperature"
+		},
+		"measure_temperature.internal": {
 			"title": "internal temperature"
 		},
 		"measure_temperature.external": {
