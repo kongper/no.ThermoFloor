@@ -5,7 +5,7 @@
     "en": "Thermo-Floor / Heatit"
   },
   "brandColor": "#d52229",
-  "version": "2.0.3",
+  "version": "2.1.0",
   "compatibility": ">=1.5.0",
   "homeyCommunityTopicId": 166,
   "author": {
@@ -80,7 +80,7 @@
           {
             "name": "device",
             "type": "device",
-            "filter": "driver_id=TF_Thermostat|Z-TRM2fx"
+            "filter": "driver_id=TF_Thermostat|TF_Thermostat_FW1.92|Z-TRM2fx"
           }
         ],
         "tokens": [
@@ -117,7 +117,7 @@
           {
             "name": "device",
             "type": "device",
-            "filter": "driver_id=TF_Thermostat|Z-TRM2fx"
+            "filter": "driver_id=TF_Thermostat|TF_Thermostat_FW1.92|Z-TRM2fx"
           },
           {
             "name": "mode",
@@ -165,7 +165,7 @@
           {
             "name": "device",
             "type": "device",
-            "filter": "driver_id=TF_Thermostat|Z-TRM2fx"
+            "filter": "driver_id=TF_Thermostat|TF_Thermostat_FW1.92|Z-TRM2fx"
           }
         ]
       },
@@ -179,7 +179,7 @@
           {
             "name": "device",
             "type": "device",
-            "filter": "driver_id=TF_Thermostat|Z-TRM2fx"
+            "filter": "driver_id=TF_Thermostat|TF_Thermostat_FW1.92|Z-TRM2fx"
           }
         ]
       },
@@ -263,7 +263,7 @@
           {
             "name": "device",
             "type": "device",
-            "filter": "driver_id=TF_Thermostat|Z-TRM2fx"
+            "filter": "driver_id=TF_Thermostat|TF_Thermostat_FW1.92|Z-TRM2fx"
           }
         ]
       }
@@ -283,7 +283,7 @@
           {
             "name": "device",
             "type": "device",
-            "filter": "driver_id=TF_Thermostat|Z-TRM2fx"
+            "filter": "driver_id=TF_Thermostat|TF_Thermostat_FW1.92|Z-TRM2fx"
           },
           {
             "name": "mode",
@@ -335,7 +335,7 @@
           {
             "name": "device",
             "type": "device",
-            "filter": "driver_id=TF_Thermostat|Z-TRM2fx"
+            "filter": "driver_id=TF_Thermostat|TF_Thermostat_FW1.92|Z-TRM2fx"
           },
           {
             "name": "setpointMode",
@@ -372,6 +372,31 @@
             "step": 0.5,
             "label": "°C",
             "labelDecimals": 1
+          }
+        ]
+      },
+      {
+        "id": "thermofloor_set_PowerRegulatorMode",
+        "title": {
+          "en": "Set Power Regulator Mode (P) level",
+          "nl": "Stel Power Regulator Mode (P) niveau in"
+        },
+        "hint": {
+          "en": "*P* Setting power regulator mode level. Read the manual before changing. \nRange: 0-10 \nDefault: 2",
+          "nl": "*P* Stel de Power Regulator mode niveau in. Lees de handleiding voordat deze instellingen aangepast worden. \nBereik: 0-10 \nStandaard: 2."
+        },
+        "args": [
+          {
+            "name": "device",
+            "type": "device",
+            "filter": "driver_id=TF_Thermostat|TF_Thermostat_FW1.92"
+          },
+          {
+            "name": "set_power_regulator_mode",
+            "type": "range",
+            "min": 0,
+            "max": 10,
+            "step": 1
           }
         ]
       },
@@ -528,8 +553,8 @@
           },
           "value": "1",
           "hint": {
-            "en": "Thermostat mode. (default: Energy saving",
-            "nl": "Thermostaat modus. (standaard: Energiebesparing)"
+            "en": "Thermostat mode. \nZ-wave parameter 1 \ndefault: Energy saving",
+            "nl": "Thermostaat modus. \nZ-wave parameter 1 \nstandaard: Energiebesparing"
           },
           "values": [
             {
@@ -579,8 +604,8 @@
             "nl": "Comfort modus temperatuur"
           },
           "hint": {
-            "en": "Temperature setpoint used when in Comfort (CO) mode. \nRange: 50 - 400 (5.0C - 40.0C) \nDefault: 205",
-            "nl": "Temperatuur setpoint gebruikt in Comfort (CO) mode. \nBereik: 50 - 400 (5.0C - 40.0C)\nStandaard: 205"
+            "en": "Temperature setpoint used when in Comfort (CO) mode. \nZ-wave parameter 10 \nRange: 50 - 400 (5.0 - 40.0°C) \nDefault: 205 (20.5) °C",
+            "nl": "Temperatuur setpoint gebruikt in Comfort (CO) mode. \nZ-wave parameter 10 \nBereik: 50 - 400 (5.0 - 40.0°C)\nStandaard: 205 (20.5) °C"
           }
         },
         {
@@ -600,8 +625,8 @@
             "nl": "Energiebesparings modus temperatuur"
           },
           "hint": {
-            "en": "Temperature setpoint used when in Energy saving (ECO) mode. \nRange: 50 - 400 (5.0C - 40.0C) \nDefault: 180",
-            "nl": "Temperatuur setpoint gebruikt in Energiebesparings (ECO) mode. \nBereik: 50 - 400 (5.0C - 40.0C)\nStandaard: 180"
+            "en": "Temperature setpoint used when in Energy saving (ECO) mode. \nZ-wave parameter 11 \nRange: 50 - 400 (5.0C - 40.0 °C) \nDefault: 180 (18.0) °C",
+            "nl": "Temperatuur setpoint gebruikt in Energiebesparings (ECO) mode. \nZ-wave parameter 11 \nBereik: 50 - 400 (5.0C - 40.0 °C)\nStandaard: 180 (18.0) °C"
           }
         },
         {
@@ -621,9 +646,248 @@
             "nl": "Koelen mode temperatuur"
           },
           "hint": {
-            "en": "Temperature setpoint used when in Cooling (COOL) mode (only if enabled). \nRange: 50 - 400 (5.0C - 40.0C) \nDefault: 210",
-            "nl": "Temperatuur setpoint gebruikt in Koelen (COOL) modus (indien beschikbaar). \nBereik: 50 - 400 (5.0C - 40.0C)\nStandaard: 210"
+            "en": "Temperature setpoint used when in Cooling (COOL) mode (only if enabled). \nZ-wave parameter 13 \nRange: 50 - 400 (5.0 - 40.0°C) \nDefault: 210 (21.0) °C",
+            "nl": "Temperatuur setpoint gebruikt in Koelen (COOL) modus (indien beschikbaar). \nZ-wave parameter 13 \nBereik: 50 - 400 (5.0 - 40.0°C)\nStandaard: 210 (21.0) °C"
           }
+        },
+        {
+          "type": "group",
+          "label": {
+            "en": "Sensor settings",
+            "nl": "Sensor instellingen"
+          },
+          "collapsed": true,
+          "children": [
+            {
+              "id": "Sensor_mode",
+              "zwave": {
+                "index": 2,
+                "size": 1
+              },
+              "values": [
+                {
+                  "id": "0",
+                  "label": {
+                    "en": "F-mode, floor sensor mode (default)",
+                    "nl": "F-modus, vloer sensor modus (standaard)"
+                  }
+                },
+                {
+                  "id": "1",
+                  "label": {
+                    "en": "A-mode, internal sensor mode",
+                    "nl": "A-modus, interne sensor modus"
+                  }
+                },
+                {
+                  "id": "2",
+                  "label": {
+                    "en": "A2-mode, external sensor mode",
+                    "nl": "A2-modus, externe sensor modus"
+                  }
+                },
+                {
+                  "id": "3",
+                  "label": {
+                    "en": "A2-mode, external room sensor mode",
+                    "nl": "A2-modus, externe ruimte sensor modus"
+                  }
+                },
+                {
+                  "id": "4",
+                  "label": {
+                    "en": "A2F-mode, external sensor with floor limitation",
+                    "nl": "A2F-modus, externe sensor met vloer begrenzing"
+                  }
+                },
+                {
+                  "id": "5",
+                  "label": {
+                    "en": "Power Regulator mode, constant heating power",
+                    "nl": "Power Regulator modus, constant verwarmingsvermogen"
+                  }
+                },
+                {
+                  "id": "6",
+                  "label": {
+                    "en": "FP-mode, floor mode with minimum power limitation",
+                    "nl": "FP-modus, vloer modus with minimaal vermogen limitation"
+                  }
+                }
+              ],
+              "type": "dropdown",
+              "label": {
+                "en": "Sensor mode",
+                "nl": "Sensor modus"
+              },
+              "value": "0",
+              "hint": {
+                "en": "Sensor mode. \nZ-wave parameter 2 \ndefault: Floor sensor",
+                "nl": "Sensor modus. \nZ-wave parameter 2 \n standaard: vloer sensor"
+              }
+            },
+            {
+              "id": "Floor_sensor_type",
+              "zwave": {
+                "index": 3,
+                "size": 1
+              },
+              "type": "dropdown",
+              "label": {
+                "en": "Floor sensor type",
+                "nl": "Vloer sensor type"
+              },
+              "value": "0",
+              "hint": {
+                "en": "Floor sensor type. \nZ-wave parameter 3 \ndefault: 10K NTC",
+                "nl": "Vloer sensor type. \nZ-wave parameter 3 \nstandaard: 10K NTC"
+              },
+              "values": [
+                {
+                  "id": "0",
+                  "label": {
+                    "en": "10K NTC (default)",
+                    "nl": "10K NTC (standaard)"
+                  }
+                },
+                {
+                  "id": "1",
+                  "label": {
+                    "en": "12K NTC"
+                  }
+                },
+                {
+                  "id": "2",
+                  "label": {
+                    "en": "15K NTC"
+                  }
+                },
+                {
+                  "id": "3",
+                  "label": {
+                    "en": "22K NTC"
+                  }
+                },
+                {
+                  "id": "4",
+                  "label": {
+                    "en": "33K NTC"
+                  }
+                },
+                {
+                  "id": "5",
+                  "label": {
+                    "en": "47K NTC"
+                  }
+                }
+              ]
+            },
+            {
+              "id": "Temperature_control_hysteresis_DIFF_I",
+              "type": "number",
+              "zwave": {
+                "index": 4,
+                "size": 1
+              },
+              "attr": {
+                "min": 3,
+                "max": 30
+              },
+              "value": 5,
+              "label": {
+                "en": "Temperature control hysteresis (DIFF I)",
+                "nl": "Temperatuur regel grenswaarde (DIFF I)"
+              },
+              "hint": {
+                "en": "Temperature control hysteresis (DIFF I).\nZ-wave parameter 4 \nRange: 3 - 30 (0.3 - 3.0 °C) \nDefault: 5 (0.5) °C",
+                "nl": "Temperatuur regel grenswaarde (DIFF I). \nZ-wave parameter 4 \nBereik: 3 - 30 (0.3 - 3.0 °C)\nStandaard: 5 (0.5) °C"
+              }
+            },
+            {
+              "id": "Floor_minimum_temperature_limit_FLo",
+              "zwave": {
+                "index": 5,
+                "size": 2
+              },
+              "label": {
+                "en": "Floor minimum temperature limit (FLo)",
+                "nl": "Ondergrens vloer temperatuur (FLo)"
+              },
+              "value": 50,
+              "type": "number",
+              "attr": {
+                "min": 50,
+                "max": 400
+              },
+              "hint": {
+                "en": "Temperature limit. \nZ-wave parameter 5 \nRange: 50 - 400 (5.0 - 40.0 °C)",
+                "nl": "Temperatuur limiet. \nZ-wave parameter 5 \nBereik: 50 - 400 (5.0 - 40.0 °C)"
+              }
+            },
+            {
+              "id": "Floor_maximum_temperature_limit_FHi",
+              "zwave": {
+                "index": 6,
+                "size": 2
+              },
+              "label": {
+                "en": "Floor maximum temperature limit (FHi)",
+                "nl": "Bovengrens vloer temperatuur (FHi)"
+              },
+              "value": 400,
+              "type": "number",
+              "attr": {
+                "min": 50,
+                "max": 400
+              },
+              "hint": {
+                "en": "Temperature limit. \nZ-wave parameter 5 \nRange: 50 - 400 (5.0 - 40.0 °C)",
+                "nl": "Temperatuur limiet. \nZ-wave parameter 5 \nBereik: 50 - 400 (5.0 - 40.0 °C)"
+              }
+            },
+            {
+              "id": "Air_minimum_temperature_limit_ALo",
+              "zwave": {
+                "index": 7,
+                "size": 2
+              },
+              "label": {
+                "en": "Air (A2) minimum temperature limit (ALo)",
+                "nl": "Ondergrens lucht (A2) temperatuur (ALo)"
+              },
+              "value": 50,
+              "type": "number",
+              "attr": {
+                "min": 50,
+                "max": 400
+              },
+              "hint": {
+                "en": "Temperature limit. \nZ-wave parameter 5 \nRange: 50 - 400 (5.0 - 40.0 °C)",
+                "nl": "Temperatuur limiet. \nZ-wave parameter 5 \nBereik: 50 - 400 (5.0 - 40.0 °C)"
+              }
+            },
+            {
+              "id": "Air_maximum_temperature_limit_AHi",
+              "zwave": {
+                "index": 8,
+                "size": 2
+              },
+              "label": {
+                "en": "Air (A2) maximum temperature limit (AHi)",
+                "nl": "Bovengrens lucht (A2) temperatuur (AHi)"
+              },
+              "value": 400,
+              "type": "number",
+              "attr": {
+                "min": 50,
+                "max": 400
+              },
+              "hint": {
+                "en": "Temperature limit. \nZ-wave parameter 5 \nRange: 50 - 400 (5.0 - 40.0 °C)",
+                "nl": "Temperatuur limiet. \nZ-wave parameter 5 \nBereik: 50 - 400 (5.0 - 40.0 °C)"
+              }
+            }
+          ]
         },
         {
           "id": "poll_interval_TEMPERATURE",
@@ -641,6 +905,68 @@
             "en": "The amount of seconds between asking the device for a status (meausured temperature) update \nDefault: 300 [s].",
             "nl": "Aantal seconden tussen het opvragen van een status (gemeten temperatuur) update aan het apparaat \nStandaard: 300 [s]."
           }
+        },
+        {
+          "type": "group",
+          "label": {
+            "en": "Power Regulator settings",
+            "nl": "Power Regulator instellingen"
+          },
+          "collapsed": true,
+          "children": [
+            {
+              "id": "PRM_notification",
+              "value": "Read the manual before changing these settings",
+              "type": "label",
+              "label": {
+                "en": "Note:"
+              },
+              "hint": {
+                "en": "Please read and understand the manual / operation of the Power Regulator Mode before changing below Power Regulator Mode settings.",
+                "nl": "Lees en begrijp de handleiding / principe van de Power Regulatro Mode voordat onderstaande settings aangepast worden."
+              }
+            },
+            {
+              "id": "PLo_setting",
+              "zwave": {
+                "index": 9,
+                "size": 1
+              },
+              "type": "number",
+              "attr": {
+                "min": 0,
+                "max": 9
+              },
+              "value": 300,
+              "label": {
+                "en": "Power Regulator mode - Low (PLo)"
+              },
+              "hint": {
+                "en": "*PLo* Setting lowest allowed power regulator mode.\nZ-wave parameter 9\nRange: 0-9 \nDefault: 0.",
+                "nl": "*PLo* Stel de laagst toegestane Power Regulator Mode in.\nZ-wave parameter 9\nBereik: 0-9 \nStandaard: 0."
+              }
+            },
+            {
+              "id": "P_setting",
+              "zwave": {
+                "index": 12,
+                "size": 1
+              },
+              "type": "number",
+              "attr": {
+                "min": 0,
+                "max": 9
+              },
+              "value": 2,
+              "label": {
+                "en": "Power Regulator level (P)- level"
+              },
+              "hint": {
+                "en": "*P* Setting power regulator mode level \nZ-wave parameter 12 \nRange: 0-10 \nDefault: 2.",
+                "nl": "*P* Stel de Power Regulator mode niveau in. \nZ-wave parameter 12 \nBereik: 0-10 \nStandaard: 2."
+              }
+            }
+          ]
         }
       ]
     },
@@ -658,6 +984,7 @@
       "capabilities": [
         "measure_temperature",
         "measure_temperature.floor",
+        "measure_temperature.internal",
         "measure_temperature.external",
         "thermofloor_onoff",
         "thermofloor_mode",
@@ -671,6 +998,18 @@
         },
         "thermofloor_onoff": {
           "greyout": true
+        },
+        "measure_temperature": {
+          "title": "temperature"
+        },
+        "measure_temperature.internal": {
+          "title": "internal temperature"
+        },
+        "measure_temperature.external": {
+          "title": "external temperature"
+        },
+        "measure_temperature.floor": {
+          "title": "floor temperature"
         }
       },
       "mobile": {
@@ -684,6 +1023,7 @@
             "capabilities": [
               "measure_temperature",
               "measure_temperature.floor",
+              "measure_temperature.internal",
               "measure_temperature.external",
               "thermofloor_onoff"
             ],
@@ -776,8 +1116,8 @@
           },
           "value": "1",
           "hint": {
-            "en": "Thermostat mode. (default: Energy saving",
-            "nl": "Thermostaat modus. (standaard: Energiebesparing)"
+            "en": "Thermostat mode. \nZ-wave parameter 1 \ndefault: Energy saving",
+            "nl": "Thermostaat modus. \nZ-wave parameter 1 \nstandaard: Energiebesparing"
           },
           "values": [
             {
@@ -827,8 +1167,8 @@
             "nl": "Comfort modus temperatuur"
           },
           "hint": {
-            "en": "Temperature setpoint used when in Comfort (CO) mode. \nRange: 50 - 400 (5.0C - 40.0C) \nDefault: 205",
-            "nl": "Temperatuur setpoint gebruikt in Comfort (CO) mode. \nBereik: 50 - 400 (5.0C - 40.0C)\nStandaard: 205"
+            "en": "Temperature setpoint used when in Comfort (CO) mode. \nZ-wave parameter 10 \nRange: 50 - 400 (5.0 - 40.0°C) \nDefault: 205 (20.5) °C",
+            "nl": "Temperatuur setpoint gebruikt in Comfort (CO) mode. \nZ-wave parameter 10 \nBereik: 50 - 400 (5.0 - 40.0°C)\nStandaard: 205 (20.5) °C"
           }
         },
         {
@@ -848,8 +1188,8 @@
             "nl": "Energiebesparings modus temperatuur"
           },
           "hint": {
-            "en": "Temperature setpoint used when in Energy saving (ECO) mode. \nRange: 50 - 400 (5.0C - 40.0C) \nDefault: 180",
-            "nl": "Temperatuur setpoint gebruikt in Energiebesparings (ECO) mode. \nBereik: 50 - 400 (5.0C - 40.0C)\nStandaard: 180"
+            "en": "Temperature setpoint used when in Energy saving (ECO) mode. \nZ-wave parameter 11 \nRange: 50 - 400 (5.0C - 40.0 °C) \nDefault: 180 (18.0) °C",
+            "nl": "Temperatuur setpoint gebruikt in Energiebesparings (ECO) mode. \nZ-wave parameter 11 \nBereik: 50 - 400 (5.0C - 40.0 °C)\nStandaard: 180 (18.0) °C"
           }
         },
         {
@@ -869,9 +1209,248 @@
             "nl": "Koelen mode temperatuur"
           },
           "hint": {
-            "en": "Temperature setpoint used when in Cooling (COOL) mode (only if enabled). \nRange: 50 - 400 (5.0C - 40.0C) \nDefault: 210",
-            "nl": "Temperatuur setpoint gebruikt in Koelen (COOL) modus (indien beschikbaar). \nBereik: 50 - 400 (5.0C - 40.0C)\nStandaard: 210"
+            "en": "Temperature setpoint used when in Cooling (COOL) mode (only if enabled). \nZ-wave parameter 13 \nRange: 50 - 400 (5.0 - 40.0°C) \nDefault: 210 (21.0) °C",
+            "nl": "Temperatuur setpoint gebruikt in Koelen (COOL) modus (indien beschikbaar). \nZ-wave parameter 13 \nBereik: 50 - 400 (5.0 - 40.0°C)\nStandaard: 210 (21.0) °C"
           }
+        },
+        {
+          "type": "group",
+          "label": {
+            "en": "Sensor settings",
+            "nl": "Sensor instellingen"
+          },
+          "collapsed": true,
+          "children": [
+            {
+              "id": "Sensor_mode",
+              "zwave": {
+                "index": 2,
+                "size": 1
+              },
+              "values": [
+                {
+                  "id": "0",
+                  "label": {
+                    "en": "F-mode, floor sensor mode (default)",
+                    "nl": "F-modus, vloer sensor modus (standaard)"
+                  }
+                },
+                {
+                  "id": "1",
+                  "label": {
+                    "en": "A-mode, internal sensor mode",
+                    "nl": "A-modus, interne sensor modus"
+                  }
+                },
+                {
+                  "id": "2",
+                  "label": {
+                    "en": "A2-mode, external sensor mode",
+                    "nl": "A2-modus, externe sensor modus"
+                  }
+                },
+                {
+                  "id": "3",
+                  "label": {
+                    "en": "A2-mode, external room sensor mode",
+                    "nl": "A2-modus, externe ruimte sensor modus"
+                  }
+                },
+                {
+                  "id": "4",
+                  "label": {
+                    "en": "A2F-mode, external sensor with floor limitation",
+                    "nl": "A2F-modus, externe sensor met vloer begrenzing"
+                  }
+                },
+                {
+                  "id": "5",
+                  "label": {
+                    "en": "Power Regulator mode, constant heating power",
+                    "nl": "Power Regulator modus, constant verwarmingsvermogen"
+                  }
+                },
+                {
+                  "id": "6",
+                  "label": {
+                    "en": "FP-mode, floor mode with minimum power limitation",
+                    "nl": "FP-modus, vloer modus with minimaal vermogen limitation"
+                  }
+                }
+              ],
+              "type": "dropdown",
+              "label": {
+                "en": "Sensor mode",
+                "nl": "Sensor modus"
+              },
+              "value": "0",
+              "hint": {
+                "en": "Sensor mode. \nZ-wave parameter 2 \ndefault: Floor sensor",
+                "nl": "Sensor modus. \nZ-wave parameter 2 \n standaard: vloer sensor"
+              }
+            },
+            {
+              "id": "Floor_sensor_type",
+              "zwave": {
+                "index": 3,
+                "size": 1
+              },
+              "type": "dropdown",
+              "label": {
+                "en": "Floor sensor type",
+                "nl": "Vloer sensor type"
+              },
+              "value": "0",
+              "hint": {
+                "en": "Floor sensor type. \nZ-wave parameter 3 \ndefault: 10K NTC",
+                "nl": "Vloer sensor type. \nZ-wave parameter 3 \nstandaard: 10K NTC"
+              },
+              "values": [
+                {
+                  "id": "0",
+                  "label": {
+                    "en": "10K NTC (default)",
+                    "nl": "10K NTC (standaard)"
+                  }
+                },
+                {
+                  "id": "1",
+                  "label": {
+                    "en": "12K NTC"
+                  }
+                },
+                {
+                  "id": "2",
+                  "label": {
+                    "en": "15K NTC"
+                  }
+                },
+                {
+                  "id": "3",
+                  "label": {
+                    "en": "22K NTC"
+                  }
+                },
+                {
+                  "id": "4",
+                  "label": {
+                    "en": "33K NTC"
+                  }
+                },
+                {
+                  "id": "5",
+                  "label": {
+                    "en": "47K NTC"
+                  }
+                }
+              ]
+            },
+            {
+              "id": "Temperature_control_hysteresis_DIFF_I",
+              "type": "number",
+              "zwave": {
+                "index": 4,
+                "size": 1
+              },
+              "attr": {
+                "min": 3,
+                "max": 30
+              },
+              "value": 5,
+              "label": {
+                "en": "Temperature control hysteresis (DIFF I)",
+                "nl": "Temperatuur regel grenswaarde (DIFF I)"
+              },
+              "hint": {
+                "en": "Temperature control hysteresis (DIFF I).\nZ-wave parameter 4 \nRange: 3 - 30 (0.3 - 3.0 °C) \nDefault: 5 (0.5) °C",
+                "nl": "Temperatuur regel grenswaarde (DIFF I). \nZ-wave parameter 4 \nBereik: 3 - 30 (0.3 - 3.0 °C)\nStandaard: 5 (0.5) °C"
+              }
+            },
+            {
+              "id": "Floor_minimum_temperature_limit_FLo",
+              "zwave": {
+                "index": 5,
+                "size": 2
+              },
+              "label": {
+                "en": "Floor minimum temperature limit (FLo)",
+                "nl": "Ondergrens vloer temperatuur (FLo)"
+              },
+              "value": 50,
+              "type": "number",
+              "attr": {
+                "min": 50,
+                "max": 400
+              },
+              "hint": {
+                "en": "Temperature limit. \nZ-wave parameter 5 \nRange: 50 - 400 (5.0 - 40.0 °C)",
+                "nl": "Temperatuur limiet. \nZ-wave parameter 5 \nBereik: 50 - 400 (5.0 - 40.0 °C)"
+              }
+            },
+            {
+              "id": "Floor_maximum_temperature_limit_FHi",
+              "zwave": {
+                "index": 6,
+                "size": 2
+              },
+              "label": {
+                "en": "Floor maximum temperature limit (FHi)",
+                "nl": "Bovengrens vloer temperatuur (FHi)"
+              },
+              "value": 400,
+              "type": "number",
+              "attr": {
+                "min": 50,
+                "max": 400
+              },
+              "hint": {
+                "en": "Temperature limit. \nZ-wave parameter 5 \nRange: 50 - 400 (5.0 - 40.0 °C)",
+                "nl": "Temperatuur limiet. \nZ-wave parameter 5 \nBereik: 50 - 400 (5.0 - 40.0 °C)"
+              }
+            },
+            {
+              "id": "Air_minimum_temperature_limit_ALo",
+              "zwave": {
+                "index": 7,
+                "size": 2
+              },
+              "label": {
+                "en": "Air (A2) minimum temperature limit (ALo)",
+                "nl": "Ondergrens lucht (A2) temperatuur (ALo)"
+              },
+              "value": 50,
+              "type": "number",
+              "attr": {
+                "min": 50,
+                "max": 400
+              },
+              "hint": {
+                "en": "Temperature limit. \nZ-wave parameter 5 \nRange: 50 - 400 (5.0 - 40.0 °C)",
+                "nl": "Temperatuur limiet. \nZ-wave parameter 5 \nBereik: 50 - 400 (5.0 - 40.0 °C)"
+              }
+            },
+            {
+              "id": "Air_maximum_temperature_limit_AHi",
+              "zwave": {
+                "index": 8,
+                "size": 2
+              },
+              "label": {
+                "en": "Air (A2) maximum temperature limit (AHi)",
+                "nl": "Bovengrens lucht (A2) temperatuur (AHi)"
+              },
+              "value": 400,
+              "type": "number",
+              "attr": {
+                "min": 50,
+                "max": 400
+              },
+              "hint": {
+                "en": "Temperature limit. \nZ-wave parameter 5 \nRange: 50 - 400 (5.0 - 40.0 °C)",
+                "nl": "Temperatuur limiet. \nZ-wave parameter 5 \nBereik: 50 - 400 (5.0 - 40.0 °C)"
+              }
+            }
+          ]
         },
         {
           "id": "poll_interval_TEMPERATURE",
@@ -926,8 +1505,8 @@
                 "en": "Power Regulator mode - Low (PLo)"
               },
               "hint": {
-                "en": "*PLo* Setting lowest allowed power regulator mode.\nRange: 0-9 \nDefault: 0.",
-                "nl": "*PLo* Stel de laagst toegestane Power Regulator Mode in.\nBereik: 0-9 \nStandaard: 0."
+                "en": "*PLo* Setting lowest allowed power regulator mode.\nZ-wave parameter 9\nRange: 0-9 \nDefault: 0.",
+                "nl": "*PLo* Stel de laagst toegestane Power Regulator Mode in.\nZ-wave parameter 9\nBereik: 0-9 \nStandaard: 0."
               }
             },
             {
@@ -946,8 +1525,8 @@
                 "en": "Power Regulator level (P)- level"
               },
               "hint": {
-                "en": "*P* Setting power regulator mode level.\nRange: 0-10 \nDefault: 2.",
-                "nl": "*P* Stel de Power Regulator mode niveau in.\nBereik: 0-10 \nStandaard: 2."
+                "en": "*P* Setting power regulator mode level \nZ-wave parameter 12 \nRange: 0-10 \nDefault: 2.",
+                "nl": "*P* Stel de Power Regulator mode niveau in. \nZ-wave parameter 12 \nBereik: 0-10 \nStandaard: 2."
               }
             }
           ]
@@ -1174,6 +1753,9 @@
           "greyout": true
         },
         "measure_temperature": {
+          "title": "temperature"
+        },
+        "measure_temperature.internal": {
           "title": "internal temperature"
         },
         "measure_temperature.external": {
@@ -1300,7 +1882,7 @@
           },
           "value": "1",
           "hint": {
-            "en": "Thermostat mode. \nZ-wave parameter 1\ndefault: Energy saving",
+            "en": "Thermostat mode. \nZ-wave parameter 1 \ndefault: Energy saving",
             "nl": "Thermostaat modus. \nZ-wave parameter 1 \nstandaard: Energiebesparing"
           },
           "values": [
@@ -1314,8 +1896,8 @@
             {
               "id": "11",
               "label": {
-                "en": "Energy Saving (default)",
-                "nl": "Energiebesparing (standaard)"
+                "en": "Energy Saving",
+                "nl": "Energiebesparing"
               }
             },
             {
@@ -1351,8 +1933,8 @@
             "nl": "Comfort modus temperatuur"
           },
           "hint": {
-            "en": "Temperature setpoint used when in Comfort (CO) mode. \nZ-wave parameter 9\nRange: 50 - 400 (5.0C - 40.0C) \nDefault: 205",
-            "nl": "Temperatuur setpoint gebruikt in Comfort (CO) mode. \nZ-wave parameter 9\nBereik: 50 - 400 (5.0C - 40.0C)\nStandaard: 205"
+            "en": "Temperature setpoint used when in Comfort (CO) mode. \nZ-wave parameter 9 \nRange: 50 - 400 (5.0 - 40.0°C) \nDefault: 205 (20.5) °C",
+            "nl": "Temperatuur setpoint gebruikt in Comfort (CO) mode. \nZ-wave parameter 9 \nBereik: 50 - 400 (5.0 - 40.0°C)\nStandaard: 205 (20.5) °C"
           }
         },
         {
@@ -1372,8 +1954,8 @@
             "nl": "Energiebesparings modus temperatuur"
           },
           "hint": {
-            "en": "Temperature setpoint used when in Energy saving (ECO) mode. \nZ-wave parameter 10\nRange: 50 - 400 (5.0C - 40.0C) \nDefault: 180",
-            "nl": "Temperatuur setpoint gebruikt in Energiebesparings (ECO) mode. \nZ-wave parameter 10\nBereik: 50 - 400 (5.0C - 40.0C)\nStandaard: 180"
+            "en": "Temperature setpoint used when in Energy saving (ECO) mode. \nZ-wave parameter 10 \nRange: 50 - 400 (5.0C - 40.0 °C) \nDefault: 180 (18.0) °C",
+            "nl": "Temperatuur setpoint gebruikt in Energiebesparings (ECO) mode. \nZ-wave parameter 10 \nBereik: 50 - 400 (5.0C - 40.0 °C)\nStandaard: 180 (18.0) °C"
           }
         },
         {
@@ -1393,61 +1975,9 @@
             "nl": "Koelen mode temperatuur"
           },
           "hint": {
-            "en": "Temperature setpoint used when in Cooling (COOL) mode (only if enabled). \nZ-wave parameter 11\nRange: 50 - 400 (5.0C - 40.0C) \nDefault: 210",
-            "nl": "Temperatuur setpoint gebruikt in Koelen (COOL) modus (indien beschikbaar). \nZ-wave parameter 11\nBereik: 50 - 400 (5.0C - 40.0C)\nStandaard: 210"
+            "en": "Temperature setpoint used when in Cooling (COOL) mode (only if enabled). \nZ-wave parameter 11 \nRange: 50 - 400 (5.0 - 40.0°C) \nDefault: 210 (21.0) °C",
+            "nl": "Temperatuur setpoint gebruikt in Koelen (COOL) modus (indien beschikbaar). \nZ-wave parameter 11 \nBereik: 50 - 400 (5.0 - 40.0°C)\nStandaard: 210 (21.0) °C"
           }
-        },
-        {
-          "type": "group",
-          "label": {
-            "en": "Sensor calibration",
-            "nl": "Sensor calibratie"
-          },
-          "collapsed": true,
-          "children": [
-            {
-              "id": "Floor_sensor_calibration",
-              "zwave": {
-                "index": 12,
-                "size": 1
-              },
-              "type": "number",
-              "attr": {
-                "min": -40,
-                "max": 40
-              },
-              "value": 0,
-              "label": {
-                "en": "Floor sensor calibration (°C)",
-                "nl": "Vloer sensor calibratie (°C)"
-              },
-              "hint": {
-                "en": "Floor sensor temperature calibration. \nZ-wave parameter 12 \nRange: -40 - 40 (-4.0 - 4.0°C)\nDefault: 0",
-                "nl": "Vloer sensor temperatuur calibratie. \nZ-wave parameter 12 \nBereik: -40 - 40 (-4.0 - 4.0°C)\nStandaard: 0"
-              }
-            },
-            {
-              "id": "External_sensor_calibration",
-              "zwave": {
-                "index": 13,
-                "size": 1
-              },
-              "type": "number",
-              "attr": {
-                "min": -40,
-                "max": 40
-              },
-              "value": 0,
-              "label": {
-                "en": "External sensor calibration (°C)",
-                "nl": "Externe sensor calibratie (°C)"
-              },
-              "hint": {
-                "en": "External room sensor temperature calibration. \nZ-wave parameter 13 \nRange: -40 - 40 (-4.0 - 4.0°C)\nDefault: 0",
-                "nl": "Externe ruimte sensor temperatuur calibratie. \nZ-wave parameter 13 \nBereik: -40 - 40 (-4.0 - 4.0°C)\nStandaard: 0"
-              }
-            }
-          ]
         },
         {
           "type": "group",
@@ -1486,8 +2016,8 @@
                 }
               ],
               "hint": {
-                "en": "Temperature display. \nZ-wave parameter 14 \nDefault: 0",
-                "nl": "Temperature weergave. \nZ-wave parameter 14 \nStandaard: 0"
+                "en": "Temperature display. \nZ-wave parameter 14 \nDefault: Setpoint",
+                "nl": "Temperature weergave. \nZ-wave parameter 14 \nStandaard: Ingestelde waarde"
               }
             },
             {
@@ -1666,6 +2196,269 @@
               "hint": {
                 "en": "The meter report will be sent if there is a difference in meter value from the previous value reported (threshold). \nZ-wave parameter 22 \nRange: 0 - 127 (0 - 12.7 kWh)\nDefault: 10 (1.0 kWh)",
                 "nl": "De meter rapportage wordt verstuurd wanneer het verschil in meter waarde met de vorige gerapporteerde waarde de drempelwaarde overschrijd. \nZ-wave parameter 22 \nBereik: 0 - 127 (0 - 12.7 kWh)\nStandaard: 10 (1.0 kWh)"
+              }
+            }
+          ]
+        },
+        {
+          "type": "group",
+          "label": {
+            "en": "Sensor settings",
+            "nl": "Sensor instellingen"
+          },
+          "collapsed": true,
+          "children": [
+            {
+              "id": "Sensor_mode",
+              "zwave": {
+                "index": 2,
+                "size": 1
+              },
+              "values": [
+                {
+                  "id": "0",
+                  "label": {
+                    "en": "F-mode, floor sensor mode (default)",
+                    "nl": "F-modus, vloer sensor modus (standaard)"
+                  }
+                },
+                {
+                  "id": "3",
+                  "label": {
+                    "en": "A2-mode, external room sensor mode",
+                    "nl": "A2-modus, externe ruimte sensor modus"
+                  }
+                },
+                {
+                  "id": "4",
+                  "label": {
+                    "en": "A2F-mode, external sensor with floor limitation",
+                    "nl": "A2F-modus, externe sensor met vloer begrenzing"
+                  }
+                }
+              ],
+              "type": "dropdown",
+              "label": {
+                "en": "Sensor mode",
+                "nl": "Sensor modus"
+              },
+              "value": "0",
+              "hint": {
+                "en": "Sensor mode. \nZ-wave parameter 2 \ndefault: Floor sensor",
+                "nl": "Sensor modus. \nZ-wave parameter 2 \n standaard: vloer sensor"
+              }
+            },
+            {
+              "id": "Floor_sensor_type",
+              "zwave": {
+                "index": 3,
+                "size": 1
+              },
+              "type": "dropdown",
+              "label": {
+                "en": "Floor sensor type",
+                "nl": "Vloer sensor type"
+              },
+              "value": "0",
+              "hint": {
+                "en": "Floor sensor type. \nZ-wave parameter 3 \ndefault: 10K NTC",
+                "nl": "Vloer sensor type. \nZ-wave parameter 3 \nstandaard: 10K NTC"
+              },
+              "values": [
+                {
+                  "id": "0",
+                  "label": {
+                    "en": "10K NTC (default)",
+                    "nl": "10K NTC (standaard)"
+                  }
+                },
+                {
+                  "id": "1",
+                  "label": {
+                    "en": "12K NTC"
+                  }
+                },
+                {
+                  "id": "2",
+                  "label": {
+                    "en": "15K NTC"
+                  }
+                },
+                {
+                  "id": "3",
+                  "label": {
+                    "en": "22K NTC"
+                  }
+                },
+                {
+                  "id": "4",
+                  "label": {
+                    "en": "33K NTC"
+                  }
+                },
+                {
+                  "id": "5",
+                  "label": {
+                    "en": "47K NTC"
+                  }
+                }
+              ]
+            },
+            {
+              "id": "Temperature_control_hysteresis_DIFF_I",
+              "type": "number",
+              "zwave": {
+                "index": 4,
+                "size": 1
+              },
+              "attr": {
+                "min": 3,
+                "max": 30
+              },
+              "value": 5,
+              "label": {
+                "en": "Temperature control hysteresis (DIFF I)",
+                "nl": "Temperatuur regel grenswaarde (DIFF I)"
+              },
+              "hint": {
+                "en": "Temperature control hysteresis (DIFF I).\nZ-wave parameter 4 \nRange: 3 - 30 (0.3 - 3.0 °C) \nDefault: 5 (0.5) °C",
+                "nl": "Temperatuur regel grenswaarde (DIFF I). \nZ-wave parameter 4 \nBereik: 3 - 30 (0.3 - 3.0 °C)\nStandaard: 5 (0.5) °C"
+              }
+            },
+            {
+              "id": "Floor_minimum_temperature_limit_FLo",
+              "zwave": {
+                "index": 5,
+                "size": 2
+              },
+              "label": {
+                "en": "Floor minimum temperature limit (FLo)",
+                "nl": "Ondergrens vloer temperatuur (FLo)"
+              },
+              "value": 50,
+              "type": "number",
+              "attr": {
+                "min": 50,
+                "max": 400
+              },
+              "hint": {
+                "en": "Temperature limit. \nZ-wave parameter 5 \nRange: 50 - 400 (5.0 - 40.0 °C)",
+                "nl": "Temperatuur limiet. \nZ-wave parameter 5 \nBereik: 50 - 400 (5.0 - 40.0 °C)"
+              }
+            },
+            {
+              "id": "Floor_maximum_temperature_limit_FHi",
+              "zwave": {
+                "index": 6,
+                "size": 2
+              },
+              "label": {
+                "en": "Floor maximum temperature limit (FHi)",
+                "nl": "Bovengrens vloer temperatuur (FHi)"
+              },
+              "value": 400,
+              "type": "number",
+              "attr": {
+                "min": 50,
+                "max": 400
+              },
+              "hint": {
+                "en": "Temperature limit. \nZ-wave parameter 5 \nRange: 50 - 400 (5.0 - 40.0 °C)",
+                "nl": "Temperatuur limiet. \nZ-wave parameter 5 \nBereik: 50 - 400 (5.0 - 40.0 °C)"
+              }
+            },
+            {
+              "id": "Air_minimum_temperature_limit_ALo",
+              "zwave": {
+                "index": 7,
+                "size": 2
+              },
+              "label": {
+                "en": "Air (A2) minimum temperature limit (ALo)",
+                "nl": "Ondergrens lucht (A2) temperatuur (ALo)"
+              },
+              "value": 50,
+              "type": "number",
+              "attr": {
+                "min": 50,
+                "max": 400
+              },
+              "hint": {
+                "en": "Temperature limit. \nZ-wave parameter 5 \nRange: 50 - 400 (5.0 - 40.0 °C)",
+                "nl": "Temperatuur limiet. \nZ-wave parameter 5 \nBereik: 50 - 400 (5.0 - 40.0 °C)"
+              }
+            },
+            {
+              "id": "Air_maximum_temperature_limit_AHi",
+              "zwave": {
+                "index": 8,
+                "size": 2
+              },
+              "label": {
+                "en": "Air (A2) maximum temperature limit (AHi)",
+                "nl": "Bovengrens lucht (A2) temperatuur (AHi)"
+              },
+              "value": 400,
+              "type": "number",
+              "attr": {
+                "min": 50,
+                "max": 400
+              },
+              "hint": {
+                "en": "Temperature limit. \nZ-wave parameter 5 \nRange: 50 - 400 (5.0 - 40.0 °C)",
+                "nl": "Temperatuur limiet. \nZ-wave parameter 5 \nBereik: 50 - 400 (5.0 - 40.0 °C)"
+              }
+            }
+          ]
+        },
+        {
+          "type": "group",
+          "label": {
+            "en": "Sensor calibration",
+            "nl": "Sensor calibratie"
+          },
+          "collapsed": true,
+          "children": [
+            {
+              "id": "Floor_sensor_calibration",
+              "zwave": {
+                "index": 12,
+                "size": 1
+              },
+              "type": "number",
+              "attr": {
+                "min": -40,
+                "max": 40
+              },
+              "value": 0,
+              "label": {
+                "en": "Floor sensor calibration (°C)",
+                "nl": "Vloer sensor calibratie (°C)"
+              },
+              "hint": {
+                "en": "Floor sensor temperature calibration. \nZ-wave parameter 12 \nRange: -40 - 40 (-4.0 - 4.0°C)\nDefault: 0",
+                "nl": "Vloer sensor temperatuur calibratie. \nZ-wave parameter 12 \nBereik: -40 - 40 (-4.0 - 4.0°C)\nStandaard: 0"
+              }
+            },
+            {
+              "id": "External_sensor_calibration",
+              "zwave": {
+                "index": 13,
+                "size": 1
+              },
+              "type": "number",
+              "attr": {
+                "min": -40,
+                "max": 40
+              },
+              "value": 0,
+              "label": {
+                "en": "External sensor calibration (°C)",
+                "nl": "Externe sensor calibratie (°C)"
+              },
+              "hint": {
+                "en": "External room sensor temperature calibration. \nZ-wave parameter 13 \nRange: -40 - 40 (-4.0 - 4.0°C)\nDefault: 0",
+                "nl": "Externe ruimte sensor temperatuur calibratie. \nZ-wave parameter 13 \nBereik: -40 - 40 (-4.0 - 4.0°C)\nStandaard: 0"
               }
             }
           ]

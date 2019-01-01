@@ -32,6 +32,30 @@ The following action cards are supported:
 
 * Set the temperature (of current thermostat mode)   
 * Set the thermostat mode   
+* Set the setpoint of a thermostat mode
+
+### Heatit Z-TRM2(fx) (TF 033 & TF 056)
+<a href="https://github.com/TedTolboom/no.ThermoFloor">
+  <img src="https://rawgit.com/TedTolboom/no.ThermoFloor/master/drivers/Z-TRM2fx/assets/icon.svg" width="25%" height="25%">
+</a>  
+
+The Heatit Z-TRM2 Z-Wave thermostat is an electronic thermostat for flush mounting in a standard wall box for regulating electric floor heating. The thermostat has a built-in Z-Wave chip that can be connected to Home Automation systems like Homey.  
+
+The following triggers are supported:
+
+* Thermostat mode has changed   
+* Thermostat mode has changed to   
+* The temperature has changed   
+* The target temperature has changed   
+* Thermostat turned on / off  
+
+The following conditions are supported:
+* Thermostat is on / off   
+
+The following action cards are supported:
+
+* Set the temperature (of current thermostat mode)   
+* Set the thermostat mode   
 * Set the setpoint of a thermostat mode      
 
 ### Heatit Z-Push button-2  
@@ -91,6 +115,13 @@ If you like the app, consider a donation to support development
 [![Paypal Donate](https://www.paypalobjects.com/en_US/NL/i/btn/btn_donateCC_LG.gif)](https://www.paypal.me/TedTolboom)
 
 ## Changelog:
+v2.1.0 (BETA)
+* Add support for the Z-wave thermostat (FW 1.92)    
+* Add support for the Z-TRM2(fx) thermostat
+* Add all remaining settings for the thermostats
+* Add Power Regulator Mode action card for the Z-wave thermostat (use at own risk)       
+* *Note*: due to an issue within the Homey Z-wave core, the measured temperatures are not reported for the Z-wave thermostat (FW 1.92) and the Z-TRM2(fx) thermostats. When this will be resolved, it is likely that the thermostat will need to be re-included      
+
 v2.0.3
 * Fix battery icon not visible on mobile interface for 1.5.13 (re-inclusion required to fix)    
 * Remove not supported "Key Pressed 2 times" option from "A scene has been activated trigger card"    
