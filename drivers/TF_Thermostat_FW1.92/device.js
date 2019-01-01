@@ -36,31 +36,8 @@ class TF_ThermostatFW192Device extends TF_ThermostatDevice {
 			multiChannelNodeId: 4,
 		});
 
-		this._brightnessAction = new Homey.FlowCardAction('TF_set_PowerRegulatorMode')
-			.register()
-			.registerRunListener(this._setPowerRegulatorMode.bind(this));
-
 	}
 
-	async _setPowerRegulatorMode(args, state) {
-		if (!args.hasOwnProperty('set_power_regulator_mode')) return Promise.reject('set_power_regulator_mode_property_missing');
-		if (typeof args.set_power_regulator_mode !== 'number') return Promise.reject('set_power_regulator_mode_is_not_a_number');
-		if (args.set_forced_brightness_level > 10) return Promise.reject('set_power_regulator_mode_out_of_range');
-
-		try {
-			let result = await args.device.configurationSet({
-				id: 'P_setting'
-			}, args.set_power_regulator_mode);
-			return args.device.setSettings({
-				'P_setting': args.set_power_regulator_mode
-			});
-		}
-		catch (error) {
-			args.device.log(error.message);
-			return Promise.reject(error.message);
-		}
-		return Promise.reject('unknown_error');
-	}
 }
 
 module.exports = TF_ThermostatFW192Device;

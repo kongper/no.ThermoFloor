@@ -12,6 +12,7 @@
 	"capabilities": [
     "measure_temperature",
 		"measure_temperature.floor",
+		"measure_temperature.internal",
 		"measure_temperature.external",
     "thermofloor_onoff",
     "thermofloor_mode",
@@ -25,6 +26,18 @@
 		},
 		"thermofloor_onoff": {
 			"greyout": true
+		},
+		"measure_temperature": {
+			"title": "temperature"
+		},
+		"measure_temperature.internal": {
+			"title": "internal temperature"
+		},
+		"measure_temperature.external": {
+			"title": "external temperature"
+		},
+		"measure_temperature.floor": {
+			"title": "floor temperature"
 		}
 	},
 	"mobile": {
@@ -38,6 +51,7 @@
 				"capabilities": [
           "measure_temperature",
 					"measure_temperature.floor",
+					"measure_temperature.internal",
 					"measure_temperature.external",
           "thermofloor_onoff"
         ],

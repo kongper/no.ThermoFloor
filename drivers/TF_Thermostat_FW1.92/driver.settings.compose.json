@@ -1,114 +1,162 @@
 [
 	{
-		"id": "operation_mode",
-		"zwave": {
-			"index": 1,
-			"size": 2
-		},
-		"type": "dropdown",
-		"label": {
-			"en": "Thermostat mode",
-			"nl": "Thermostaat modus"
-		},
-		"value": "1",
-		"hint": {
-			"en": "Thermostat mode. (default: Energy saving",
-			"nl": "Thermostaat modus. (standaard: Energiebesparing)"
-		},
-		"values": [
-			{
-				"id": "1",
-				"label": {
-					"en": "Comfort",
-					"nl": "Comfort"
-				}
-      },
-			{
-				"id": "11",
-				"label": {
-					"en": "Energy Saving",
-					"nl": "Energiebesparing"
-				}
-      },
-			{
-				"id": "0",
-				"label": {
-					"en": "Off",
-					"nl": "Uitgeschakeld"
-				}
-      },
-			{
-				"id": "2",
-				"label": {
-					"en": "Cool",
-					"nl": "Koelen"
-				}
-      }
-    ]
-  },
+		"$extends": "operation_mode",
+		"$id": "operation_mode"
+	},
 	{
+		"$extends": "CO_setpoint",
 		"id": "CO_setpoint",
 		"zwave": {
 			"index": 10,
 			"size": 2
-		},
-		"type": "number",
-		"attr": {
-			"min": 50,
-			"max": 400
-		},
-		"value": 205,
-		"label": {
-			"en": "Comfort mode temperature",
-			"nl": "Comfort modus temperatuur"
-		},
-		"hint": {
-			"en": "Temperature setpoint used when in Comfort (CO) mode. \nRange: 50 - 400 (5.0C - 40.0C) \nDefault: 205",
-			"nl": "Temperatuur setpoint gebruikt in Comfort (CO) mode. \nBereik: 50 - 400 (5.0C - 40.0C)\nStandaard: 205"
 		}
   },
 	{
+		"$extends": "ECO_setpoint",
 		"id": "ECO_setpoint",
 		"zwave": {
 			"index": 11,
 			"size": 2
-		},
-		"type": "number",
-		"attr": {
-			"min": 50,
-			"max": 400
-		},
-		"value": 180,
-		"label": {
-			"en": "Energy saving mode temperature",
-			"nl": "Energiebesparings modus temperatuur"
-		},
-		"hint": {
-			"en": "Temperature setpoint used when in Energy saving (ECO) mode. \nRange: 50 - 400 (5.0C - 40.0C) \nDefault: 180",
-			"nl": "Temperatuur setpoint gebruikt in Energiebesparings (ECO) mode. \nBereik: 50 - 400 (5.0C - 40.0C)\nStandaard: 180"
 		}
   },
 	{
+		"$extends": "COOL_setpoint",
 		"id": "COOL_setpoint",
 		"zwave": {
 			"index": 13,
 			"size": 2
-		},
-		"type": "number",
-		"attr": {
-			"min": 50,
-			"max": 400
-		},
-		"value": 210,
-		"label": {
-			"en": "Cooling mode temperature",
-			"nl": "Koelen mode temperatuur"
-		},
-		"hint": {
-			"en": "Temperature setpoint used when in Cooling (COOL) mode (only if enabled). \nRange: 50 - 400 (5.0C - 40.0C) \nDefault: 210",
-			"nl": "Temperatuur setpoint gebruikt in Koelen (COOL) modus (indien beschikbaar). \nBereik: 50 - 400 (5.0C - 40.0C)\nStandaard: 210"
 		}
   },
+	{
+		"type": "group",
+		"label": {
+			"en": "Sensor settings",
+			"nl": "Sensor instellingen"
+		},
+		"collapsed": true,
+		"children": [
+			{
+				"$extends": "Sensor_mode",
+				"id": "Sensor_mode",
+				"zwave": {
+					"index": 2,
+					"size": 1
+				},
+				"values": [
+					{
+						"id": "0",
+						"label": {
+							"en": "F-mode, floor sensor mode (default)",
+							"nl": "F-modus, vloer sensor modus (standaard)"
+						}
+					},
+					{
+						"id": "1",
+						"label": {
+							"en": "A-mode, internal sensor mode",
+							"nl": "A-modus, interne sensor modus"
+						}
+					},
+					{
+						"id": "2",
+						"label": {
+							"en": "A2-mode, external sensor mode",
+							"nl": "A2-modus, externe sensor modus"
+						}
+					},
+					{
+						"id": "3",
+						"label": {
+							"en": "A2-mode, external room sensor mode",
+							"nl": "A2-modus, externe ruimte sensor modus"
+						}
+					},
+					{
+						"id": "4",
+						"label": {
+							"en": "A2F-mode, external sensor with floor limitation",
+							"nl": "A2F-modus, externe sensor met vloer begrenzing"
+						}
+					},
+					{
+						"id": "5",
+						"label": {
+							"en": "Power Regulator mode, constant heating power",
+							"nl": "Power Regulator modus, constant verwarmingsvermogen"
+						}
+					},
+					{
+						"id": "6",
+						"label": {
+							"en": "FP-mode, floor mode with minimum power limitation",
+							"nl": "FP-modus, vloer modus with minimaal vermogen limitation"
+						}
+					}
+				]
+			},
+			{
+				"$extends": "Floor_sensor_type",
+				"id": "Floor_sensor_type"
+			},
+			{
+				"$extends": "Temperature_control_hysteresis_DIFF_I",
+				"id": "Temperature_control_hysteresis_DIFF_I"
+			},
+			{
+				"$extends": "Temperature_limit",
+				"id": "Floor_minimum_temperature_limit_FLo",
+				"zwave": {
+					"index": 5,
+					"size": 2
+				},
+				"label": {
+					"en": "Floor minimum temperature limit (FLo)",
+					"nl": "Ondergrens vloer temperatuur (FLo)"
+				},
+				"value": 50
+			},
+			{
+				"$extends": "Temperature_limit",
+				"id": "Floor_maximum_temperature_limit_FHi",
+				"zwave": {
+					"index": 6,
+					"size": 2
+				},
+				"label": {
+					"en": "Floor maximum temperature limit (FHi)",
+					"nl": "Bovengrens vloer temperatuur (FHi)"
+				},
+				"value": 400
+			},
+			{
+				"$extends": "Temperature_limit",
+				"id": "Air_minimum_temperature_limit_ALo",
+				"zwave": {
+					"index": 7,
+					"size": 2
+				},
+				"label": {
+					"en": "Air (A2) minimum temperature limit (ALo)",
+					"nl": "Ondergrens lucht (A2) temperatuur (ALo)"
+				},
+				"value": 50
+			},
+			{
+				"$extends": "Temperature_limit",
+				"id": "Air_maximum_temperature_limit_AHi",
+				"zwave": {
+					"index": 8,
+					"size": 2
+				},
+				"label": {
+					"en": "Air (A2) maximum temperature limit (AHi)",
+					"nl": "Bovengrens lucht (A2) temperatuur (AHi)"
+				},
+				"value": 400
+			}
+
+		]
+	},
 	{
 		"id": "poll_interval_TEMPERATURE",
 		"type": "number",
@@ -125,7 +173,7 @@
 			"en": "The amount of seconds between asking the device for a status (meausured temperature) update \nDefault: 300 [s].",
 			"nl": "Aantal seconden tussen het opvragen van een status (gemeten temperatuur) update aan het apparaat \nStandaard: 300 [s]."
 		}
-	},
+  },
 	{
 		"type": "group",
 		"label": {
@@ -135,55 +183,23 @@
 		"collapsed": true,
 		"children": [
 			{
-				"id": "PRM_notification",
-				"value": "Read the manual before changing these settings",
-				"type": "label",
-				"label": {
-					"en": "Note:"
-				},
-				"hint": {
-					"en": "Please read and understand the manual / operation of the Power Regulator Mode before changing below Power Regulator Mode settings.",
-					"nl": "Lees en begrijp de handleiding / principe van de Power Regulatro Mode voordat onderstaande settings aangepast worden."
-				}
+				"$extends": "PRM_notification",
+				"id": "PRM_notification"
 		},
 			{
+				"$extends": "PLo_setting",
 				"id": "PLo_setting",
 				"zwave": {
 					"index": 9,
 					"size": 1
-				},
-				"type": "number",
-				"attr": {
-					"min": 0,
-					"max": 9
-				},
-				"value": 300,
-				"label": {
-					"en": "Power Regulator mode - Low (PLo)"
-				},
-				"hint": {
-					"en": "*PLo* Setting lowest allowed power regulator mode.\nRange: 0-9 \nDefault: 0.",
-					"nl": "*PLo* Stel de laagst toegestane Power Regulator Mode in.\nBereik: 0-9 \nStandaard: 0."
 				}
-  },
+  	},
 			{
+				"$extends": "P_setting",
 				"id": "P_setting",
 				"zwave": {
 					"index": 12,
 					"size": 1
-				},
-				"type": "number",
-				"attr": {
-					"min": 0,
-					"max": 9
-				},
-				"value": 2,
-				"label": {
-					"en": "Power Regulator level (P)- level"
-				},
-				"hint": {
-					"en": "*P* Setting power regulator mode level.\nRange: 0-10 \nDefault: 2.",
-					"nl": "*P* Stel de Power Regulator mode niveau in.\nBereik: 0-10 \nStandaard: 2."
 				}
   }]
 	}
