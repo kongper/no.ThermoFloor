@@ -13,7 +13,7 @@ class TF_ThermostatFW192Device extends TF_ThermostatDevice {
 		this.printNode();
 
 		// registerCapability for measure_temperature for FW <=18.
-		this.registerCapability('measure_temperature', 'SENSOR_MULTILEVEL', {
+		this.registerCapability('measure_temperature,internal', 'SENSOR_MULTILEVEL', {
 			getOpts: {
 				getOnStart: true,
 			},
