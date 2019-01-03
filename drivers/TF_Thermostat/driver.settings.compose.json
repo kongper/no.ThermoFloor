@@ -1,7 +1,7 @@
 [
 	{
 		"$extends": "operation_mode",
-		"$id": "operation_mode"
+		"id": "operation_mode"
 	},
 	{
 		"$extends": "CO_setpoint",
