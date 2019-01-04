@@ -943,7 +943,7 @@
                 "min": 0,
                 "max": 9
               },
-              "value": 300,
+              "value": 0,
               "label": {
                 "en": "Power Regulator mode - Low (PLo)"
               },
@@ -1512,7 +1512,7 @@
                 "min": 0,
                 "max": 9
               },
-              "value": 300,
+              "value": 0,
               "label": {
                 "en": "Power Regulator mode - Low (PLo)"
               },
