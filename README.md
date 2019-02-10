@@ -36,7 +36,7 @@ The following action cards are supported:
 
 ### Heatit Z-TRM2(fx) (TF 033 & TF 056)
 <a href="https://github.com/TedTolboom/no.ThermoFloor">
-  <img src="https://rawgit.com/TedTolboom/no.ThermoFloor/master/drivers/Z-TRM2fx/assets/icon.svg" width="25%" height="25%">
+  <img src="https://rawgit.com/TedTolboom/no.ThermoFloor/beta/drivers/Z-TRM2fx/assets/icon.svg" width="25%" height="25%">
 </a>  
 
 The Heatit Z-TRM2 Z-Wave thermostat is an electronic thermostat for flush mounting in a standard wall box for regulating electric floor heating. The thermostat has a built-in Z-Wave chip that can be connected to Home Automation systems like Homey.  
@@ -89,7 +89,7 @@ In addition, by adding the NodeID in the corresponding association groups, the Z
 
 ### Heatit Z-Water
 <a href="https://github.com/TedTolboom/no.ThermoFloor">
-  <img src="https://rawgit.com/TedTolboom/no.ThermoFloor/master/drivers/Z-Water/assets/icon.svg" width="25%" height="25%">
+  <img src="https://rawgit.com/TedTolboom/no.ThermoFloor/beta/drivers/Z-Water/assets/icon.svg" width="25%" height="25%">
 </a>
 
 Heatit Z-Water is a DIN-rail regulator for controlling hydronic heating.
