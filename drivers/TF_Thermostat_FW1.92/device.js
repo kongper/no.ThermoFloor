@@ -7,10 +7,10 @@ class TF_ThermostatFW192Device extends TF_ThermostatDevice {
 		await super.onMeshInit();
 
 		// enable debugging
-		this.enableDebug();
+		// this.enableDebug();
 
 		// print the node's info to the console
-		this.printNode();
+		// this.printNode();
 
 		this.registerCapability('thermofloor_onoff', 'BASIC', {
 			report: 'BASIC_REPORT',
