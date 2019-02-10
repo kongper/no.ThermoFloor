@@ -5,7 +5,7 @@
     "en": "Thermo-Floor / Heatit"
   },
   "brandColor": "#d52229",
-  "version": "2.1.0",
+  "version": "2.1.1",
   "compatibility": ">=1.5.0",
   "homeyCommunityTopicId": 166,
   "author": {
@@ -2478,6 +2478,696 @@
                 "en": "External room sensor temperature calibration. \nZ-wave parameter 13 \nRange: -40 - 40 (-4.0 - 4.0°C)\nDefault: 0",
                 "nl": "Externe ruimte sensor temperatuur calibratie. \nZ-wave parameter 13 \nBereik: -40 - 40 (-4.0 - 4.0°C)\nStandaard: 0"
               }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "Z-Water",
+      "name": {
+        "en": "Heatit Z-Water regulator"
+      },
+      "icon": "/drivers/Z-Water/assets/icon-1.svg",
+      "images": {
+        "large": "/drivers/Z-Water/assets/images/large.png",
+        "small": "/drivers/Z-Water/assets/images/small.png"
+      },
+      "class": "socket",
+      "capabilities": [
+        "onoff",
+        "measure_temperature.input1",
+        "measure_temperature.input2",
+        "measure_temperature.input3",
+        "measure_temperature.input4"
+      ],
+      "capabilitiesOptions": {
+        "onoff": {
+          "title": {
+            "en": "Relay 1"
+          }
+        },
+        "measure_temperature.input1": {
+          "title": {
+            "en": "Sensor 1"
+          }
+        },
+        "measure_temperature.input2": {
+          "title": {
+            "en": "Sensor 2"
+          }
+        },
+        "measure_temperature.input3": {
+          "title": {
+            "en": "Sensor 3"
+          }
+        },
+        "measure_temperature.input4": {
+          "title": {
+            "en": "Sensor 4"
+          }
+        }
+      },
+      "mobile": {
+        "components": [
+          {
+            "id": "icon",
+            "capabilities": [
+              "onoff"
+            ]
+          },
+          {
+            "id": "toggle",
+            "capabilities": [
+              "onoff"
+            ]
+          },
+          {
+            "id": "sensor",
+            "capabilities": [
+              "measure_temperature.input1",
+              "measure_temperature.input2",
+              "measure_temperature.input3",
+              "measure_temperature.input4"
+            ]
+          }
+        ]
+      },
+      "zwave": {
+        "manufacturerId": 411,
+        "productTypeId": 3,
+        "productId": 522,
+        "productDocumentation": "",
+        "pid": 3065,
+        "imageRemotePath": "",
+        "learnmode": {
+          "image": "/drivers/Z-Water/assets/learnmode.svg",
+          "instruction": {
+            "en": "To include the Z-water regulater to Homey: \n1. Click the small button through the little hole, marked with the text “INCLUSION”, in front of the Heatit Z-Water regulator. \n2. The Adding Mode is indicated by Heatit Z-Water status LED is blinking until a timeout occurs after 10 seconds or if the module has been added to the Z-Wave network."
+          }
+        },
+        "unlearnmode": {
+          "image": "/drivers/Z-Water/assets/learnmode.svg",
+          "instruction": {
+            "en": "To remove the Z-water regulater to Homey: \n1. Click the small button through the little hole, marked with the text “INCLUSION”, in front of the Heatit Z-Water regulator. \n2. The Removing Mode is indicated by Heatit Z-Water status LED is blinking until a timeout occurs after 10 seconds or if the module has been removed from the Z-Wave network."
+          }
+        },
+        "associationGroups": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12,
+          13,
+          14
+        ],
+        "associationGroupsOptions": {
+          "1": {
+            "hint": {
+              "en": "Lifeline. Sends Device Reset notifications and Basic Report On / Off when relay output 1 is activated."
+            }
+          },
+          "2": {
+            "hint": {
+              "en": "Sends Basic Report On / Off when relay output 2 is activated."
+            }
+          },
+          "3": {
+            "hint": {
+              "en": "Sends Basic Report On / Off when relay output 3 is activated."
+            }
+          },
+          "4": {
+            "hint": {
+              "en": "Sends Basic Report On / Off when relay output 4 is activated."
+            }
+          },
+          "5": {
+            "hint": {
+              "en": "Sends Basic Report On / Off when relay output 5 is activated."
+            }
+          },
+          "6": {
+            "hint": {
+              "en": "Sends Basic Report On / Off when relay output 6 is activated."
+            }
+          },
+          "7": {
+            "hint": {
+              "en": "Sends Basic Report On / Off when relay output 7 is activated."
+            }
+          },
+          "8": {
+            "hint": {
+              "en": "Sends Basic Report On / Off when relay output 8 is activated."
+            }
+          },
+          "9": {
+            "hint": {
+              "en": "Sends Basic Report On / Off when relay output 9 is activated."
+            }
+          },
+          "10": {
+            "hint": {
+              "en": "Sends Basic Report On / Off when relay output 10 is activated."
+            }
+          },
+          "11": {
+            "hint": {
+              "en": "Sends Multilevel Sensor Reports for input 1."
+            }
+          },
+          "12": {
+            "hint": {
+              "en": "Sends Multilevel Sensor Reports for input 2."
+            }
+          },
+          "13": {
+            "hint": {
+              "en": "Sends Multilevel Sensor Reports for input 3."
+            }
+          },
+          "14": {
+            "hint": {
+              "en": "Sends Multilevel Sensor Reports for input 4."
+            }
+          }
+        },
+        "multiChannelNodes": {
+          "2": {
+            "class": "socket",
+            "capabilities": [
+              "onoff"
+            ],
+            "icon": "/drivers/Z-Water/assets/icon-2.svg",
+            "name": {
+              "en": "Relay 2"
+            }
+          },
+          "3": {
+            "class": "socket",
+            "capabilities": [
+              "onoff"
+            ],
+            "icon": "/drivers/Z-Water/assets/icon-3.svg",
+            "name": {
+              "en": "Relay 3"
+            }
+          },
+          "4": {
+            "class": "socket",
+            "capabilities": [
+              "onoff"
+            ],
+            "icon": "/drivers/Z-Water/assets/icon-4.svg",
+            "name": {
+              "en": "Relay 4"
+            }
+          },
+          "5": {
+            "class": "socket",
+            "capabilities": [
+              "onoff"
+            ],
+            "icon": "/drivers/Z-Water/assets/icon-5.svg",
+            "name": {
+              "en": "Relay 5"
+            }
+          },
+          "6": {
+            "class": "socket",
+            "capabilities": [
+              "onoff"
+            ],
+            "icon": "/drivers/Z-Water/assets/icon-6.svg",
+            "name": {
+              "en": "Relay 6"
+            }
+          },
+          "7": {
+            "class": "socket",
+            "capabilities": [
+              "onoff"
+            ],
+            "icon": "/drivers/Z-Water/assets/icon-7.svg",
+            "name": {
+              "en": "Relay 7"
+            }
+          },
+          "8": {
+            "class": "socket",
+            "capabilities": [
+              "onoff"
+            ],
+            "icon": "/drivers/Z-Water/assets/icon-8.svg",
+            "name": {
+              "en": "Relay 8"
+            }
+          },
+          "9": {
+            "class": "socket",
+            "capabilities": [
+              "onoff"
+            ],
+            "icon": "/drivers/Z-Water/assets/icon-9.svg",
+            "name": {
+              "en": "Relay 9"
+            }
+          },
+          "10": {
+            "class": "socket",
+            "capabilities": [
+              "onoff"
+            ],
+            "icon": "/drivers/Z-Water/assets/icon-10.svg",
+            "name": {
+              "en": "Relay 10"
+            }
+          }
+        }
+      },
+      "settings": [
+        {
+          "id": "LED_status",
+          "zwave": {
+            "index": 1,
+            "size": 1
+          },
+          "type": "dropdown",
+          "label": {
+            "en": "Status LED"
+          },
+          "value": "1",
+          "hint": {
+            "en": "Configuration of the status LED. \nZ-wave parameter 1 \ndefault: LED turned on",
+            "nl": "Instelling van de status LED. \nZ-wave parameter 1 \nstandaard: LED ingeschakeld"
+          },
+          "values": [
+            {
+              "id": "0",
+              "label": {
+                "en": "LED turned off.",
+                "nl": "LED uitgeschakeld"
+              }
+            },
+            {
+              "id": "1",
+              "label": {
+                "en": "LED turned on (default)",
+                "nl": "LED ingeschakeld (standaard)"
+              }
+            },
+            {
+              "id": "2",
+              "label": {
+                "en": "LED flashing at 1 second intervals (1 Hz).",
+                "nl": "LED knippert in 1 seconde interval (1 Hz)."
+              }
+            },
+            {
+              "id": "3",
+              "label": {
+                "en": "LED flashing at 1/2 second intervals (1⁄2 Hz).",
+                "nl": "LED knippert in 1/2 seconde interval (1⁄2 Hz)."
+              }
+            }
+          ]
+        },
+        {
+          "id": "LED_brightness",
+          "zwave": {
+            "index": 2,
+            "size": 1
+          },
+          "type": "number",
+          "attr": {
+            "min": 0,
+            "max": 100
+          },
+          "value": 50,
+          "label": {
+            "en": "LED brightness (%)",
+            "nl": "Helderheid LED (%)"
+          },
+          "hint": {
+            "en": "LED brightness. \nZ-wave parameter 2 \nRange: 0 - 100 (%)\nDefault: 50 (%)",
+            "nl": "Helderheid LED. \nZ-wave parameter 2 \nBereik: 0 - 100 (%)\nStandaard: 50 (%)"
+          }
+        },
+        {
+          "type": "group",
+          "label": {
+            "en": "Input sensor options",
+            "nl": "Sensor instellingen"
+          },
+          "collapsed": true,
+          "children": [
+            {
+              "type": "group",
+              "label": {
+                "en": "Input 1",
+                "nl": "Ingang 1"
+              },
+              "collapsed": true,
+              "children": [
+                {
+                  "id": "Sensor_type_input1",
+                  "zwave": {
+                    "index": 3,
+                    "size": 1
+                  },
+                  "type": "dropdown",
+                  "label": {
+                    "en": "Sensor type",
+                    "nl": "Sensor type"
+                  },
+                  "value": "0",
+                  "hint": {
+                    "en": "Sensor type. \nZ-wave parameter 3 \ndefault: No sensor connected",
+                    "nl": "Sensor type. \nZ-wave parameter 3 \nstandaard: Geen sensor aangesloten"
+                  },
+                  "values": [
+                    {
+                      "id": "0",
+                      "label": {
+                        "en": "No sensor connected (default)",
+                        "nl": "Geen sensor aangesloten (standaard)"
+                      }
+                    },
+                    {
+                      "id": "1",
+                      "label": {
+                        "en": "10K NTC connected",
+                        "nl": "10K NTC aangesloten"
+                      }
+                    }
+                  ]
+                },
+                {
+                  "id": "Sensor_calibration_input1",
+                  "zwave": {
+                    "index": 7,
+                    "size": 1
+                  },
+                  "type": "number",
+                  "attr": {
+                    "min": -40,
+                    "max": 40
+                  },
+                  "value": 0,
+                  "label": {
+                    "en": "Sensor calibration (°C)",
+                    "nl": "Sensor calibratie (°C)"
+                  },
+                  "hint": {
+                    "en": "Sensor temperature calibration. \nZ-wave parameter 7 \nRange: -40 - 40 (-4.0 - 4.0°C)\nDefault: 0",
+                    "nl": "Sensor temperatuur calibratie. \nZ-wave parameter 7 \nBereik: -40 - 40 (-4.0 - 4.0°C)\nStandaard: 0"
+                  }
+                },
+                {
+                  "id": "Temperature_report_interval_input1",
+                  "zwave": {
+                    "index": 11,
+                    "size": 2
+                  },
+                  "type": "number",
+                  "attr": {
+                    "min": 0,
+                    "max": 86400
+                  },
+                  "value": 60,
+                  "label": {
+                    "en": "Temperature report interval (s)",
+                    "nl": "Temperatuur rapportage interval (s)"
+                  },
+                  "hint": {
+                    "en": "Time interval between consecutive temperature reports. \nZ-wave parameter 11 \nRange: 0, 10 - 86400 (s)\nDefault: 60 (s)",
+                    "nl": "Tijdsinterval tussen opeenvolgende temperatuur rapportages. \nZ-wave parameter 11 \nBereik: 0, 10 - 86400 (s)\nStandaard: 60 (s)"
+                  }
+                }
+              ]
+            },
+            {
+              "type": "group",
+              "label": {
+                "en": "Input 2",
+                "nl": "Ingang 2"
+              },
+              "collapsed": true,
+              "children": [
+                {
+                  "id": "Sensor_type_input2",
+                  "zwave": {
+                    "index": 4,
+                    "size": 1
+                  },
+                  "type": "dropdown",
+                  "label": {
+                    "en": "Sensor type",
+                    "nl": "Sensor type"
+                  },
+                  "value": "0",
+                  "hint": {
+                    "en": "Sensor type. \nZ-wave parameter 3 \ndefault: No sensor connected",
+                    "nl": "Sensor type. \nZ-wave parameter 3 \nstandaard: Geen sensor aangesloten"
+                  },
+                  "values": [
+                    {
+                      "id": "0",
+                      "label": {
+                        "en": "No sensor connected (default)",
+                        "nl": "Geen sensor aangesloten (standaard)"
+                      }
+                    },
+                    {
+                      "id": "1",
+                      "label": {
+                        "en": "10K NTC connected",
+                        "nl": "10K NTC aangesloten"
+                      }
+                    }
+                  ]
+                },
+                {
+                  "id": "Sensor_calibration_input2",
+                  "zwave": {
+                    "index": 8,
+                    "size": 1
+                  },
+                  "type": "number",
+                  "attr": {
+                    "min": -40,
+                    "max": 40
+                  },
+                  "value": 0,
+                  "label": {
+                    "en": "Sensor calibration (°C)",
+                    "nl": "Sensor calibratie (°C)"
+                  },
+                  "hint": {
+                    "en": "Sensor temperature calibration. \nZ-wave parameter 7 \nRange: -40 - 40 (-4.0 - 4.0°C)\nDefault: 0",
+                    "nl": "Sensor temperatuur calibratie. \nZ-wave parameter 7 \nBereik: -40 - 40 (-4.0 - 4.0°C)\nStandaard: 0"
+                  }
+                },
+                {
+                  "id": "Temperature_report_interval_input2",
+                  "zwave": {
+                    "index": 12,
+                    "size": 2
+                  },
+                  "type": "number",
+                  "attr": {
+                    "min": 0,
+                    "max": 86400
+                  },
+                  "value": 60,
+                  "label": {
+                    "en": "Temperature report interval (s)",
+                    "nl": "Temperatuur rapportage interval (s)"
+                  },
+                  "hint": {
+                    "en": "Time interval between consecutive temperature reports. \nZ-wave parameter 11 \nRange: 0, 10 - 86400 (s)\nDefault: 60 (s)",
+                    "nl": "Tijdsinterval tussen opeenvolgende temperatuur rapportages. \nZ-wave parameter 11 \nBereik: 0, 10 - 86400 (s)\nStandaard: 60 (s)"
+                  }
+                }
+              ]
+            },
+            {
+              "type": "group",
+              "label": {
+                "en": "Input 3",
+                "nl": "Ingang 3"
+              },
+              "collapsed": true,
+              "children": [
+                {
+                  "id": "Sensor_type_input3",
+                  "zwave": {
+                    "index": 5,
+                    "size": 1
+                  },
+                  "type": "dropdown",
+                  "label": {
+                    "en": "Sensor type",
+                    "nl": "Sensor type"
+                  },
+                  "value": "0",
+                  "hint": {
+                    "en": "Sensor type. \nZ-wave parameter 3 \ndefault: No sensor connected",
+                    "nl": "Sensor type. \nZ-wave parameter 3 \nstandaard: Geen sensor aangesloten"
+                  },
+                  "values": [
+                    {
+                      "id": "0",
+                      "label": {
+                        "en": "No sensor connected (default)",
+                        "nl": "Geen sensor aangesloten (standaard)"
+                      }
+                    },
+                    {
+                      "id": "1",
+                      "label": {
+                        "en": "10K NTC connected",
+                        "nl": "10K NTC aangesloten"
+                      }
+                    }
+                  ]
+                },
+                {
+                  "id": "Sensor_calibration_input3",
+                  "zwave": {
+                    "index": 9,
+                    "size": 1
+                  },
+                  "type": "number",
+                  "attr": {
+                    "min": -40,
+                    "max": 40
+                  },
+                  "value": 0,
+                  "label": {
+                    "en": "Sensor calibration (°C)",
+                    "nl": "Sensor calibratie (°C)"
+                  },
+                  "hint": {
+                    "en": "Sensor temperature calibration. \nZ-wave parameter 7 \nRange: -40 - 40 (-4.0 - 4.0°C)\nDefault: 0",
+                    "nl": "Sensor temperatuur calibratie. \nZ-wave parameter 7 \nBereik: -40 - 40 (-4.0 - 4.0°C)\nStandaard: 0"
+                  }
+                },
+                {
+                  "id": "Temperature_report_interval_input3",
+                  "zwave": {
+                    "index": 13,
+                    "size": 2
+                  },
+                  "type": "number",
+                  "attr": {
+                    "min": 0,
+                    "max": 86400
+                  },
+                  "value": 60,
+                  "label": {
+                    "en": "Temperature report interval (s)",
+                    "nl": "Temperatuur rapportage interval (s)"
+                  },
+                  "hint": {
+                    "en": "Time interval between consecutive temperature reports. \nZ-wave parameter 11 \nRange: 0, 10 - 86400 (s)\nDefault: 60 (s)",
+                    "nl": "Tijdsinterval tussen opeenvolgende temperatuur rapportages. \nZ-wave parameter 11 \nBereik: 0, 10 - 86400 (s)\nStandaard: 60 (s)"
+                  }
+                }
+              ]
+            },
+            {
+              "type": "group",
+              "label": {
+                "en": "Input 4",
+                "nl": "Ingang 4"
+              },
+              "collapsed": true,
+              "children": [
+                {
+                  "id": "Sensor_type_input4",
+                  "zwave": {
+                    "index": 6,
+                    "size": 1
+                  },
+                  "type": "dropdown",
+                  "label": {
+                    "en": "Sensor type",
+                    "nl": "Sensor type"
+                  },
+                  "value": "0",
+                  "hint": {
+                    "en": "Sensor type. \nZ-wave parameter 3 \ndefault: No sensor connected",
+                    "nl": "Sensor type. \nZ-wave parameter 3 \nstandaard: Geen sensor aangesloten"
+                  },
+                  "values": [
+                    {
+                      "id": "0",
+                      "label": {
+                        "en": "No sensor connected (default)",
+                        "nl": "Geen sensor aangesloten (standaard)"
+                      }
+                    },
+                    {
+                      "id": "1",
+                      "label": {
+                        "en": "10K NTC connected",
+                        "nl": "10K NTC aangesloten"
+                      }
+                    }
+                  ]
+                },
+                {
+                  "id": "Sensor_calibration_input4",
+                  "zwave": {
+                    "index": 10,
+                    "size": 1
+                  },
+                  "type": "number",
+                  "attr": {
+                    "min": -40,
+                    "max": 40
+                  },
+                  "value": 0,
+                  "label": {
+                    "en": "Sensor calibration (°C)",
+                    "nl": "Sensor calibratie (°C)"
+                  },
+                  "hint": {
+                    "en": "Sensor temperature calibration. \nZ-wave parameter 7 \nRange: -40 - 40 (-4.0 - 4.0°C)\nDefault: 0",
+                    "nl": "Sensor temperatuur calibratie. \nZ-wave parameter 7 \nBereik: -40 - 40 (-4.0 - 4.0°C)\nStandaard: 0"
+                  }
+                },
+                {
+                  "id": "Temperature_report_interval_input4",
+                  "zwave": {
+                    "index": 14,
+                    "size": 2
+                  },
+                  "type": "number",
+                  "attr": {
+                    "min": 0,
+                    "max": 86400
+                  },
+                  "value": 60,
+                  "label": {
+                    "en": "Temperature report interval (s)",
+                    "nl": "Temperatuur rapportage interval (s)"
+                  },
+                  "hint": {
+                    "en": "Time interval between consecutive temperature reports. \nZ-wave parameter 11 \nRange: 0, 10 - 86400 (s)\nDefault: 60 (s)",
+                    "nl": "Tijdsinterval tussen opeenvolgende temperatuur rapportages. \nZ-wave parameter 11 \nBereik: 0, 10 - 86400 (s)\nStandaard: 60 (s)"
+                  }
+                }
+              ]
             }
           ]
         }

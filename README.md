@@ -87,6 +87,14 @@ The following triggers are supported:
 
 In addition, by adding the NodeID in the corresponding association groups, the Z-Push Button 8 can directly control Z-wave switches / dimmers.
 
+### Heatit Z-Water
+<a href="https://github.com/TedTolboom/no.ThermoFloor">
+  <img src="https://rawgit.com/TedTolboom/no.ThermoFloor/master/drivers/Z-Water/assets/icon.svg" width="25%" height="25%">
+</a>
+
+Heatit Z-Water is a DIN-rail regulator for controlling hydronic heating.
+* All 10 relays can be controlled independently
+
 ## Supported Languages:
 * English   
 * Dutch    
@@ -115,6 +123,11 @@ If you like the app, consider a donation to support development
 [![Paypal Donate](https://www.paypalobjects.com/en_US/NL/i/btn/btn_donateCC_LG.gif)](https://www.paypal.me/TedTolboom)
 
 ## Changelog:
+v2.1.1 (BETA)
+* Add support for the Z-Water regulator   
+* Update to meshdriver v1.2.30   
+* *Note*: due to an S2 issue within the Homey Z-wave core, the measured temperatures are not reported for the Z-wave thermostat (FW 1.92) and Z-TRM2(fx) thermostats as well as the Z-Water regulator. When this will be resolved, it is likely that the thermostat will need to be re-included      
+
 v2.1.0 (BETA)
 * Add support for the Z-wave thermostat (FW 1.92)    
 * Add support for the Z-TRM2(fx) thermostat
