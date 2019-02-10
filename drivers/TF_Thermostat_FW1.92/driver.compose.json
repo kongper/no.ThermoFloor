@@ -3,7 +3,7 @@
 	"name": {
 		"en": "Thermo-Floor / Heatit Z-wave thermostat (FW 1.92)"
 	},
-	"icon": "/drivers/TF_Thermostat_FW1.92/assets/icon.svg",
+	"icon": "{{driverAssetsPath}}/icon.svg",
 	"images": {
 		"large": "{{driverAssetsPath}}/images/large.jpg",
 		"small": "{{driverAssetsPath}}/images/small.jpg"
