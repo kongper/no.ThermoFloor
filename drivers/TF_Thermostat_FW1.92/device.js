@@ -1,6 +1,7 @@
 'use strict';
 
 const TF_ThermostatDevice = require('./../TF_Thermostat/device');
+const util = require('./../../lib/util');
 
 class TF_ThermostatFW192Device extends TF_ThermostatDevice {
 	async onMeshInit() {
@@ -35,21 +36,45 @@ class TF_ThermostatFW192Device extends TF_ThermostatDevice {
 			multiChannelNodeId: 2,
 		});
 
+		this.node.MultiChannelNodes['2'].on('unknownReport', buf => {
+				if (buf.length === 6) {
+					const value = util.calculateTemperature(buf);
+					this.setCapabilityValue('measure_temperature.internal', value);
+					if (this.getSetting('Temperature_thermostat') === 'internal') this.setCapabilityValue('measure_temperature', value)
+				}
+		})
+
 		// registerCapability for measure_temperature for FW <=18.
 		this.registerCapability('measure_temperature.floor', 'SENSOR_MULTILEVEL', {
 			getOpts: {
 				getOnStart: true,
 			},
-			multiChannelNodeId: 3,
+			multiChannelNodeId: 4,
 		});
+
+		this.node.MultiChannelNodes['4'].on('unknownReport', buf => {
+				if (buf.length === 6) {
+					const value = util.calculateTemperature(buf);
+					this.setCapabilityValue('measure_temperature.floor', value);
+					if (this.getSetting('Temperature_thermostat') === 'floor') this.setCapabilityValue('measure_temperature', value)
+				}
+		})
 
 		// registerCapability for measure_temperature for FW <=18.
 		this.registerCapability('measure_temperature.external', 'SENSOR_MULTILEVEL', {
 			getOpts: {
 				getOnStart: true,
 			},
-			multiChannelNodeId: 4,
+			multiChannelNodeId: 3,
 		});
+
+		this.node.MultiChannelNodes['3'].on('unknownReport', buf => {
+				if (buf.length === 6) {
+					const value = util.calculateTemperature(buf);
+					this.setCapabilityValue('measure_temperature.external', value);
+					if (this.getSetting('Temperature_thermostat') === 'external') this.setCapabilityValue('measure_temperature', value)
+				}
+		})
 
 	}
 

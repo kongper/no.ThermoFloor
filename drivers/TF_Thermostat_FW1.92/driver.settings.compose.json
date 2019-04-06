@@ -36,6 +36,10 @@
 		"collapsed": true,
 		"children": [
 			{
+				"$extends": "Temperature_thermostat_3",
+				"id": "Temperature_thermostat"
+			},
+			{
 				"$extends": "Sensor_mode",
 				"id": "Sensor_mode",
 				"zwave": {

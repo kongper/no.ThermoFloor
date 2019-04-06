@@ -120,10 +120,12 @@
 		},
 		"associationGroups": [
       1,
-      2,
-			3,
 			4
     ],
+		"associationGroupsMultiChannel": [
+			2,
+			3
+		],
 		"associationGroupsOptions": {
 			"1": {
 				"hint": {
@@ -140,7 +142,7 @@
 			"3": {
 				"hint": {
 					"en": "Send Multilevel Sensor Reports for the floor temperature sensor. \nDefault: 1 (Homey's ID), required to track the thermostat state (Active / Idle)",
-					"nl": "Stuurt Multilevel Sensor Reports voor de externe ruimte temperatuursensor.\nStandaard: 1 (Homey's ID), nodig om de toestand van de thermostat (Actief / Inactief) bij te houden"
+					"nl": "Stuurt Multilevel Sensor Reports voor de vloer temperatuursensor.\nStandaard: 1 (Homey's ID), nodig om de toestand van de thermostat (Actief / Inactief) bij te houden"
 				}
 			},
 			"4": {

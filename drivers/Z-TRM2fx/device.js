@@ -2,10 +2,14 @@
 
 const Homey = require('homey');
 const maps = require('./../../lib/Z-TRM/mappings');
+const util = require('./../../lib/util');
 
 const ZwaveDevice = require('homey-meshdriver').ZwaveDevice;
 
+const { ManagerZwave } = require('homey');
+
 class Z_TRM2fxDevice extends ZwaveDevice {
+
 	async onMeshInit() {
 
 		// enable debugging
@@ -33,6 +37,14 @@ class Z_TRM2fxDevice extends ZwaveDevice {
 			multiChannelNodeId: 2
 		});
 
+		this.node.MultiChannelNodes['2'].on('unknownReport', buf => {
+				if (buf.length === 6) {
+					const value = util.calculateTemperature(buf);
+					this.setCapabilityValue('measure_temperature.external', value);
+					if (this.getSetting('Temperature_thermostat') === 'external') this.setCapabilityValue('measure_temperature', value)
+				}
+		})
+
 		// registerCapability for the external temperature sensor
 		this.registerCapability('measure_temperature.floor', 'SENSOR_MULTILEVEL', {
 			getOpts: {
@@ -42,6 +54,14 @@ class Z_TRM2fxDevice extends ZwaveDevice {
 			},
 			multiChannelNodeId: 3
 		});
+
+		this.node.MultiChannelNodes['3'].on('unknownReport', buf => {
+				if (buf.length === 6) {
+					const value = util.calculateTemperature(buf);
+					this.setCapabilityValue('measure_temperature.floor', value);
+					if (this.getSetting('Temperature_thermostat') === 'floor') this.setCapabilityValue('measure_temperature', value)
+				}
+		})
 
 		this.registerCapability('measure_power', 'METER');
 		this.registerCapability('measure_voltage', 'METER');
