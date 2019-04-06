@@ -123,6 +123,20 @@ If you like the app, consider a donation to support development
 [![Paypal Donate](https://www.paypalobjects.com/en_US/NL/i/btn/btn_donateCC_LG.gif)](https://www.paypal.me/TedTolboom)
 
 ## Changelog:
+v2.1.2 (BETA)
+* Fix temperature reporting issues for Z-wave thermostat (FW 1.92), Z-TRM2(fx) and Z-Water *(Homey SW 2.0.5+)*   
+  *Note*: Please follow the steps mentioned below to fix the temperature reporting (only working as of Homey Software 2.0.5):
+  * For already paired devices:   
+      1. Go to advanced settings, and replace (add if not existing) Homey's ID `1` with `1.1` in the following association groups used for the temperature reporting:   
+        * Z-wave thermostat (FW 1.92): Group 3, 4 and 5   
+        * Z-TRM2(fx): Group 2 and 3   
+        * Z-Water: Group 11, 12, 13 and 14    
+      2. For the thermostats, change in the Device specific settings (Sensor settings group), the 'Displayed temperature' to the sensor connected (default: floor sensor)   
+      3. Save settings   
+  * Alternative option is to remove and re-include the device based on the v2.1.2 version of the app   
+* Add temperature changed flow cards for Z-wave thermostat (FW 1.92), Z-TRM2(fx) and Z-Water
+* Update to meshdriver v1.2.32   
+
 v2.1.1 (BETA)
 * Add support for the Z-Water regulator   
 * Update to meshdriver v1.2.30   

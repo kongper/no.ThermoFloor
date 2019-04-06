@@ -5,7 +5,7 @@
     "en": "Thermo-Floor / Heatit"
   },
   "brandColor": "#d52229",
-  "version": "2.1.1",
+  "version": "2.1.2",
   "compatibility": ">=1.5.0",
   "homeyCommunityTopicId": 166,
   "author": {
@@ -70,6 +70,167 @@
   },
   "flow": {
     "triggers": [
+      {
+        "id": "measure_temperature.external_changed",
+        "title": {
+          "en": "The temperature of the external sensor changed",
+          "nl": "De temperatuur van de externe sensor is veranderd",
+          "de": "Temperatur des externen Sensors hat sich geändert"
+        },
+        "args": [
+          {
+            "name": "device",
+            "type": "device",
+            "filter": "driver_id=TF_Thermostat_FW1.92|Z-TRM2fx"
+          }
+        ],
+        "tokens": [
+          {
+            "name": "measure_temperature.external",
+            "title": "temperature",
+            "type": "number",
+            "example": 23.5
+          }
+        ]
+      },
+      {
+        "id": "measure_temperature.floor_changed",
+        "title": {
+          "en": "The floor temperature changed",
+          "nl": "De vloertemperatuur is veranderd",
+          "de": "Die Fußbodentemperatur hat sich geändert"
+        },
+        "args": [
+          {
+            "name": "device",
+            "type": "device",
+            "filter": "driver_id=TF_Thermostat_FW1.92|Z-TRM2fx"
+          }
+        ],
+        "tokens": [
+          {
+            "name": "measure_temperature.floor",
+            "title": "temperature",
+            "type": "number",
+            "example": 23.5
+          }
+        ]
+      },
+      {
+        "id": "measure_temperature.input1_changed",
+        "title": {
+          "en": "The temperature of the input 1 sensor changed",
+          "nl": "De temperatuur van de ingang 1 sensor is veranderd",
+          "de": "Temperatur des Eingang 1 Sensors hat sich geändert"
+        },
+        "args": [
+          {
+            "name": "device",
+            "type": "device",
+            "filter": "driver_id=Z-Water"
+          }
+        ],
+        "tokens": [
+          {
+            "name": "measure_temperature.input1",
+            "title": "temperature",
+            "type": "number",
+            "example": 23.5
+          }
+        ]
+      },
+      {
+        "id": "measure_temperature.input2_changed",
+        "title": {
+          "en": "The temperature of the input 2 sensor changed",
+          "nl": "De temperatuur van de ingang 2 sensor is veranderd",
+          "de": "Temperatur des Eingang 2 Sensors hat sich geändert"
+        },
+        "args": [
+          {
+            "name": "device",
+            "type": "device",
+            "filter": "driver_id=Z-Water"
+          }
+        ],
+        "tokens": [
+          {
+            "name": "measure_temperature.input2",
+            "title": "temperature",
+            "type": "number",
+            "example": 23.5
+          }
+        ]
+      },
+      {
+        "id": "measure_temperature.input3_changed",
+        "title": {
+          "en": "The temperature of the input 3 sensor changed",
+          "nl": "De temperatuur van de ingang 3 sensor is veranderd",
+          "de": "Temperatur des Eingang 3 Sensors hat sich geändert"
+        },
+        "args": [
+          {
+            "name": "device",
+            "type": "device",
+            "filter": "driver_id=Z-Water"
+          }
+        ],
+        "tokens": [
+          {
+            "name": "measure_temperature.input3",
+            "title": "temperature",
+            "type": "number",
+            "example": 23.5
+          }
+        ]
+      },
+      {
+        "id": "measure_temperature.input4_changed",
+        "title": {
+          "en": "The temperature of the input 4 sensor changed",
+          "nl": "De temperatuur van de ingang 4 sensor is veranderd",
+          "de": "Temperatur des Eingang 4 Sensors hat sich geändert"
+        },
+        "args": [
+          {
+            "name": "device",
+            "type": "device",
+            "filter": "driver_id=Z-Water"
+          }
+        ],
+        "tokens": [
+          {
+            "name": "measure_temperature.input4",
+            "title": "temperature",
+            "type": "number",
+            "example": 23.5
+          }
+        ]
+      },
+      {
+        "id": "measure_temperature.internal_changed",
+        "title": {
+          "en": "The temperature of the internal sensor changed",
+          "nl": "De temperatuur van de interne sensor is veranderd",
+          "de": "Temperatur des internen Sensors hat sich geändert"
+        },
+        "args": [
+          {
+            "name": "device",
+            "type": "device",
+            "filter": "driver_id=TF_Thermostat_FW1.92"
+          }
+        ],
+        "tokens": [
+          {
+            "name": "measure_temperature.internal",
+            "title": "temperature",
+            "type": "number",
+            "example": 23.5
+          }
+        ]
+      },
       {
         "id": "thermofloor_mode_changed",
         "title": {
@@ -1094,7 +1255,9 @@
         },
         "associationGroups": [
           1,
-          2,
+          2
+        ],
+        "associationGroupsMultiChannel": [
           3,
           4,
           5
@@ -1110,6 +1273,24 @@
             "hint": {
               "en": "On/off  control: This controls external heaters replicating the state of the internal relay. \nUses BASIC_SET command, values 0x00 (on) and 0xFF (on).\nDefault: 1 (Homey's ID), required to track the thermostat state (Active / Idle)",
               "nl": "On/off  control: Deze groep schakelt externe verwarmings of koelings elementen. \nMaakt gebruik van het BASIC_SET command, values 0x00 (on) and 0xFF (on).\nStandaard: 1 (Homey's ID), nodig om de toestand van de thermostat (Actief / Inactief) bij te houden"
+            }
+          },
+          "3": {
+            "hint": {
+              "en": "Send Multilevel Sensor Reports for the internal temperature sensor. \nDefault: 1 (Homey's ID), required to track the thermostat state (Active / Idle)",
+              "nl": "Stuurt Multilevel Sensor Reports voor de internal temperatuursensor.\nStandaard: 1 (Homey's ID), nodig om de toestand van de thermostat (Actief / Inactief) bij te houden"
+            }
+          },
+          "4": {
+            "hint": {
+              "en": "Send Multilevel Sensor Reports for the external temperature sensor. \nDefault: 1 (Homey's ID), required to track the thermostat state (Active / Idle)",
+              "nl": "Stuurt Multilevel Sensor Reports voor de externe ruimte temperatuursensor.\nStandaard: 1 (Homey's ID), nodig om de toestand van de thermostat (Actief / Inactief) bij te houden"
+            }
+          },
+          "5": {
+            "hint": {
+              "en": "Send Multilevel Sensor Reports for the floor temperature sensor. \nDefault: 1 (Homey's ID), required to track the thermostat state (Active / Idle)",
+              "nl": "Stuurt Multilevel Sensor Reports voor de vloer temperatuursensor.\nStandaard: 1 (Homey's ID), nodig om de toestand van de thermostat (Actief / Inactief) bij te houden"
             }
           }
         }
@@ -1233,6 +1414,42 @@
           },
           "collapsed": true,
           "children": [
+            {
+              "id": "Temperature_thermostat",
+              "type": "dropdown",
+              "label": {
+                "en": "Displayed temperature",
+                "nl": "Getoonde temperatuur"
+              },
+              "value": "floor",
+              "hint": {
+                "en": "Displayed temperature in Homey's thermostat \ndefault: Floor sensor",
+                "nl": "Getoonde termperatuur in Homey's thermostaat \nstandaard: Vloer sensor"
+              },
+              "values": [
+                {
+                  "id": "floor",
+                  "label": {
+                    "en": "Floor sensor (default)",
+                    "nl": "Vloer sensor (standaard)"
+                  }
+                },
+                {
+                  "id": "external",
+                  "label": {
+                    "en": "External sensor",
+                    "nl": "Externe sensor"
+                  }
+                },
+                {
+                  "id": "internal",
+                  "label": {
+                    "en": "Internal sensor",
+                    "nl": "Interne sensor"
+                  }
+                }
+              ]
+            },
             {
               "id": "Sensor_mode",
               "zwave": {
@@ -1855,9 +2072,11 @@
         },
         "associationGroups": [
           1,
-          2,
-          3,
           4
+        ],
+        "associationGroupsMultiChannel": [
+          2,
+          3
         ],
         "associationGroupsOptions": {
           "1": {
@@ -1875,7 +2094,7 @@
           "3": {
             "hint": {
               "en": "Send Multilevel Sensor Reports for the floor temperature sensor. \nDefault: 1 (Homey's ID), required to track the thermostat state (Active / Idle)",
-              "nl": "Stuurt Multilevel Sensor Reports voor de externe ruimte temperatuursensor.\nStandaard: 1 (Homey's ID), nodig om de toestand van de thermostat (Actief / Inactief) bij te houden"
+              "nl": "Stuurt Multilevel Sensor Reports voor de vloer temperatuursensor.\nStandaard: 1 (Homey's ID), nodig om de toestand van de thermostat (Actief / Inactief) bij te houden"
             }
           },
           "4": {
@@ -2226,6 +2445,35 @@
           },
           "collapsed": true,
           "children": [
+            {
+              "id": "Temperature_thermostat",
+              "type": "dropdown",
+              "label": {
+                "en": "Displayed temperature",
+                "nl": "Getoonde temperatuur"
+              },
+              "value": "floor",
+              "hint": {
+                "en": "Displayed temperature in Homey's thermostat \ndefault: Floor sensor",
+                "nl": "Getoonde termperatuur in Homey's thermostaat \nstandaard: Vloer sensor"
+              },
+              "values": [
+                {
+                  "id": "floor",
+                  "label": {
+                    "en": "Floor sensor (default)",
+                    "nl": "Vloer sensor (standaard)"
+                  }
+                },
+                {
+                  "id": "external",
+                  "label": {
+                    "en": "External sensor",
+                    "nl": "Externe sensor"
+                  }
+                }
+              ]
+            },
             {
               "id": "Sensor_mode",
               "zwave": {
@@ -2582,7 +2830,9 @@
           7,
           8,
           9,
-          10,
+          10
+        ],
+        "associationGroupsMultiChannel": [
           11,
           12,
           13,
@@ -3175,6 +3425,14 @@
     }
   ],
   "capabilities": {
+    "scene_notification_custom_capability": {
+      "type": "boolean",
+      "title": {
+        "en": "Scene notification capability"
+      },
+      "getable": false,
+      "setable": false
+    },
     "thermofloor_mode": {
       "type": "enum",
       "uiComponent": "picker",
