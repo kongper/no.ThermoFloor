@@ -1,7 +1,7 @@
 {
 	"id": "TF_Thermostat_FW1.92",
 	"name": {
-		"en": "Thermo-Floor / Heatit Z-wave thermostat (FW 1.92)"
+		"en": "Z-wave thermostat (FW 1.92)"
 	},
 	"icon": "{{driverAssetsPath}}/icon.svg",
 	"images": {
