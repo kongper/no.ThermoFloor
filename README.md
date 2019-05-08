@@ -1,21 +1,20 @@
-# ThermoFloor / Heatit App
-This app adds support for devices made by [ThermoFloor](http://www.thermo-floor.no/) and branded as [Heatit](http://www.heatit.com).  
+# Heatit Z-wave App
+This app adds support for the Z-wave devices by [Heatit](http://www.heatit.com).  
 <a href="https://github.com/TedTolboom/hk.com.remotec">
   <img src="https://raw.githubusercontent.com/TedTolboom/no.ThermoFloor/master/assets/images/small.jpg">
 </a>  
 
 ## Links:
-[ThermoFloor / Heatit app at Athom apps](https://apps.athom.com/app/no.ThermoFloor)                      
-[ThermoFloor / Heatit Github repository](https://github.com/TedTolboom/no.ThermoFloor)             
+[Heatit app at Athom apps](https://apps.athom.com/app/no.ThermoFloor)                      
+[eatit Github repository](https://github.com/TedTolboom/no.ThermoFloor)             
 
 ## Devices supported:
-### Multireg / Magnum Z-wave thermostat (TF 016)
 ### Heatit Z-Wave thermostat (TF 021)
 <a href="https://github.com/TedTolboom/no.ThermoFloor">
   <img src="https://rawgit.com/TedTolboom/no.ThermoFloor/master/drivers/TF_Thermostat/assets/icon.svg" width="25%" height="25%">
 </a>  
 
-The Multireg / Heatit Z-Wave thermostat is an electronic thermostat for flush mounting in a standard wall box for regulating electric floor heating. The thermostat has a built-in Z-Wave chip that can be connected to Home Automation systems like Homey.  
+The Heatit Z-Wave thermostat is an electronic thermostat for flush mounting in a standard wall box for regulating electric floor heating. The thermostat has a built-in Z-Wave chip that can be connected to Home Automation systems like Homey.  
 
 The following triggers are supported:
 
@@ -95,6 +94,22 @@ In addition, by adding the NodeID in the corresponding association groups, the Z
 Heatit Z-Water is a DIN-rail regulator for controlling hydronic heating.
 * All 10 relays can be controlled independently
 
+### Heatit Z-DIN-616
+<a href="https://github.com/TedTolboom/no.ThermoFloor">
+  <img src="https://rawgit.com/TedTolboom/no.ThermoFloor/beta/drivers/Z-DIN-616/assets/icon.svg" width="25%" height="25%">
+</a>
+Heatit Z-DIN 616 is a 6 x 16A potential free relays for DIN rail mounting.
+* The 6 independent relay switches of the Heatit Z-DIN 616 can freely be controlled from the Z-Wave network and be used for many different purposes
+* The 6 digital inputs can be connected to dry contacts, e.g. limit switches, door/window contacts, or push-buttons.
+
+### Heatit Z-relay
+<a href="https://github.com/TedTolboom/no.ThermoFloor">
+  <img src="https://rawgit.com/TedTolboom/no.ThermoFloor/beta/drivers/Z-Relay/assets/icon.svg" width="25%" height="25%">
+</a>
+Heatit Z-Relay multipurpose relay module can be used for many different applications.
+* The relay has three inputs: analog or digital. You can use both analog and digital inputs, or a combination.
+* Heatit Z-Relay is a multipurpose product and can be used for the following applications: Boiler control / Leakage control / Temperature control / Outdoor applications
+
 ## Supported Languages:
 * English   
 * Dutch    
@@ -109,13 +124,13 @@ This app and driver development has been supported by:
     <img src="https://www.robbshop.nl/skin/frontend/robbshop/default/images/logo.svg" width="25%">
   </a>
 
-* ThermoFloor / Heatit by providing the required devices / documentation:   
+* Heatit by providing the required devices / documentation:   
   <a href="https://www.heatit.com/z-wave/">
     <img src="https://rawgit.com/TedTolboom/no.ThermoFloor/master/assets/icon.svg" width="25%">
     </a>
 
 ## Feedback:
-Any requests please post them in the [ThermoFloor / Heatit app topic on the Homey community Forum](https://community.athom.com/t/166) or contact me on [Slack](https://athomcommunity.slack.com/team/tedtolboom)    
+Any requests please post them in the [Heatit app topic on the Homey community Forum](https://community.athom.com/t/166) or contact me on [Slack](https://athomcommunity.slack.com/team/tedtolboom)    
 If possible, please report issues at the [issues section on Github](https://github.com/TedTolboom/no.ThermoFloor/issues) otherwise in the above mentioned topic.     
 
 ### Donate:
@@ -123,6 +138,11 @@ If you like the app, consider a donation to support development
 [![Paypal Donate](https://www.paypalobjects.com/en_US/NL/i/btn/btn_donateCC_LG.gif)](https://www.paypal.me/TedTolboom)
 
 ## Changelog:
+v2.2.0
+* Add support for the Heatit Z-relay device   
+* Add support for the Heatit Z-DIN-616 device
+* Update branding of the app    
+
 v2.1.2 (BETA)
 * Fix temperature reporting issues for Z-wave thermostat (FW 1.92), Z-TRM2(fx) and Z-Water *(Homey SW 2.0.5+)*   
   *Note*: Please follow the steps mentioned below to fix the temperature reporting (only working as of Homey Software 2.0.5):
