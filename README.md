@@ -1,7 +1,7 @@
 # Heatit Z-wave App
 This app adds support for the Z-wave devices by [Heatit controls](http://www.heatit.com).  
 <a href="https://github.com/TedTolboom/no.ThermoFloor">
-  <img src="https://raw.githubusercontent.com/TedTolboom/no.ThermoFloor/master/assets/images/small.jpg">
+  <img src="https://raw.githubusercontent.com/TedTolboom/no.ThermoFloor/master/assets/images/small.png">
 </a>  
 
 ## Links:
@@ -140,6 +140,9 @@ If you like the app, consider a donation to support development
 [![Paypal Donate](https://www.paypalobjects.com/en_US/NL/i/btn/btn_donateCC_LG.gif)](https://www.paypal.me/TedTolboom)
 
 ## Changelog:
+v2.2.1
+* Fix issue not being able to include the Heatit Z-push button 2 and Z-push button 8 devices   
+
 v2.2.0
 * Add support for the Heatit Z-relay device   
 * Add support for the Heatit Z-DIN-616 device

@@ -5,7 +5,7 @@
     "en": "Heatit Z-wave"
   },
   "brandColor": "#cc3333",
-  "version": "2.2.0",
+  "version": "2.2.1",
   "compatibility": ">=1.5.0",
   "homeyCommunityTopicId": 166,
   "author": {
@@ -1299,12 +1299,17 @@
       },
       "settings": [
         {
-          "id": "Wake-up_notification",
-          "value": "Wake up Z-push before save",
-          "type": "label",
-          "label": {
-            "en": "Note:"
+          "id": "operation_mode",
+          "zwave": {
+            "index": 1,
+            "size": 2
           },
+          "type": "dropdown",
+          "label": {
+            "en": "Thermostat mode",
+            "nl": "Thermostaat modus"
+          },
+          "value": "1",
           "hint": {
             "en": "Thermostat mode. \nZ-wave parameter 1 \ndefault: Energy saving",
             "nl": "Thermostaat modus. \nZ-wave parameter 1 \nstandaard: Energiebesparing"
@@ -2642,7 +2647,10 @@
         ]
       },
       "zwave": {
-        "manufacturerId": 411,
+        "manufacturerId": [
+          411,
+          816
+        ],
         "productTypeId": 768,
         "productId": 41735,
         "productDocumentation": "",
@@ -2727,7 +2735,10 @@
         ]
       },
       "zwave": {
-        "manufacturerId": 411,
+        "manufacturerId": [
+          411,
+          816
+        ],
         "productTypeId": 768,
         "productId": 41733,
         "productDocumentation": "",
