@@ -1,0 +1,260 @@
+{
+	"id": "Z-Water",
+	"name": {
+		"en": "Heatit Z-Water regulator"
+	},
+	"icon": "{{driverAssetsPath}}/icon-1.svg",
+	"images": {
+		"large": "{{driverAssetsPath}}/images/large.png",
+		"small": "{{driverAssetsPath}}/images/small.png"
+	},
+	"class": "socket",
+	"capabilities": [
+		"onoff",
+		"measure_temperature.input1",
+		"measure_temperature.input2",
+		"measure_temperature.input3",
+		"measure_temperature.input4"
+  ],
+	"capabilitiesOptions": {
+		"onoff": {
+      "title": {
+				"en": "Relay 1"
+			}
+    },
+		"measure_temperature.input1": {
+      "title": {
+				"en": "Sensor 1"
+			}
+    },
+		"measure_temperature.input2": {
+      "title": {
+				"en": "Sensor 2"
+			}
+    },
+		"measure_temperature.input3": {
+      "title": {
+				"en": "Sensor 3"
+			}
+    },
+		"measure_temperature.input4": {
+      "title": {
+				"en": "Sensor 4"
+			}
+    }
+  },
+	"mobile": {
+		"components": [
+			{
+				"id": "icon",
+				"capabilities": ["onoff"]
+      },
+			{
+				"id": "toggle",
+				"capabilities": ["onoff"]
+			},
+			{
+				"id": "sensor",
+				"capabilities": [
+          "measure_temperature.input1",
+					"measure_temperature.input2",
+					"measure_temperature.input3",
+					"measure_temperature.input4"
+        ]
+      }
+    ]
+	},
+	"zwave": {
+		"manufacturerId": 411,
+		"productTypeId": 3,
+		"productId": 522,
+		"productDocumentation": "",
+		"pid": 3065,
+		"imageRemotePath": "",
+		"learnmode": {
+			"image": "{{driverAssetsPath}}/learnmode.svg",
+			"instruction": {
+				"en": "To include the Z-water regulater to Homey: \n1. Click the small button through the little hole, marked with the text “INCLUSION”, in front of the Heatit Z-Water regulator. \n2. The Adding Mode is indicated by Heatit Z-Water status LED is blinking until a timeout occurs after 10 seconds or if the module has been added to the Z-Wave network."
+			}
+		},
+		"unlearnmode": {
+			"image": "{{driverAssetsPath}}/learnmode.svg",
+			"instruction": {
+				"en": "To remove the Z-water regulater to Homey: \n1. Click the small button through the little hole, marked with the text “INCLUSION”, in front of the Heatit Z-Water regulator. \n2. The Removing Mode is indicated by Heatit Z-Water status LED is blinking until a timeout occurs after 10 seconds or if the module has been removed from the Z-Wave network."
+			}
+		},
+		"associationGroups": [
+      1, 2, 3, 4, 5, 6, 7, 8, 9, 10
+    ],
+		"associationGroupsMultiChannel": [
+			11,
+			12,
+			13,
+			14
+		],
+		"associationGroupsOptions": {
+			"1": {
+				"hint": {
+					"en": "Lifeline. Sends Device Reset notifications and Basic Report On / Off when relay output 1 is activated."
+				}
+			},
+			"2": {
+				"hint": {
+					"en": "Sends Basic Report On / Off when relay output 2 is activated."
+				}
+			},
+			"3": {
+				"hint": {
+					"en": "Sends Basic Report On / Off when relay output 3 is activated."
+				}
+			},
+			"4": {
+				"hint": {
+					"en": "Sends Basic Report On / Off when relay output 4 is activated."
+				}
+			},
+			"5": {
+				"hint": {
+					"en": "Sends Basic Report On / Off when relay output 5 is activated."
+				}
+			},
+			"6": {
+				"hint": {
+					"en": "Sends Basic Report On / Off when relay output 6 is activated."
+				}
+			},
+			"7": {
+				"hint": {
+					"en": "Sends Basic Report On / Off when relay output 7 is activated."
+				}
+			},
+			"8": {
+				"hint": {
+					"en": "Sends Basic Report On / Off when relay output 8 is activated."
+				}
+			},
+			"9": {
+				"hint": {
+					"en": "Sends Basic Report On / Off when relay output 9 is activated."
+				}
+			},
+			"10": {
+				"hint": {
+					"en": "Sends Basic Report On / Off when relay output 10 is activated."
+				}
+			},
+			"11": {
+				"hint": {
+					"en": "Sends Multilevel Sensor Reports for input 1."
+				}
+			},
+			"12": {
+				"hint": {
+					"en": "Sends Multilevel Sensor Reports for input 2."
+				}
+			},
+			"13": {
+				"hint": {
+					"en": "Sends Multilevel Sensor Reports for input 3."
+				}
+			},
+			"14": {
+				"hint": {
+					"en": "Sends Multilevel Sensor Reports for input 4."
+				}
+			}
+		},
+		"multiChannelNodes": {
+			"2": {
+				"class": "socket",
+				"capabilities": [
+					"onoff"
+				],
+				"icon": "{{driverAssetsPath}}/icon-2.svg",
+				"name": {
+					"en": "Relay 2"
+				}
+			},
+			"3": {
+				"class": "socket",
+				"capabilities": [
+					"onoff"
+				],
+				"icon": "{{driverAssetsPath}}/icon-3.svg",
+				"name": {
+					"en": "Relay 3"
+				}
+			},
+			"4": {
+				"class": "socket",
+				"capabilities": [
+					"onoff"
+				],
+				"icon": "{{driverAssetsPath}}/icon-4.svg",
+				"name": {
+					"en": "Relay 4"
+				}
+			},
+			"5": {
+				"class": "socket",
+				"capabilities": [
+					"onoff"
+				],
+				"icon": "{{driverAssetsPath}}/icon-5.svg",
+				"name": {
+					"en": "Relay 5"
+				}
+			},
+			"6": {
+				"class": "socket",
+				"capabilities": [
+					"onoff"
+				],
+				"icon": "{{driverAssetsPath}}/icon-6.svg",
+				"name": {
+					"en": "Relay 6"
+				}
+			},
+			"7": {
+				"class": "socket",
+				"capabilities": [
+					"onoff"
+				],
+				"icon": "{{driverAssetsPath}}/icon-7.svg",
+				"name": {
+					"en": "Relay 7"
+				}
+			},
+			"8": {
+				"class": "socket",
+				"capabilities": [
+					"onoff"
+				],
+				"icon": "{{driverAssetsPath}}/icon-8.svg",
+				"name": {
+					"en": "Relay 8"
+				}
+			},
+			"9": {
+				"class": "socket",
+				"capabilities": [
+					"onoff"
+				],
+				"icon": "{{driverAssetsPath}}/icon-9.svg",
+				"name": {
+					"en": "Relay 9"
+				}
+			},
+			"10": {
+				"class": "socket",
+				"capabilities": [
+					"onoff"
+				],
+				"icon": "{{driverAssetsPath}}/icon-10.svg",
+				"name": {
+					"en": "Relay 10"
+				}
+			}
+		}
+	}
+}

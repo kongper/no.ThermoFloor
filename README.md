@@ -1,21 +1,44 @@
-# ThermoFloor / Heatit App
-This app adds support for devices made by [ThermoFloor](http://www.thermo-floor.no/) and branded as [Heatit](http://www.heatit.com).  
-<a href="https://github.com/TedTolboom/hk.com.remotec">
+# Heatit Z-wave App
+This app adds support for the Z-wave devices by [Heatit controls](http://www.heatit.com).  
+<a href="https://github.com/TedTolboom/no.ThermoFloor">
   <img src="https://raw.githubusercontent.com/TedTolboom/no.ThermoFloor/master/assets/images/small.jpg">
 </a>  
 
 ## Links:
-[ThermoFloor / Heatit app at Athom apps](https://apps.athom.com/app/no.ThermoFloor)                      
-[ThermoFloor / Heatit Github repository](https://github.com/TedTolboom/no.ThermoFloor)             
+[Heatit app at Athom apps](https://apps.athom.com/app/no.ThermoFloor)                      
+[Heatit Github repository](https://github.com/TedTolboom/no.ThermoFloor)             
 
 ## Devices supported:
-### Multireg / Magnum Z-wave thermostat (TF 016)
 ### Heatit Z-Wave thermostat (TF 021)
 <a href="https://github.com/TedTolboom/no.ThermoFloor">
   <img src="https://rawgit.com/TedTolboom/no.ThermoFloor/master/drivers/TF_Thermostat/assets/icon.svg" width="25%" height="25%">
 </a>  
 
-The Multireg / Heatit Z-Wave thermostat is an electronic thermostat for flush mounting in a standard wall box for regulating electric floor heating. The thermostat has a built-in Z-Wave chip that can be connected to Home Automation systems like Homey.  
+The Heatit Z-Wave thermostat is an electronic thermostat for flush mounting in a standard wall box for regulating electric floor heating. The thermostat has a built-in Z-Wave chip that can be connected to Home Automation systems like Homey.  
+
+The following triggers are supported:
+
+* Thermostat mode has changed   
+* Thermostat mode has changed to   
+* The temperature has changed   
+* The target temperature has changed   
+* Thermostat turned on / off  
+
+The following conditions are supported:
+* Thermostat is on / off   
+
+The following action cards are supported:
+
+* Set the temperature (of current thermostat mode)   
+* Set the thermostat mode   
+* Set the setpoint of a thermostat mode
+
+### Heatit Z-TRM2(fx) (TF 033 & TF 056)
+<a href="https://github.com/TedTolboom/no.ThermoFloor">
+  <img src="https://rawgit.com/TedTolboom/no.ThermoFloor/beta/drivers/Z-TRM2fx/assets/icon.svg" width="25%" height="25%">
+</a>  
+
+The Heatit Z-TRM2 Z-Wave thermostat is an electronic thermostat for flush mounting in a standard wall box for regulating electric floor heating. The thermostat has a built-in Z-Wave chip that can be connected to Home Automation systems like Homey.  
 
 The following triggers are supported:
 
@@ -41,7 +64,7 @@ The following action cards are supported:
 The Heatit Z-Push Button 2 can control 1association group with up to 5 products or 4 scenarios through Homey.
 
 The following triggers are supported:  
-* Button Pressed 1x     
+* Button Pressed 1x    
 * Button held down     
 * Button released    
 * Any button pressed (including tokens)   
@@ -56,12 +79,38 @@ In addition, by adding the NodeID in the corresponding association groups, the Z
 The Heatit Z-Push Button 8 can control up to 4 separate association groups (onoff and dim) with up to 20 products or up to 16 scenes through Homey.
 
 The following triggers are supported:  
-* Button Pressed 1x       
+* Button Pressed 1x     
 * Button held down     
 * Button released    
 * Any button pressed (including tokens)   
 
 In addition, by adding the NodeID in the corresponding association groups, the Z-Push Button 8 can directly control Z-wave switches / dimmers.
+
+### Heatit Z-Water
+<a href="https://github.com/TedTolboom/no.ThermoFloor">
+  <img src="https://rawgit.com/TedTolboom/no.ThermoFloor/beta/drivers/Z-Water/assets/icon.svg" width="25%" height="25%">
+</a>
+
+The Heatit Z-Water is a DIN-rail regulator for controlling hydronic heating.
+* All 10 relays can be controlled independently
+
+### Heatit Z-DIN-616
+<a href="https://github.com/TedTolboom/no.ThermoFloor">
+  <img src="https://rawgit.com/TedTolboom/no.ThermoFloor/beta/drivers/Z-DIN-616/assets/icon.svg" width="25%" height="25%">
+</a>
+
+The Heatit Z-DIN 616 is a 6 x 16A potential free relays for DIN rail mounting.
+* The 6 independent relay switches of the Heatit Z-DIN 616 can freely be controlled from the Z-Wave network and be used for many different purposes
+* The 6 digital inputs can be connected to dry contacts, e.g. limit switches, door/window contacts, or push-buttons.
+
+### Heatit Z-relay
+<a href="https://github.com/TedTolboom/no.ThermoFloor">
+  <img src="https://rawgit.com/TedTolboom/no.ThermoFloor/beta/drivers/Z-Relay/assets/icon.svg" width="25%" height="25%">
+</a>
+
+The Heatit Z-Relay multipurpose relay module can be used for many different applications.
+* The relay has three inputs: analog or digital. You can use both analog and digital inputs, or a combination.
+* Heatit Z-Relay is a multipurpose product and can be used for the following applications: Boiler control / Leakage control / Temperature control / Outdoor applications
 
 ## Supported Languages:
 * English   
@@ -77,13 +126,13 @@ This app and driver development has been supported by:
     <img src="https://www.robbshop.nl/skin/frontend/robbshop/default/images/logo.svg" width="25%">
   </a>
 
-* ThermoFloor / Heatit by providing the required devices / documentation:   
+* Heatit by providing the required devices / documentation:   
   <a href="https://www.heatit.com/z-wave/">
     <img src="https://rawgit.com/TedTolboom/no.ThermoFloor/master/assets/icon.svg" width="25%">
     </a>
 
 ## Feedback:
-Any requests please post them in the [ThermoFloor / Heatit app topic on the Homey community Forum](https://community.athom.com/t/166) or contact me on [Slack](https://athomcommunity.slack.com/team/tedtolboom)    
+Any requests please post them in the [Heatit app topic on the Homey community Forum](https://community.athom.com/t/166) or contact me on [Slack](https://athomcommunity.slack.com/team/tedtolboom)    
 If possible, please report issues at the [issues section on Github](https://github.com/TedTolboom/no.ThermoFloor/issues) otherwise in the above mentioned topic.     
 
 ### Donate:
@@ -91,10 +140,41 @@ If you like the app, consider a donation to support development
 [![Paypal Donate](https://www.paypalobjects.com/en_US/NL/i/btn/btn_donateCC_LG.gif)](https://www.paypal.me/TedTolboom)
 
 ## Changelog:
-v2.0.3   
+v2.2.0
+* Add support for the Heatit Z-relay device   
+* Add support for the Heatit Z-DIN-616 device
+* Update branding of the app    
+
+v2.1.2 (BETA)
+* Fix temperature reporting issues for Z-wave thermostat (FW 1.92), Z-TRM2(fx) and Z-Water *(Homey SW 2.0.5+)*   
+  *Note*: Please follow the steps mentioned below to fix the temperature reporting (only working as of Homey Software 2.0.5):
+  * For already paired devices:   
+      1. Go to advanced settings, and replace (add if not existing) Homey's ID `1` with `1.1` in the following association groups used for the temperature reporting:   
+        * Z-wave thermostat (FW 1.92): Group 3, 4 and 5   
+        * Z-TRM2(fx): Group 2 and 3   
+        * Z-Water: Group 11, 12, 13 and 14    
+      2. For the thermostats, change in the Device specific settings (Sensor settings group), the 'Displayed temperature' to the sensor connected (default: floor sensor)   
+      3. Save settings   
+  * Alternative option is to remove and re-include the device based on the v2.1.2 version of the app   
+* Add temperature changed flow cards for Z-wave thermostat (FW 1.92), Z-TRM2(fx) and Z-Water
+* Update to meshdriver v1.2.32   
+
+v2.1.1 (BETA)
+* Add support for the Z-Water regulator   
+* Update to meshdriver v1.2.30   
+* *Note*: due to an S2 issue within the Homey Z-wave core, the measured temperatures are not reported for the Z-wave thermostat (FW 1.92) and Z-TRM2(fx) thermostats as well as the Z-Water regulator. When this will be resolved, it is likely that the thermostat will need to be re-included      
+
+v2.1.0 (BETA)
+* Add support for the Z-wave thermostat (FW 1.92)    
+* Add support for the Z-TRM2(fx) thermostat
+* Add all remaining settings for the thermostats
+* Add Power Regulator Mode action card for the Z-wave thermostat (use at own risk)       
+* *Note*: due to an issue within the Homey Z-wave core, the measured temperatures are not reported for the Z-wave thermostat (FW 1.92) and the Z-TRM2(fx) thermostats. When this will be resolved, it is likely that the thermostat will need to be re-included      
+
+v2.0.3
 * Fix battery icon not visible on mobile interface for 1.5.13 (re-inclusion required to fix)    
-* Remove not supported "Key Pressed 2 times" option from "A scene has been activated trigger card"
-* Add explicit not to settings to wake-up the Z-push before saving changes to the settings / association groups   
+* Remove not supported "Key Pressed 2 times" option from "A scene has been activated trigger card"    
+* Add explicit not to settings to wake-up the Z-push before saving changes to the settings / association groups    
 
 v2.0.2   
 * Add support for the Z-Push button 2 and Z-Push button 8 devices    

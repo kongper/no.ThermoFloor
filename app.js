@@ -7,6 +7,34 @@ class ThermoFloorApp extends Homey.App {
 	onInit() {
 		this.log(`${Homey.manifest.id} running...`);
 
+		this.triggerMeasureTemperatureFloor = new Homey.FlowCardTriggerDevice('measure_temperature.floor_changed')
+		this.triggerMeasureTemperatureFloor
+			.register();
+
+		this.triggerMeasureTemperatureExternal = new Homey.FlowCardTriggerDevice('measure_temperature.external_changed')
+		this.triggerMeasureTemperatureExternal
+			.register();
+
+		this.triggerMeasureTemperatureInternal = new Homey.FlowCardTriggerDevice('measure_temperature.internal_changed')
+		this.triggerMeasureTemperatureInternal
+			.register();
+
+		this.triggerMeasureTemperatureInput1 = new Homey.FlowCardTriggerDevice('measure_temperature.input1_changed')
+		this.triggerMeasureTemperatureInput1
+			.register();
+
+		this.triggerMeasureTemperatureInput2 = new Homey.FlowCardTriggerDevice('measure_temperature.input2_changed')
+		this.triggerMeasureTemperatureInput2
+			.register();
+
+		this.triggerMeasureTemperatureInput3 = new Homey.FlowCardTriggerDevice('measure_temperature.input3_changed')
+		this.triggerMeasureTemperatureInput3
+			.register();
+
+		this.triggerMeasureTemperatureInput4 = new Homey.FlowCardTriggerDevice('measure_temperature.input4_changed')
+		this.triggerMeasureTemperatureInput4
+			.register();
+
 		//thermofloor_mode_changed
 		this.triggerThermofloorModeChanged = new Homey.FlowCardTriggerDevice('thermofloor_mode_changed');
 		this.triggerThermofloorModeChanged
@@ -65,6 +93,10 @@ class ThermoFloorApp extends Homey.App {
 			.register()
 			.registerRunListener(this._actionThermofloorChangeSetpointRunListener.bind(this));
 
+		this._setPowerRegulatorMode = new Homey.FlowCardAction('thermofloor_set_PowerRegulatorMode')
+			.register()
+			.registerRunListener(this._setPowerRegulatorMode.bind(this));
+
 	}
 
 	// thermofloor_change_mode_setpoint
@@ -113,6 +145,26 @@ class ThermoFloorApp extends Homey.App {
 
 			return Promise.reject('unknown_error');
 		}
+	}
+
+	async _setPowerRegulatorMode(args, state) {
+		if (!args.hasOwnProperty('set_power_regulator_mode')) return Promise.reject('set_power_regulator_mode_property_missing');
+		if (typeof args.set_power_regulator_mode !== 'number') return Promise.reject('set_power_regulator_mode_is_not_a_number');
+		if (args.set_forced_brightness_level > 10) return Promise.reject('set_power_regulator_mode_out_of_range');
+
+		try {
+			let result = await args.device.configurationSet({
+				id: 'P_setting'
+			}, args.set_power_regulator_mode);
+			return args.device.setSettings({
+				'P_setting': args.set_power_regulator_mode
+			});
+		}
+		catch (error) {
+			args.device.log(error.message);
+			return Promise.reject(error.message);
+		}
+		return Promise.reject('unknown_error');
 	}
 }
 

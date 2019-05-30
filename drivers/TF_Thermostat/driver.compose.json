@@ -1,7 +1,7 @@
 {
 	"id": "TF_Thermostat",
 	"name": {
-		"en": "Thermo-Floor Z-wave thermostat (Multireg / Heatit / Magnum)"
+		"en": "Z-wave thermostat"
 	},
 	"icon": "{{driverAssetsPath}}/icon.svg",
 	"images": {

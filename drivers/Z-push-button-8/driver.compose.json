@@ -1,7 +1,7 @@
 {
 	"id": "Z-push-button-8",
 	"name": {
-		"en": "Heatit Z-Push Button 8"
+		"en": "Z-Push Button 8"
 	},
 	"icon": "{{driverAssetsPath}}/icon.svg",
 	"images": {
