@@ -151,6 +151,18 @@
 					"nl": "On/off  control: Deze groep schakelt externe verwarmings of koelings elementen. \nMaakt gebruik van het BASIC_SET command, values 0x00 (on) and 0xFF (on).\nStandaard: 1 (Homey's ID), nodig om de toestand van de thermostat (Actief / Inactief) bij te houden"
 				}
 			}
-		}
+		},
+		"defaultConfiguration": [
+			{
+				"id": 19,
+				"size": 2,
+				"value": 900
+			},
+			{
+				"id": 21,
+				"size": 2,
+				"value": 900
+			}
+		]
 	}
 }

@@ -142,6 +142,7 @@ If you like the app, consider a donation to support development
 ## Changelog:
 v2.2.1
 * Fix issue not being able to include the Heatit Z-push button 2 and Z-push button 8 devices   
+* Z-TRM2(fx) changed default temperature- and meter-reporting interval from 60 to 900 seconds to prevent Z-wave network lock-up    
 
 v2.2.0
 * Add support for the Heatit Z-relay device   
