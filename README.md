@@ -5,7 +5,7 @@ This app adds support for the Z-wave devices by [Heatit controls](http://www.hea
 </a>  
 
 ## Links:
-[Heatit app at Athom apps](https://apps.athom.com/app/no.ThermoFloor)                      
+[Heatit app at Athom apps](https://apps.athom.com/app/no.thermofloor)                      
 [Heatit Github repository](https://github.com/TedTolboom/no.ThermoFloor)             
 
 ## Devices supported:
