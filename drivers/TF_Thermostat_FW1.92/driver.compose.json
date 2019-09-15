@@ -46,6 +46,12 @@
 			"title": "floor temperature"
 		}
 	},
+	"energy": {
+		"approximation": {
+			"usageOn": 3600,
+			"usageOff": 0
+		}
+	},
 	"mobile": {
 		"components": [
 			{

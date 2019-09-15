@@ -13,6 +13,9 @@
     "measure_battery",
     "alarm_battery"
   ],
+	"energy": {
+		"batteries": [ "CR2450" ]
+	},
 	"mobile": {
 		"components": [
 			{
