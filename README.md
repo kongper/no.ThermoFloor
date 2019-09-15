@@ -5,7 +5,7 @@ This app adds support for the Z-wave devices by [Heatit controls](http://www.hea
 </a>  
 
 ## Links:
-[Heatit app at Athom apps](https://apps.athom.com/app/no.ThermoFloor)                      
+[Heatit app at Athom apps](https://apps.athom.com/app/no.thermofloor))                      
 [Heatit Github repository](https://github.com/TedTolboom/no.ThermoFloor)             
 
 ## Devices supported:
@@ -140,6 +140,9 @@ If you like the app, consider a donation to support development
 [![Paypal Donate](https://www.paypalobjects.com/en_US/NL/i/btn/btn_donateCC_LG.gif)](https://www.paypal.me/TedTolboom)
 
 ## Changelog:
+v2.3.0 (BETA)
+* Fix S2 security handshake issues with Z-TRM2fx, Z-water and Z-Relay that might clog the Z-wave network by forcing non-secure inclusion   
+
 v2.2.1
 * Fix issue not being able to include the Heatit Z-push button 2 and Z-push button 8 devices   
 * Z-TRM2(fx) changed default temperature- and meter-reporting interval from 60 to 900 seconds to prevent Z-wave network lock-up    
