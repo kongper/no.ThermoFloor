@@ -68,6 +68,8 @@
 		"manufacturerId": 411,
 		"productTypeId": 3,
 		"productId": 522,
+		"includeSecure": false,
+		"__comment": "Reverted back to non secure inclusion due to S2 security handshake issues",
 		"productDocumentation": "",
 		"pid": 3065,
 		"imageRemotePath": "",

@@ -34,7 +34,10 @@
       "title": {
 				"en": "Sensor 2"
 			}
-    }
+    },
+		"measure_power": {
+			"approximated": true
+		}
   },
 	"mobile": {
 		"components": [
@@ -64,6 +67,8 @@
 		"manufacturerId": 411,
 		"productTypeId": 3,
 		"productId": 520,
+		"includeSecure": false,
+		"__comment": "Reverted back to non secure inclusion due to S2 security handshake issues",
 		"productDocumentation": "",
 		"pid": 3065,
 		"imageRemotePath": "",
