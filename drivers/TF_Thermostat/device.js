@@ -9,10 +9,10 @@ class TF_ThermostatDevice extends ZwaveDevice {
 	async onMeshInit() {
 
 		// enable debugging
-		this.enableDebug();
+		// this.enableDebug();
 
 		// print the node's info to the console
-		this.printNode();
+		// this.printNode();
 
 		// registerCapability for measure_temperature for FW <=18.
 		this.registerCapability('measure_temperature', 'SENSOR_MULTILEVEL', {
