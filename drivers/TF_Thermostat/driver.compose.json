@@ -31,56 +31,6 @@
 			}
 		}
 	},
-	"energy": {
-		"approximation": {
-			"usageOn": 3600,
-			"usageOff": 0
-		}
-	},
-	"mobile": {
-		"components": [
-			{
-				"id": "icon",
-				"capabilities": []
-      },
-			{
-				"id": "sensor",
-				"capabilities": [
-          "measure_temperature",
-          "thermofloor_onoff"
-        ],
-				"options": {
-					"icons": {
-						"thermofloor_onoff": "{{driverAssetsPath}}/thermofloor_onoff.svg"
-					},
-					"thermofloor_onoff": {
-						"noblink": false,
-						"greyout": true,
-						"label": {
-							"true": {
-								"en": "Active"
-							},
-							"false": {
-								"en": "Idle"
-							}
-						}
-					}
-				}
-      },
-			{
-				"id": "picker",
-				"capabilities": [
-          "thermofloor_mode"
-        ]
-      },
-			{
-				"id": "thermostat",
-				"capabilities": [
-          "target_temperature"
-        ]
-      }
-    ]
-	},
 	"zwave": {
 		"manufacturerId": 411,
 		"productTypeId": 1,

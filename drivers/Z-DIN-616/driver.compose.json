@@ -20,24 +20,6 @@
 			}
     }
   },
-	"energy": {
-		"approximation": {
-			"usageOn": 3600,
-			"usageOff": 0
-		}
-	},
-	"mobile": {
-		"components": [
-			{
-				"id": "icon",
-				"capabilities": ["onoff"]
-      },
-			{
-				"id": "toggle",
-				"capabilities": ["onoff"]
-			}
-    ]
-	},
 	"zwave": {
 		"manufacturerId": 564,
 		"productTypeId": 3,
@@ -169,12 +151,6 @@
 				"icon": "{{driverAssetsPath}}/icon-2.svg",
 				"name": {
 					"en": "Relay 2"
-				},
-				"energy": {
-					"approximation": {
-						"usageOn": 3600,
-						"usageOff": 0
-					}
 				}
 			},
 			"3": {
@@ -185,12 +161,6 @@
 				"icon": "{{driverAssetsPath}}/icon-3.svg",
 				"name": {
 					"en": "Relay 3"
-				},
-				"energy": {
-					"approximation": {
-						"usageOn": 3600,
-						"usageOff": 0
-					}
 				}
 			},
 			"4": {
@@ -201,12 +171,6 @@
 				"icon": "{{driverAssetsPath}}/icon-4.svg",
 				"name": {
 					"en": "Relay 4"
-				},
-				"energy": {
-					"approximation": {
-						"usageOn": 3600,
-						"usageOff": 0
-					}
 				}
 			},
 			"5": {
@@ -217,12 +181,6 @@
 				"icon": "{{driverAssetsPath}}/icon-5.svg",
 				"name": {
 					"en": "Relay 5"
-				},
-				"energy": {
-					"approximation": {
-						"usageOn": 3600,
-						"usageOff": 0
-					}
 				}
 			},
 			"6": {
@@ -233,12 +191,6 @@
 				"icon": "{{driverAssetsPath}}/icon-6.svg",
 				"name": {
 					"en": "Relay 6"
-				},
-				"energy": {
-					"approximation": {
-						"usageOn": 3600,
-						"usageOff": 0
-					}
 				}
 			}
 		}

@@ -43,27 +43,6 @@
 			}
     }
   },
-	"mobile": {
-		"components": [
-			{
-				"id": "icon",
-				"capabilities": ["onoff"]
-      },
-			{
-				"id": "toggle",
-				"capabilities": ["onoff"]
-			},
-			{
-				"id": "sensor",
-				"capabilities": [
-          "measure_temperature.input1",
-					"measure_temperature.input2",
-					"measure_temperature.input3",
-					"measure_temperature.input4"
-        ]
-      }
-    ]
-	},
 	"zwave": {
 		"manufacturerId": 411,
 		"productTypeId": 3,

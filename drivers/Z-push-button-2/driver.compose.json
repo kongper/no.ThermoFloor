@@ -16,22 +16,6 @@
 	"energy": {
 		"batteries": [ "CR2450" ]
 	},
-	"mobile": {
-		"components": [
-			{
-				"id": "icon"
-			},
-			{
-				"id": "battery",
-				"capabilities": [
-					"measure_battery"
-				],
-				"options": {
-					"showTitle": true
-				}
-			}
-		]
-	},
 	"zwave": {
 		"manufacturerId": [411, 816],
 		"productTypeId": 768,

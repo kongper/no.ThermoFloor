@@ -39,30 +39,6 @@
 			"approximated": true
 		}
   },
-	"mobile": {
-		"components": [
-			{
-				"id": "icon",
-				"capabilities": ["onoff"]
-      },
-			{
-				"id": "toggle",
-				"capabilities": ["onoff"]
-			},
-			{
-				"id": "sensor",
-				"capabilities": [
-					"alarm_water",
-					"measure_temperature.input1",
-					"measure_temperature.input2",
-					"measure_power",
-					"meter_power",
-					"measure_voltage",
-					"measure_current"
-        ]
-      }
-    ]
-	},
 	"zwave": {
 		"manufacturerId": 411,
 		"productTypeId": 3,
