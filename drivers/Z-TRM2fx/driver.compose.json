@@ -51,55 +51,6 @@
 			"approximated": true
 		}
 	},
-	"mobile": {
-		"components": [
-			{
-				"id": "icon",
-				"capabilities": []
-      },
-			{
-				"id": "sensor",
-				"capabilities": [
-          "measure_temperature",
-					"measure_temperature.external",
-					"measure_temperature.floor",
-          "thermofloor_onoff",
-					"measure_power",
-					"measure_voltage",
-					"meter_power"
-        ],
-				"options": {
-					"icons": {
-						"thermofloor_onoff": "{{driverAssetsPath}}/thermofloor_onoff.svg"
-					},
-					"thermofloor_onoff": {
-						"noblink": false,
-						"greyout": true,
-						"label": {
-							"true": {
-								"en": "Active"
-							},
-							"false": {
-								"en": "Idle"
-							}
-						}
-					}
-				}
-      },
-			{
-				"id": "picker",
-				"capabilities": [
-          "thermofloor_mode"
-        ]
-      },
-			{
-				"id": "thermostat",
-				"capabilities": [
-          "target_temperature"
-        ]
-      }
-    ]
-	},
 	"zwave": {
 		"manufacturerId": 411,
 		"productTypeId": 3,
@@ -156,18 +107,6 @@
 					"nl": "On/off  control: Deze groep schakelt externe verwarmings of koelings elementen. \nMaakt gebruik van het BASIC_SET command, values 0x00 (on) and 0xFF (on).\nStandaard: 1 (Homey's ID), nodig om de toestand van de thermostat (Actief / Inactief) bij te houden"
 				}
 			}
-		},
-		"defaultConfiguration": [
-			{
-				"id": 19,
-				"size": 2,
-				"value": 900
-			},
-			{
-				"id": 21,
-				"size": 2,
-				"value": 900
-			}
-		]
+		}
 	}
 }
