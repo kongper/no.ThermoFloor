@@ -20,18 +20,6 @@
 			}
     }
   },
-	"mobile": {
-		"components": [
-			{
-				"id": "icon",
-				"capabilities": ["onoff"]
-      },
-			{
-				"id": "toggle",
-				"capabilities": ["onoff"]
-			}
-    ]
-	},
 	"zwave": {
 		"manufacturerId": 564,
 		"productTypeId": 3,

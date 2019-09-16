@@ -9,10 +9,10 @@ class Z_RelayDevice extends ZwaveDevice {
 	async onMeshInit() {
 
 		// enable debugging
-		this.enableDebug();
+		//this.enableDebug();
 
 		// print the node's info to the console
-		this.printNode();
+		//this.printNode();
 
 		this.registerCapability('onoff', 'SWITCH_BINARY', {
 			getOpts: {

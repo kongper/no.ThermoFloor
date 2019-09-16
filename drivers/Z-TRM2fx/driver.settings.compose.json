@@ -91,7 +91,8 @@
 				"zwave": {
 					"index": 19,
 					"size": 2
-				}
+				},
+				"value": 60
 	},
 			{
 				"$extends": "Temperature_report_threshold",
@@ -107,7 +108,8 @@
 				"zwave": {
 					"index": 21,
 					"size": 2
-				}
+				},
+				"value": 60
 			},
 			{
 				"$extends": "Meter_report_threshold",

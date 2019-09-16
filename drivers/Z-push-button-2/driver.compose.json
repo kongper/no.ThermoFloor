@@ -13,24 +13,11 @@
     "measure_battery",
     "alarm_battery"
   ],
-	"mobile": {
-		"components": [
-			{
-				"id": "icon"
-			},
-			{
-				"id": "battery",
-				"capabilities": [
-					"measure_battery"
-				],
-				"options": {
-					"showTitle": true
-				}
-			}
-		]
+	"energy": {
+		"batteries": [ "CR2450" ]
 	},
 	"zwave": {
-		"manufacturerId": 411,
+		"manufacturerId": [411, 816],
 		"productTypeId": 768,
 		"productId": 41735,
 		"productDocumentation": "",

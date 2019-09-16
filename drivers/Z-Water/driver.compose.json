@@ -43,31 +43,12 @@
 			}
     }
   },
-	"mobile": {
-		"components": [
-			{
-				"id": "icon",
-				"capabilities": ["onoff"]
-      },
-			{
-				"id": "toggle",
-				"capabilities": ["onoff"]
-			},
-			{
-				"id": "sensor",
-				"capabilities": [
-          "measure_temperature.input1",
-					"measure_temperature.input2",
-					"measure_temperature.input3",
-					"measure_temperature.input4"
-        ]
-      }
-    ]
-	},
 	"zwave": {
 		"manufacturerId": 411,
 		"productTypeId": 3,
 		"productId": 522,
+		"includeSecure": false,
+		"__comment": "Reverted back to non secure inclusion due to S2 security handshake issues",
 		"productDocumentation": "",
 		"pid": 3065,
 		"imageRemotePath": "",
