@@ -624,56 +624,6 @@
           }
         }
       },
-      "energy": {
-        "approximation": {
-          "usageOn": 3600,
-          "usageOff": 0
-        }
-      },
-      "mobile": {
-        "components": [
-          {
-            "id": "icon",
-            "capabilities": []
-          },
-          {
-            "id": "sensor",
-            "capabilities": [
-              "measure_temperature",
-              "thermofloor_onoff"
-            ],
-            "options": {
-              "icons": {
-                "thermofloor_onoff": "/drivers/TF_Thermostat/assets/thermofloor_onoff.svg"
-              },
-              "thermofloor_onoff": {
-                "noblink": false,
-                "greyout": true,
-                "label": {
-                  "true": {
-                    "en": "Active"
-                  },
-                  "false": {
-                    "en": "Idle"
-                  }
-                }
-              }
-            }
-          },
-          {
-            "id": "picker",
-            "capabilities": [
-              "thermofloor_mode"
-            ]
-          },
-          {
-            "id": "thermostat",
-            "capabilities": [
-              "target_temperature"
-            ]
-          }
-        ]
-      },
       "zwave": {
         "manufacturerId": 411,
         "productTypeId": 1,
@@ -1192,59 +1142,6 @@
         "measure_temperature.floor": {
           "title": "floor temperature"
         }
-      },
-      "energy": {
-        "approximation": {
-          "usageOn": 3600,
-          "usageOff": 0
-        }
-      },
-      "mobile": {
-        "components": [
-          {
-            "id": "icon",
-            "capabilities": []
-          },
-          {
-            "id": "sensor",
-            "capabilities": [
-              "measure_temperature",
-              "measure_temperature.floor",
-              "measure_temperature.internal",
-              "measure_temperature.external",
-              "thermofloor_onoff"
-            ],
-            "options": {
-              "icons": {
-                "thermofloor_onoff": "/drivers/TF_Thermostat_FW1.92/assets/thermofloor_onoff.svg"
-              },
-              "thermofloor_onoff": {
-                "noblink": false,
-                "greyout": true,
-                "label": {
-                  "true": {
-                    "en": "Active"
-                  },
-                  "false": {
-                    "en": "Idle"
-                  }
-                }
-              }
-            }
-          },
-          {
-            "id": "picker",
-            "capabilities": [
-              "thermofloor_mode"
-            ]
-          },
-          {
-            "id": "thermostat",
-            "capabilities": [
-              "target_temperature"
-            ]
-          }
-        ]
       },
       "zwave": {
         "manufacturerId": 411,
@@ -1798,28 +1695,6 @@
           }
         }
       },
-      "energy": {
-        "approximation": {
-          "usageOn": 3600,
-          "usageOff": 0
-        }
-      },
-      "mobile": {
-        "components": [
-          {
-            "id": "icon",
-            "capabilities": [
-              "onoff"
-            ]
-          },
-          {
-            "id": "toggle",
-            "capabilities": [
-              "onoff"
-            ]
-          }
-        ]
-      },
       "zwave": {
         "manufacturerId": 564,
         "productTypeId": 3,
@@ -1956,12 +1831,6 @@
             "icon": "/drivers/Z-DIN-616/assets/icon-2.svg",
             "name": {
               "en": "Relay 2"
-            },
-            "energy": {
-              "approximation": {
-                "usageOn": 3600,
-                "usageOff": 0
-              }
             }
           },
           "3": {
@@ -1972,12 +1841,6 @@
             "icon": "/drivers/Z-DIN-616/assets/icon-3.svg",
             "name": {
               "en": "Relay 3"
-            },
-            "energy": {
-              "approximation": {
-                "usageOn": 3600,
-                "usageOff": 0
-              }
             }
           },
           "4": {
@@ -1988,12 +1851,6 @@
             "icon": "/drivers/Z-DIN-616/assets/icon-4.svg",
             "name": {
               "en": "Relay 4"
-            },
-            "energy": {
-              "approximation": {
-                "usageOn": 3600,
-                "usageOff": 0
-              }
             }
           },
           "5": {
@@ -2004,12 +1861,6 @@
             "icon": "/drivers/Z-DIN-616/assets/icon-5.svg",
             "name": {
               "en": "Relay 5"
-            },
-            "energy": {
-              "approximation": {
-                "usageOn": 3600,
-                "usageOff": 0
-              }
             }
           },
           "6": {
@@ -2020,12 +1871,6 @@
             "icon": "/drivers/Z-DIN-616/assets/icon-6.svg",
             "name": {
               "en": "Relay 6"
-            },
-            "energy": {
-              "approximation": {
-                "usageOn": 3600,
-                "usageOff": 0
-              }
             }
           }
         }
@@ -2704,34 +2549,6 @@
           "approximated": true
         }
       },
-      "mobile": {
-        "components": [
-          {
-            "id": "icon",
-            "capabilities": [
-              "onoff"
-            ]
-          },
-          {
-            "id": "toggle",
-            "capabilities": [
-              "onoff"
-            ]
-          },
-          {
-            "id": "sensor",
-            "capabilities": [
-              "alarm_water",
-              "measure_temperature.input1",
-              "measure_temperature.input2",
-              "measure_power",
-              "meter_power",
-              "measure_voltage",
-              "measure_current"
-            ]
-          }
-        ]
-      },
       "zwave": {
         "manufacturerId": 411,
         "productTypeId": 3,
@@ -3319,55 +3136,6 @@
           "approximated": true
         }
       },
-      "mobile": {
-        "components": [
-          {
-            "id": "icon",
-            "capabilities": []
-          },
-          {
-            "id": "sensor",
-            "capabilities": [
-              "measure_temperature",
-              "measure_temperature.external",
-              "measure_temperature.floor",
-              "thermofloor_onoff",
-              "measure_power",
-              "measure_voltage",
-              "meter_power"
-            ],
-            "options": {
-              "icons": {
-                "thermofloor_onoff": "/drivers/Z-TRM2fx/assets/thermofloor_onoff.svg"
-              },
-              "thermofloor_onoff": {
-                "noblink": false,
-                "greyout": true,
-                "label": {
-                  "true": {
-                    "en": "Active"
-                  },
-                  "false": {
-                    "en": "Idle"
-                  }
-                }
-              }
-            }
-          },
-          {
-            "id": "picker",
-            "capabilities": [
-              "thermofloor_mode"
-            ]
-          },
-          {
-            "id": "thermostat",
-            "capabilities": [
-              "target_temperature"
-            ]
-          }
-        ]
-      },
       "zwave": {
         "manufacturerId": 411,
         "productTypeId": 3,
@@ -3424,19 +3192,7 @@
               "nl": "On/off  control: Deze groep schakelt externe verwarmings of koelings elementen. \nMaakt gebruik van het BASIC_SET command, values 0x00 (on) and 0xFF (on).\nStandaard: 1 (Homey's ID), nodig om de toestand van de thermostat (Actief / Inactief) bij te houden"
             }
           }
-        },
-        "defaultConfiguration": [
-          {
-            "id": 19,
-            "size": 2,
-            "value": 900
-          },
-          {
-            "id": 21,
-            "size": 2,
-            "value": 900
-          }
-        ]
+        }
       },
       "settings": [
         {
@@ -3690,7 +3446,7 @@
                 "index": 19,
                 "size": 2
               },
-              "value": 900,
+              "value": 60,
               "type": "number",
               "attr": {
                 "min": 0,
@@ -3732,7 +3488,7 @@
                 "index": 21,
                 "size": 2
               },
-              "value": 900,
+              "value": 60,
               "type": "number",
               "attr": {
                 "min": 0,
@@ -4108,31 +3864,6 @@
             "en": "Sensor 4"
           }
         }
-      },
-      "mobile": {
-        "components": [
-          {
-            "id": "icon",
-            "capabilities": [
-              "onoff"
-            ]
-          },
-          {
-            "id": "toggle",
-            "capabilities": [
-              "onoff"
-            ]
-          },
-          {
-            "id": "sensor",
-            "capabilities": [
-              "measure_temperature.input1",
-              "measure_temperature.input2",
-              "measure_temperature.input3",
-              "measure_temperature.input4"
-            ]
-          }
-        ]
       },
       "zwave": {
         "manufacturerId": 411,
@@ -4778,22 +4509,6 @@
           "CR2450"
         ]
       },
-      "mobile": {
-        "components": [
-          {
-            "id": "icon"
-          },
-          {
-            "id": "battery",
-            "capabilities": [
-              "measure_battery"
-            ],
-            "options": {
-              "showTitle": true
-            }
-          }
-        ]
-      },
       "zwave": {
         "manufacturerId": [
           411,
@@ -4869,22 +4584,6 @@
       "energy": {
         "batteries": [
           "CR2450"
-        ]
-      },
-      "mobile": {
-        "components": [
-          {
-            "id": "icon"
-          },
-          {
-            "id": "battery",
-            "capabilities": [
-              "measure_battery"
-            ],
-            "options": {
-              "showTitle": true
-            }
-          }
         ]
       },
       "zwave": {
