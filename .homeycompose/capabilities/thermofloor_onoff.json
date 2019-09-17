@@ -24,5 +24,14 @@
 	"icon": "/assets/thermofloor_onoff.svg",
 	"getable": true,
 	"setable": false,
-	"greyout": true
+	"greyout": true,
+	"insights": true,
+	"insightsTitleTrue": {
+		"en": "Heating / Cooling turned on",
+		"nl": "Verwarming / Koeling ingeschakeld"
+	},
+	"insightsTitleFalse": {
+		"en": "Heating / Cooling turned off",
+		"nl": "Verwarming / Koeling uitgeschakeld"
+	}
 }

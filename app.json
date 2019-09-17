@@ -4738,7 +4738,16 @@
         "nl": "Status van de thermostaat"
       },
       "getable": true,
-      "setable": false
+      "setable": false,
+      "insights": true,
+      "insightsTitleTrue": {
+        "en": "Heating / Cooling turned on",
+        "nl": "Verwarming / Koeling ingeschakeld"
+      },
+      "insightsTitleFalse": {
+        "en": "Heating / Cooling turned off",
+        "nl": "Verwarming / Koeling uitgeschakeld"
+      }
     }
   }
 }
