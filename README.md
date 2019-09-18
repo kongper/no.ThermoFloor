@@ -141,7 +141,8 @@ If you like the app, consider a donation to support development
 
 ## Changelog:
 v2.3.0 (BETA), Homey SW ≥2.4.0
-* Fix S2 security handshake issues with Z-TRM2fx, Z-water and Z-Relay that result in Z-wave network stability issues by forcing non-secure inclusion. All users experiencing stability issues with the Z-TRM2fx, Z-Water and Z-Relay devices are advised to upgrade to v2.3.0 and remove and re-include their devices based on this version   
+* Fix S2 security handshake issues with Z-TRM2fx, Z-water and Z-Relay that result in Z-wave network stability issues by forcing non-secure inclusion.
+   * All users experiencing stability issues with the Z-TRM2fx, Z-Water and Z-Relay devices are advised to upgrade to v2.3.0 and remove and re-include their devices based on the v2.3.0 version   
 * Removed Homey 1.x.x mobile interface (obsolete)   
 * Add insights logging for the Thermostat state capability   
 * Prepared app and drivers for 'Energy' (Homey 3.0.0)
