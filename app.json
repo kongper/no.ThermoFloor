@@ -2564,7 +2564,7 @@
     {
       "id": "Z-Dim",
       "name": {
-        "en": "Heatit Z-Dim"
+        "en": "Z-Dim"
       },
       "class": "light",
       "capabilities": [
@@ -2774,11 +2774,11 @@
               "type": "number"
             },
             {
-              "id": "dimming_step_manual",
+              "id": "dimming_step_rotate",
               "type": "number",
               "label": {
-                "en": "Dim step size with automatic control",
-                "nl": "Stapgrootte dimmen bij automatische besturing"
+                "en": "Dim step size",
+                "nl": "Stapgrootte dimmen"
               },
               "value": 15,
               "attr": {
@@ -4222,7 +4222,7 @@
     {
       "id": "Z-Water",
       "name": {
-        "en": "Heatit Z-Water regulator"
+        "en": "Z-Water regulator"
       },
       "icon": "/drivers/Z-Water/assets/icon-1.svg",
       "images": {
