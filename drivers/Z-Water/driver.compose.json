@@ -1,7 +1,7 @@
 {
 	"id": "Z-Water",
 	"name": {
-		"en": "Heatit Z-Water regulator"
+		"en": "Z-Water regulator"
 	},
 	"icon": "{{driverAssetsPath}}/icon-1.svg",
 	"images": {
@@ -43,31 +43,18 @@
 			}
     }
   },
-	"mobile": {
-		"components": [
-			{
-				"id": "icon",
-				"capabilities": ["onoff"]
-      },
-			{
-				"id": "toggle",
-				"capabilities": ["onoff"]
-			},
-			{
-				"id": "sensor",
-				"capabilities": [
-          "measure_temperature.input1",
-					"measure_temperature.input2",
-					"measure_temperature.input3",
-					"measure_temperature.input4"
-        ]
-      }
-    ]
-	},
+	"energy": {
+    "approximation": {
+      "usageOn": 0,
+      "usageOff": 0
+    }
+  },
 	"zwave": {
 		"manufacturerId": 411,
 		"productTypeId": 3,
 		"productId": 522,
+		"includeSecure": false,
+		"__comment": "Reverted back to non secure inclusion due to S2 security handshake issues",
 		"productDocumentation": "",
 		"pid": 3065,
 		"imageRemotePath": "",
@@ -170,6 +157,12 @@
 				"capabilities": [
 					"onoff"
 				],
+				"energy": {
+			    "approximation": {
+			      "usageOn": 0,
+			      "usageOff": 0
+			    }
+			  },
 				"icon": "{{driverAssetsPath}}/icon-2.svg",
 				"name": {
 					"en": "Relay 2"
@@ -180,6 +173,12 @@
 				"capabilities": [
 					"onoff"
 				],
+				"energy": {
+			    "approximation": {
+			      "usageOn": 0,
+			      "usageOff": 0
+			    }
+			  },
 				"icon": "{{driverAssetsPath}}/icon-3.svg",
 				"name": {
 					"en": "Relay 3"
@@ -190,6 +189,12 @@
 				"capabilities": [
 					"onoff"
 				],
+				"energy": {
+			    "approximation": {
+			      "usageOn": 0,
+			      "usageOff": 0
+			    }
+			  },
 				"icon": "{{driverAssetsPath}}/icon-4.svg",
 				"name": {
 					"en": "Relay 4"
@@ -200,6 +205,12 @@
 				"capabilities": [
 					"onoff"
 				],
+				"energy": {
+			    "approximation": {
+			      "usageOn": 0,
+			      "usageOff": 0
+			    }
+			  },
 				"icon": "{{driverAssetsPath}}/icon-5.svg",
 				"name": {
 					"en": "Relay 5"
@@ -210,6 +221,12 @@
 				"capabilities": [
 					"onoff"
 				],
+				"energy": {
+			    "approximation": {
+			      "usageOn": 0,
+			      "usageOff": 0
+			    }
+			  },
 				"icon": "{{driverAssetsPath}}/icon-6.svg",
 				"name": {
 					"en": "Relay 6"
@@ -220,6 +237,12 @@
 				"capabilities": [
 					"onoff"
 				],
+				"energy": {
+			    "approximation": {
+			      "usageOn": 0,
+			      "usageOff": 0
+			    }
+			  },
 				"icon": "{{driverAssetsPath}}/icon-7.svg",
 				"name": {
 					"en": "Relay 7"
@@ -230,6 +253,12 @@
 				"capabilities": [
 					"onoff"
 				],
+				"energy": {
+			    "approximation": {
+			      "usageOn": 0,
+			      "usageOff": 0
+			    }
+			  },
 				"icon": "{{driverAssetsPath}}/icon-8.svg",
 				"name": {
 					"en": "Relay 8"
@@ -240,6 +269,12 @@
 				"capabilities": [
 					"onoff"
 				],
+				"energy": {
+			    "approximation": {
+			      "usageOn": 0,
+			      "usageOff": 0
+			    }
+			  },
 				"icon": "{{driverAssetsPath}}/icon-9.svg",
 				"name": {
 					"en": "Relay 9"
@@ -250,6 +285,12 @@
 				"capabilities": [
 					"onoff"
 				],
+				"energy": {
+			    "approximation": {
+			      "usageOn": 0,
+			      "usageOff": 0
+			    }
+			  },
 				"icon": "{{driverAssetsPath}}/icon-10.svg",
 				"name": {
 					"en": "Relay 10"

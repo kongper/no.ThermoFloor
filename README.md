@@ -112,6 +112,16 @@ The Heatit Z-Relay multipurpose relay module can be used for many different appl
 * The relay has three inputs: analog or digital. You can use both analog and digital inputs, or a combination.
 * Heatit Z-Relay is a multipurpose product and can be used for the following applications: Boiler control / Leakage control / Temperature control / Outdoor applications
 
+### Heatit Z-dim
+<a href="https://github.com/TedTolboom/no.ThermoFloor">
+  <img src="https://rawgit.com/TedTolboom/no.ThermoFloor/beta/drivers/Z-Dim/assets/icon.svg" width="25%" height="25%">
+</a>
+Z-Wave rotary dimmer for different light sources. The LED dimmer dims at low load without the light flickering. Dimmer LED from 1-200VA, 230V halogen and incandescent bulbs, dimmable LED drivers and electronic transformers. Not affected by additional starting currents. Need L + N conductor connected.
+
+The dimmer has end-turn function. This allows you to turn on the light and dimming with one dimmer, and then turn off the light with another dimmer. Convenient for example in stairs and corridors.
+
+The dimmer fits into standard Elko, Schneider Exxact and Gira System 55 frame systems.
+
 ## Supported Languages:
 * English   
 * Dutch    
@@ -140,6 +150,22 @@ If you like the app, consider a donation to support development
 [![Paypal Donate](https://www.paypalobjects.com/en_US/NL/i/btn/btn_donateCC_LG.gif)](https://www.paypal.me/TedTolboom)
 
 ## Changelog:
+2.4.1 (BETA), Homey SW ≥2.4.0
+* Finalize app and drivers for 'Energy' (Homey 3.0.0)   
+* Update Homey meshdriver to v1.3.14  
+
+v2.4.0 (BETA), Homey SW ≥2.4.0
+* Add support for Heatit Z-Dim rotary dimmer      
+* Update Homey meshdriver to v1.3.9      
+
+v2.3.0 (BETA), Homey SW ≥2.4.0
+* Fix S2 security handshake issues with Z-TRM2fx, Z-water and Z-Relay that result in Z-wave network stability issues by forcing non-secure inclusion.
+   * All users experiencing stability issues with the Z-TRM2fx, Z-Water and Z-Relay devices are advised to upgrade to v2.3.0 and remove and re-include their devices based on the v2.3.0 version   
+* Removed Homey 1.x.x mobile interface (obsolete)   
+* Add insights logging for the Thermostat state capability   
+* Prepared app and drivers for 'Energy' (Homey 3.0.0)
+* Update Homey meshdriver to v1.3.6      
+
 v2.2.1
 * Fix issue not being able to include the Heatit Z-push button 2 and Z-push button 8 devices   
 * Z-TRM2(fx) changed default temperature- and meter-reporting interval from 60 to 900 seconds to prevent Z-wave network lock-up    

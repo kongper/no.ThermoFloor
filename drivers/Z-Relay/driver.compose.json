@@ -34,36 +34,17 @@
       "title": {
 				"en": "Sensor 2"
 			}
-    }
+    },
+		"measure_power": {
+			"approximated": true
+		}
   },
-	"mobile": {
-		"components": [
-			{
-				"id": "icon",
-				"capabilities": ["onoff"]
-      },
-			{
-				"id": "toggle",
-				"capabilities": ["onoff"]
-			},
-			{
-				"id": "sensor",
-				"capabilities": [
-					"alarm_water",
-					"measure_temperature.input1",
-					"measure_temperature.input2",
-					"measure_power",
-					"meter_power",
-					"measure_voltage",
-					"measure_current"
-        ]
-      }
-    ]
-	},
 	"zwave": {
 		"manufacturerId": 411,
 		"productTypeId": 3,
 		"productId": 520,
+		"includeSecure": false,
+		"__comment": "Reverted back to non secure inclusion due to S2 security handshake issues",
 		"productDocumentation": "",
 		"pid": 3065,
 		"imageRemotePath": "",

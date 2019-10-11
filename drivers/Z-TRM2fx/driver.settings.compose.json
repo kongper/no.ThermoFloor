@@ -92,7 +92,7 @@
 					"index": 19,
 					"size": 2
 				},
-				"value": 900
+				"value": 300
 	},
 			{
 				"$extends": "Temperature_report_threshold",

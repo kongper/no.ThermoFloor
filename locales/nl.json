@@ -9,6 +9,9 @@
 	"Key Pressed 2 times": "2x ingedrukt",
 	"Key Pressed 3 times": "3x ingedrukt",
 	"Key Pressed 4 times": "4x ingedrukt",
+	"Key Pressed 5 times": "5x ingedrukt",
+	"Key Held Down": "Ingedrukt",
+	"Key Released": "Losgelaten",
 	"Group2-I": "Group 2 - aan (I)",
 	"Group2-O": "Group 2 - uit (O)",
 	"Group3-I": "Group 3 - aan (I)",
@@ -16,5 +19,6 @@
 	"Group4-I": "Group 4 - aan (I)",
 	"Group4-O": "Group 4 - uit (O)",
 	"Group5-I": "Group 5 - aan (I)",
-	"Group5-O": "Group 5 - uit (O)"
+	"Group5-O": "Group 5 - uit (O)",
+	"Dimmer: ": "Dimmer knop"
 }

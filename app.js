@@ -70,6 +70,22 @@ class ThermoFloorApp extends Homey.App {
 		this.triggerZPushButton_button
 			.register();
 
+		//Z-Dim scene trigger cards
+		this.triggerZDim_scene = new Homey.FlowCardTriggerDevice('Z-dim_scene');
+		this.triggerZDim_scene
+			.register()
+			.registerRunListener((args, state) =>
+				Promise.resolve(args.scene.id === state.scene));
+
+		this.triggerZDim_scene
+			.getArgument('scene')
+			.registerAutocompleteListener((query, args, callback) => args.device.onSceneAutocomplete(query, args, callback));
+
+		//Z-button button trigger cards
+		this.triggerZDim_button = new Homey.FlowCardTriggerDevice('Z-dim_button');
+		this.triggerZDim_button
+			.register();
+
 		// Register conditions for flows
 		this.conditionThermofloorOnoffOn = new Homey.FlowCardCondition('thermofloor_onoff_is_on')
 			.register()

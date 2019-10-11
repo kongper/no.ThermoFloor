@@ -1,0 +1,22 @@
+{
+	"id": "Z-dim_scene",
+	"title": {
+		"en": "A scene has been activated",
+		"nl": "Een scene is geactiveerd"
+	},
+	"hint": {
+		"en": "This card will only get triggered if the scene matches the state of the dropdown fields.",
+		"nl": "Deze kaart wordt alleen geactiveerd wanneer de scene overeenkomt met de toestand van de gekozen opties."
+	},
+	"args": [
+		{
+			"name": "device",
+			"type": "device",
+			"filter": "driver_id=Z-Dim"
+		},
+		{
+			"name": "scene",
+			"type": "autocomplete"
+			}
+		]
+}

@@ -1,0 +1,81 @@
+{
+  "id": "Z-Dim",
+  "name": {
+    "en": "Z-Dim"
+  },
+  "class": "light",
+  "capabilities": [
+    "dim",
+    "onoff",
+    "meter_power",
+    "measure_power"
+  ],
+  "capabilitiesOptions": {
+		"onoff": {
+			"setOnDim": false
+		},
+		"dim": {
+			"opts": {
+				"duration": true
+			}
+		},
+    "measure_power": {
+      "approximated": true
+    }
+	},
+  "icon": "{{driverAssetsPath}}/icon.svg",
+  "images": {
+    "large": "{{driverAssetsPath}}/images/large.png",
+    "small": "{{driverAssetsPath}}/images/small.png"
+  },
+  "zwave": {
+    "manufacturerId": 411,
+    "productTypeId": [
+      3
+    ],
+    "productId": [
+      8704
+    ],
+    "includeSecure": false,
+    "__comment": "Reverted back to non secure inclusion due to S2 security handshake issues",
+    "zwaveAllianceProductId": 3331,
+    "zwaveAllianceProductDocumentation": "https://products.z-wavealliance.org/ProductManual/File?folder=&filename=Manuals/3331/SR-ZV9040A-A%20Micro%20Smart%20Dimmer.pdf",
+    "learnmode": {
+      "image": "{{driverAssetsPath}}/learnmode.svg",
+      "instruction": {
+        "en": "To include the thermostat to Homey: \n1. press the main button on the dimmer 6 times in a rapid sequence.",
+        "nl": "Om de thermostaat aan Homey toe te voegen: \n1. druk de knop van de dimmer 6 keer in."
+      }
+    },
+    "unlearnmode": {
+      "image": "{{driverAssetsPath}}/learnmode.svg",
+      "instruction": {
+        "en": "To include the thermostat to Homey: \n1. press the main button on the dimmer 6 times in a rapid sequence.",
+				"nl": "Om de thermostaat aan Homey toe te voegen: \n1. druk de knop van de dimmer 6 keer in."
+      }
+    },
+    "associationGroups": [
+      1
+    ],
+    "associationGroupsOptions": {
+      "1": {
+        "hint": {
+          "en": "Lifeline association group (do not change)",
+          "nl": "Lifeline association group (niet aanpassen)"
+        }
+      },
+      "2": {
+        "hint": {
+          "en": "Dimming level: Basic Set is usually used to controll other dimmer devices",
+          "nl": "Helderheidsniveau: Basic Set wordt gebruikt om andere dimmers aan te sturen"
+        }
+      },
+      "3": {
+        "hint": {
+          "en": "ON/OFF: Binary Switch Set is usually used to controll other ON/OFF devices",
+          "nl": "AAN/UIT: Binary Switch Set wordt gebruikt om andere schakelaars aan te sturen"
+        }
+      }
+    }
+  }
+}
