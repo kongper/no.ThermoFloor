@@ -150,6 +150,10 @@ If you like the app, consider a donation to support development
 [![Paypal Donate](https://www.paypalobjects.com/en_US/NL/i/btn/btn_donateCC_LG.gif)](https://www.paypal.me/TedTolboom)
 
 ## Changelog:
+2.4.1 (BETA), Homey SW ≥2.4.0
+* Finalize app and drivers for 'Energy' (Homey 3.0.0)   
+* Update Homey meshdriver to v1.3.14  
+
 v2.4.0 (BETA), Homey SW ≥2.4.0
 * Add support for Heatit Z-Dim rotary dimmer      
 * Update Homey meshdriver to v1.3.9      

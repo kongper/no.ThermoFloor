@@ -5,7 +5,7 @@
     "en": "Heatit Z-wave"
   },
   "brandColor": "#cc3333",
-  "version": "2.4.0",
+  "version": "2.4.1",
   "compatibility": ">=2.4.0",
   "homeyCommunityTopicId": 166,
   "author": {
@@ -677,6 +677,12 @@
           }
         }
       },
+      "energy": {
+        "approximation": {
+          "usageOn": 0,
+          "usageOff": 0
+        }
+      },
       "zwave": {
         "manufacturerId": 411,
         "productTypeId": 1,
@@ -1194,6 +1200,12 @@
         },
         "measure_temperature.floor": {
           "title": "floor temperature"
+        }
+      },
+      "energy": {
+        "approximation": {
+          "usageOn": 0,
+          "usageOff": 0
         }
       },
       "zwave": {
@@ -1748,6 +1760,12 @@
           }
         }
       },
+      "energy": {
+        "approximation": {
+          "usageOn": 0,
+          "usageOff": 0
+        }
+      },
       "zwave": {
         "manufacturerId": 564,
         "productTypeId": 3,
@@ -1881,6 +1899,12 @@
             "capabilities": [
               "onoff"
             ],
+            "energy": {
+              "approximation": {
+                "usageOn": 0,
+                "usageOff": 0
+              }
+            },
             "icon": "/drivers/Z-DIN-616/assets/icon-2.svg",
             "name": {
               "en": "Relay 2"
@@ -1891,6 +1915,12 @@
             "capabilities": [
               "onoff"
             ],
+            "energy": {
+              "approximation": {
+                "usageOn": 0,
+                "usageOff": 0
+              }
+            },
             "icon": "/drivers/Z-DIN-616/assets/icon-3.svg",
             "name": {
               "en": "Relay 3"
@@ -1901,6 +1931,12 @@
             "capabilities": [
               "onoff"
             ],
+            "energy": {
+              "approximation": {
+                "usageOn": 0,
+                "usageOff": 0
+              }
+            },
             "icon": "/drivers/Z-DIN-616/assets/icon-4.svg",
             "name": {
               "en": "Relay 4"
@@ -1911,6 +1947,12 @@
             "capabilities": [
               "onoff"
             ],
+            "energy": {
+              "approximation": {
+                "usageOn": 0,
+                "usageOff": 0
+              }
+            },
             "icon": "/drivers/Z-DIN-616/assets/icon-5.svg",
             "name": {
               "en": "Relay 5"
@@ -1921,6 +1963,12 @@
             "capabilities": [
               "onoff"
             ],
+            "energy": {
+              "approximation": {
+                "usageOn": 0,
+                "usageOff": 0
+              }
+            },
             "icon": "/drivers/Z-DIN-616/assets/icon-6.svg",
             "name": {
               "en": "Relay 6"
@@ -4264,6 +4312,12 @@
           }
         }
       },
+      "energy": {
+        "approximation": {
+          "usageOn": 0,
+          "usageOff": 0
+        }
+      },
       "zwave": {
         "manufacturerId": 411,
         "productTypeId": 3,
@@ -4381,6 +4435,12 @@
             "capabilities": [
               "onoff"
             ],
+            "energy": {
+              "approximation": {
+                "usageOn": 0,
+                "usageOff": 0
+              }
+            },
             "icon": "/drivers/Z-Water/assets/icon-2.svg",
             "name": {
               "en": "Relay 2"
@@ -4391,6 +4451,12 @@
             "capabilities": [
               "onoff"
             ],
+            "energy": {
+              "approximation": {
+                "usageOn": 0,
+                "usageOff": 0
+              }
+            },
             "icon": "/drivers/Z-Water/assets/icon-3.svg",
             "name": {
               "en": "Relay 3"
@@ -4401,6 +4467,12 @@
             "capabilities": [
               "onoff"
             ],
+            "energy": {
+              "approximation": {
+                "usageOn": 0,
+                "usageOff": 0
+              }
+            },
             "icon": "/drivers/Z-Water/assets/icon-4.svg",
             "name": {
               "en": "Relay 4"
@@ -4411,6 +4483,12 @@
             "capabilities": [
               "onoff"
             ],
+            "energy": {
+              "approximation": {
+                "usageOn": 0,
+                "usageOff": 0
+              }
+            },
             "icon": "/drivers/Z-Water/assets/icon-5.svg",
             "name": {
               "en": "Relay 5"
@@ -4421,6 +4499,12 @@
             "capabilities": [
               "onoff"
             ],
+            "energy": {
+              "approximation": {
+                "usageOn": 0,
+                "usageOff": 0
+              }
+            },
             "icon": "/drivers/Z-Water/assets/icon-6.svg",
             "name": {
               "en": "Relay 6"
@@ -4431,6 +4515,12 @@
             "capabilities": [
               "onoff"
             ],
+            "energy": {
+              "approximation": {
+                "usageOn": 0,
+                "usageOff": 0
+              }
+            },
             "icon": "/drivers/Z-Water/assets/icon-7.svg",
             "name": {
               "en": "Relay 7"
@@ -4441,6 +4531,12 @@
             "capabilities": [
               "onoff"
             ],
+            "energy": {
+              "approximation": {
+                "usageOn": 0,
+                "usageOff": 0
+              }
+            },
             "icon": "/drivers/Z-Water/assets/icon-8.svg",
             "name": {
               "en": "Relay 8"
@@ -4451,6 +4547,12 @@
             "capabilities": [
               "onoff"
             ],
+            "energy": {
+              "approximation": {
+                "usageOn": 0,
+                "usageOff": 0
+              }
+            },
             "icon": "/drivers/Z-Water/assets/icon-9.svg",
             "name": {
               "en": "Relay 9"
@@ -4461,6 +4563,12 @@
             "capabilities": [
               "onoff"
             ],
+            "energy": {
+              "approximation": {
+                "usageOn": 0,
+                "usageOff": 0
+              }
+            },
             "icon": "/drivers/Z-Water/assets/icon-10.svg",
             "name": {
               "en": "Relay 10"
