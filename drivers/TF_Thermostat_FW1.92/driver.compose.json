@@ -46,6 +46,12 @@
 			"title": "floor temperature"
 		}
 	},
+	"energy": {
+		"approximation": {
+			"usageOn": 0,
+			"usageOff": 0
+		}
+	},
 	"zwave": {
 		"manufacturerId": 411,
 		"productTypeId": 3,
