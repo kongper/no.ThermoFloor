@@ -12,7 +12,7 @@
 				{
 					"name": "device",
 					"type": "device",
-					"filter": "driver_id=Z-push-button-2|Z-push-button-8"
+					"filter": "driver_id=Z-push-button-2|Z-push-button-4|Z-push-button-8"
   			},
 				{
 					"name": "button",

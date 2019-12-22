@@ -61,7 +61,7 @@ The following action cards are supported:
 <a href="https://github.com/TedTolboom/no.ThermoFloor">
   <img src="https://rawgit.com/TedTolboom/no.ThermoFloor/master/drivers/Z-push-button-2/assets/icon.svg" width="25%" height="25%">
 </a>
-The Heatit Z-Push Button 2 can control 1association group with up to 5 products or 4 scenarios through Homey.
+The Heatit Z-Push Button 2 can control 1 association group with up to 5 products or 4 scenarios through Homey.
 
 The following triggers are supported:  
 * Button Pressed 1x    
@@ -69,7 +69,21 @@ The following triggers are supported:
 * Button released    
 * Any button pressed (including tokens)   
 
-In addition, by adding the NodeID in the corresponding association groups, the Z-Push Button 8 can directly control Z-wave switches / dimmers.
+In addition, by adding the NodeID in the corresponding association groups, the Z-Push Button 2 can directly control Z-wave switches / dimmers.
+
+### Heatit Z-Push button-4  
+<a href="https://github.com/TedTolboom/no.ThermoFloor">
+  <img src="https://rawgit.com/TedTolboom/no.ThermoFloor/master/drivers/Z-push-button-4/assets/icon.svg" width="25%" height="25%">
+</a>
+The Heatit Z-Push Button 4 can control 1 association group with up to 5 products or 4 scenarios through Homey.
+
+The following triggers are supported:  
+* Button Pressed 1x    
+* Button held down     
+* Button released    
+* Any button pressed (including tokens)   
+
+In addition, by adding the NodeID in the corresponding association groups, the Z-Push Button 4 can directly control Z-wave switches / dimmers.
 
 ### Heatit Z-Push button-8
 <a href="https://github.com/TedTolboom/no.ThermoFloor">
@@ -150,6 +164,11 @@ If you like the app, consider a donation to support development
 [![Paypal Donate](https://www.paypalobjects.com/en_US/NL/i/btn/btn_donateCC_LG.gif)](https://www.paypal.me/TedTolboom)
 
 ## Changelog:
+2.4.2
+* Add support for the Z-Push button 4 device  
+* Update app for new app store          
+* Update Homey meshdriver to v1.3.21  
+
 2.4.1 (BETA), Homey SW ≥2.4.0
 * Finalize app and drivers for 'Energy' (Homey 3.0.0)   
 * Update Homey meshdriver to v1.3.14  
