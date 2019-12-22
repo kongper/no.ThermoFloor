@@ -9,10 +9,10 @@ class Z_PushButton_4 extends ZwaveDevice {
 	async onMeshInit() {
 
 		// enable debugging
-		this.enableDebug();
+		// this.enableDebug();
 
 		// print the node's info to the console
-		this.printNode();
+		// this.printNode();
 
 		// supported scenes and their reported attribute numbers (all based on reported data)
 		this.buttonMap = {

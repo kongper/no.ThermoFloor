@@ -55,8 +55,8 @@
 			},
 			"3": {
 				"hint": {
-					"en": "Group 3: Adding other Z-wave devices to this group will enable direct control from Z-push-button to that device:\nShort press: on/off (BASIC_SET) command \nLong press: increase / decrease dim-level command (SWITCH_MULTILEVEL).",
-					"nl": "Groep 3: Het toevoegen van andere Z-wave devices aan deze groep zal directe controle van de Z-push-button over deze devices toevoegen:\nKort ingedrukt: on/off (BASIC_SET) commando\nLang ingedrukt: verhoog / verlaag dim-level commando (SWITCH_MULTILEVEL)."
+					"en": "Group 3 (bottom rockers): Adding other Z-wave devices to this group will enable direct control from Z-push-button to that device:\nShort press: on/off (BASIC_SET) command \nLong press: increase / decrease dim-level command (SWITCH_MULTILEVEL).",
+					"nl": "Groep 3 (onderste knoppen): Het toevoegen van andere Z-wave devices aan deze groep zal directe controle van de Z-push-button over deze devices toevoegen:\nKort ingedrukt: on/off (BASIC_SET) commando\nLang ingedrukt: verhoog / verlaag dim-level commando (SWITCH_MULTILEVEL)."
 				}
 			}
 		}
