@@ -84,7 +84,7 @@ class TF_ThermostatDevice extends ZwaveDevice {
 						'No of Manufacturer Data fields': 0,
 						Mode: thermostatMode,
 					},
-					'Manufacturer Data': new Buffer([0]),
+					'Manufacturer Data': Buffer.from([0]),
 				};
 			},
 			report: 'THERMOSTAT_MODE_REPORT',
@@ -167,7 +167,7 @@ class TF_ThermostatDevice extends ZwaveDevice {
 					});
 
 					// 4. Return setParser object and update thermostat mode
-					const bufferValue = new Buffer(2);
+					const bufferValue = Buffer.alloc(2);
 					bufferValue.writeUInt16BE((Math.round(setpointValue * 2) / 2 * 10).toFixed(0));
 
 					return {
