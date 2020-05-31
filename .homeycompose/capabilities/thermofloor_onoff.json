@@ -13,8 +13,8 @@
 		}
 	},
 	"title": {
-		"en": "State",
-		"nl": "Status"
+		"en": "Heating",
+		"nl": "Verwarming"
 	},
 	"desc": {
 		"en": "State of the thermostat",
@@ -27,11 +27,11 @@
 	"greyout": true,
 	"insights": true,
 	"insightsTitleTrue": {
-		"en": "Heating / Cooling turned on",
-		"nl": "Verwarming / Koeling ingeschakeld"
+		"en": "Heating active",
+		"nl": "Verwarming ingeschakeld"
 	},
 	"insightsTitleFalse": {
-		"en": "Heating / Cooling turned off",
-		"nl": "Verwarming / Koeling uitgeschakeld"
+		"en": "Heating idle",
+		"nl": "Verwarming uitgeschakeld"
 	}
 }
