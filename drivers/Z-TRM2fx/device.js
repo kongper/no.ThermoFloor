@@ -1,332 +1,332 @@
 'use strict';
 
 const Homey = require('homey');
-const maps = require('./../../lib/Z-TRM/mappings');
-const util = require('./../../lib/util');
-
-const ZwaveDevice = require('homey-meshdriver').ZwaveDevice;
-
-const { ManagerZwave } = require('homey');
+const { ZwaveDevice } = require('homey-meshdriver');
+const maps = require('../../lib/Z-TRM/mappings');
+const util = require('../../lib/util');
 
 class Z_TRM2fxDevice extends ZwaveDevice {
 
-	async onMeshInit() {
+  async onMeshInit() {
+    // enable debugging
+    this.enableDebug();
 
-		// enable debugging
-		// this.enableDebug();
+    // print the node's info to the console
+    // this.printNode();
 
-		// print the node's info to the console
-		// this.printNode();
+    // registerCapability for measure_temperature for FW <=18.
+    this.registerCapability('measure_temperature', 'SENSOR_MULTILEVEL', {
+      getOpts: {
+        getOnStart: true,
+      },
+    });
 
-		// registerCapability for measure_temperature for FW <=18.
-		this.registerCapability('measure_temperature', 'SENSOR_MULTILEVEL', {
-			getOpts: {
-				getOnStart: true,
-				// pollInterval: 'poll_interval_TEMPERATURE',
-				// pollMultiplication: 60000,
-			},
-		});
+    // registerCapability for the external temperature sensor
+    this.registerCapability('measure_temperature.external', 'SENSOR_MULTILEVEL', {
+      getOpts: {
+        getOnStart: true,
+      },
+      report: 'SENSOR_MULTILEVEL_REPORT',
+      reportParser: report => {
+        if (report
+					&& report.hasOwnProperty('Sensor Type')
+					&& report['Sensor Type'] === 'Temperature (version 1)'
+					&& report.hasOwnProperty('Sensor Value (Parsed)')
+					&& report.hasOwnProperty('Level')
+					&& report.Level.hasOwnProperty('Scale')) {
+          // Some devices send this when no temperature sensor is connected
+          if (report['Sensor Value (Parsed)'] === -999.9) return null;
+          if (report.Level.Scale === 0) {
+            if (this.getSetting('Temperature_thermostat') === 'external') this.setCapabilityValue('measure_temperature', report['Sensor Value (Parsed)']);
+            return report['Sensor Value (Parsed)'];
+          }
+          if (report.Level.Scale === 1) {
+            if (this.getSetting('Temperature_thermostat') === 'external') this.setCapabilityValue('measure_temperature', (report['Sensor Value (Parsed)'] - 32) / 1.8);
+            return (report['Sensor Value (Parsed)'] - 32) / 1.8;
+          }
+        }
+        return null;
+      },
+      multiChannelNodeId: 2,
+    });
 
-		// registerCapability for the external temperature sensor
-		this.registerCapability('measure_temperature.external', 'SENSOR_MULTILEVEL', {
-			getOpts: {
-				getOnStart: true,
-				// pollInterval: 'poll_interval_TEMPERATURE',
-				// pollMultiplication: 60000,
-			},
-			report: 'SENSOR_MULTILEVEL_REPORT',
-			reportParser: report => {
-				if (report &&
-					report.hasOwnProperty('Sensor Type') &&
-					report['Sensor Type'] === 'Temperature (version 1)' &&
-					report.hasOwnProperty('Sensor Value (Parsed)') &&
-					report.hasOwnProperty('Level') &&
-					report.Level.hasOwnProperty('Scale')) {
+    this.node.MultiChannelNodes['2'].on('unknownReport', buf => {
+      if (buf.length === 6) {
+        const value = util.calculateTemperature(buf);
+        this.log('measure_temperature.external', value);
+        this.setCapabilityValue('measure_temperature.external', value);
+        if (this.getSetting('Temperature_thermostat') === 'external') this.setCapabilityValue('measure_temperature', value);
+      }
+    });
 
-					// Some devices send this when no temperature sensor is connected
-					if (report['Sensor Value (Parsed)'] === -999.9) return null;
-					if (report.Level.Scale === 0) {
-						if (this.getSetting('Temperature_thermostat') === 'external') this.setCapabilityValue('measure_temperature', report['Sensor Value (Parsed)']);
-						return report['Sensor Value (Parsed)'];
-					};
-					if (report.Level.Scale === 1) {
-						if (this.getSetting('Temperature_thermostat') === 'external') this.setCapabilityValue('measure_temperature', (report['Sensor Value (Parsed)'] - 32) / 1.8);
-						return (report['Sensor Value (Parsed)'] - 32) / 1.8;
-					}
-				}
-				return null;
-			},
-			multiChannelNodeId: 2
-		});
+    // registerCapability for the external temperature sensor
+    this.registerCapability('measure_temperature.floor', 'SENSOR_MULTILEVEL', {
+      getOpts: {
+        getOnStart: true,
+      },
+      report: 'SENSOR_MULTILEVEL_REPORT',
+      reportParser: report => {
+        if (report
+					&& report.hasOwnProperty('Sensor Type')
+					&& report['Sensor Type'] === 'Temperature (version 1)'
+					&& report.hasOwnProperty('Sensor Value (Parsed)')
+					&& report.hasOwnProperty('Level')
+					&& report.Level.hasOwnProperty('Scale')) {
+          // Some devices send this when no temperature sensor is connected
+          if (report['Sensor Value (Parsed)'] === -999.9) return null;
+          if (report.Level.Scale === 0) {
+            if (this.getSetting('Temperature_thermostat') === 'floor') this.setCapabilityValue('measure_temperature', report['Sensor Value (Parsed)']);
+            return report['Sensor Value (Parsed)'];
+          }
+          if (report.Level.Scale === 1) {
+            if (this.getSetting('Temperature_thermostat') === 'floor') this.setCapabilityValue('measure_temperature', (report['Sensor Value (Parsed)'] - 32) / 1.8);
+            return (report['Sensor Value (Parsed)'] - 32) / 1.8;
+          }
+        }
+        return null;
+      },
+      multiChannelNodeId: 3,
+    });
 
-		this.node.MultiChannelNodes['2'].on('unknownReport', buf => {
-				if (buf.length === 6) {
-					const value = util.calculateTemperature(buf);
-					this.log('measure_temperature.external', value);
-					this.setCapabilityValue('measure_temperature.external', value);
-					if (this.getSetting('Temperature_thermostat') === 'external') this.setCapabilityValue('measure_temperature', value)
-				}
-		})
+    // used for secure mode:
+    this.node.MultiChannelNodes['3'].on('unknownReport', buf => {
+      if (buf.length === 6) {
+        const value = util.calculateTemperature(buf);
+        this.log('measure_temperature.floor', value);
+        this.setCapabilityValue('measure_temperature.floor', value);
+        if (this.getSetting('Temperature_thermostat') === 'floor') this.setCapabilityValue('measure_temperature', value);
+      }
+    });
 
-		// registerCapability for the external temperature sensor
-		this.registerCapability('measure_temperature.floor', 'SENSOR_MULTILEVEL', {
-			getOpts: {
-				getOnStart: true,
-				// pollInterval: 'poll_interval_TEMPERATURE',
-				// pollMultiplication: 60000,
-			},
-			report: 'SENSOR_MULTILEVEL_REPORT',
-			reportParser: report => {
-				if (report &&
-					report.hasOwnProperty('Sensor Type') &&
-					report['Sensor Type'] === 'Temperature (version 1)' &&
-					report.hasOwnProperty('Sensor Value (Parsed)') &&
-					report.hasOwnProperty('Level') &&
-					report.Level.hasOwnProperty('Scale')) {
+    this.registerCapability('thermofloor_onoff', 'BASIC', {
+      report: 'BASIC_REPORT',
+      reportParser: report => {
+        if (report && report.hasOwnProperty('Current Value')) {
+          const thermofloorOnoffState = report['Current Value'] === 255;
+          if (thermofloorOnoffState !== this.getCapabilityValue('thermofloor_onoff')) {
+            return thermofloorOnoffState;
+          }
+        }
+        return null;
+      },
+    });
 
-					// Some devices send this when no temperature sensor is connected
-					if (report['Sensor Value (Parsed)'] === -999.9) return null;
-					if (report.Level.Scale === 0) {
-						if (this.getSetting('Temperature_thermostat') === 'floor') this.setCapabilityValue('measure_temperature', report['Sensor Value (Parsed)']);
-						return report['Sensor Value (Parsed)'];
-					}
-					if (report.Level.Scale === 1) {
-						if (this.getSetting('Temperature_thermostat') === 'floor') this.setCapabilityValue('measure_temperature', (report['Sensor Value (Parsed)'] - 32) / 1.8);
-						return (report['Sensor Value (Parsed)'] - 32) / 1.8;
-					}
-				}
-				return null;
-			},
-			multiChannelNodeId: 3
-		});
+    this.registerCapability('thermofloor_mode', 'THERMOSTAT_MODE', {
+      getOpts: {
+        getOnStart: true,
+        // pollInterval: 'poll_interval_THERMOSTAT_MODE',
+        // pollMultiplication: 60000,
+      },
+      get: 'THERMOSTAT_MODE_GET',
+      set: 'THERMOSTAT_MODE_SET',
+      setParserV3: thermostatMode => {
+        this.log('Setting thermostat mode to:', thermostatMode);
 
-		// used for secure mode:
-		this.node.MultiChannelNodes['3'].on('unknownReport', buf => {
-				if (buf.length === 6) {
-					const value = util.calculateTemperature(buf);
-					this.log('measure_temperature.floor', value);
-					this.setCapabilityValue('measure_temperature.floor', value);
-					if (this.getSetting('Temperature_thermostat') === 'floor') this.setCapabilityValue('measure_temperature', value)
-				}
-		})
+        // 1. Update thermostat setpoint based on matching thermostat mode
+        const setpointType = maps.Mode2Setpoint[thermostatMode];
 
-		this.registerCapability('measure_power', 'METER');
-		this.registerCapability('measure_voltage', 'METER');
-		this.registerCapability('meter_power', 'METER');
+        if (setpointType !== 'not supported') {
+          this.setCapabilityValue('target_temperature', this.getStoreValue(`thermostatsetpointValue.${setpointType}`) || null);
+        } else {
+          this.setCapabilityValue('target_temperature', null);
+        }
 
-		this.registerCapability('thermofloor_onoff', 'BASIC', {
-			report: 'BASIC_REPORT',
-			reportParser: report => {
-				if (report && report.hasOwnProperty('Current Value')) {
-					const thermofloor_onoff_state = report['Current Value'] === 255;
-					if (thermofloor_onoff_state !== this.getCapabilityValue('thermofloor_onoff')) {
-						// Not needed since capability change will trigger the trigger card automatically
-						// Homey.app[`triggerThermofloorOnoff${thermofloor_onoff_state ? 'True' : 'False'}`].trigger(this, null, null);
-						return thermofloor_onoff_state;
-					}
-				}
-				return null;
-			}
-		});
+        // 2. Update device settings thermostat mode
+        this.setSettings({
+          operation_mode: maps.Mode2Number[thermostatMode],
+        });
 
-		this.registerCapability('thermofloor_mode', 'THERMOSTAT_MODE', {
-			getOpts: {
-				getOnStart: true,
-				// pollInterval: 'poll_interval_THERMOSTAT_MODE',
-				// pollMultiplication: 60000,
-			},
-			get: 'THERMOSTAT_MODE_GET',
-			set: 'THERMOSTAT_MODE_SET',
-			setParserV3: thermostatMode => {
-				this.log('Setting thermostat mode to:', thermostatMode);
+        // 3. Trigger mode trigger cards if the mode is actually changed
+        if (this.getCapabilityValue('thermofloor_mode') !== thermostatMode) {
+          const thermostatModeObj = {
+            mode: thermostatMode,
+            mode_name: Homey.__(`mode.${thermostatMode}`),
+          };
+          Homey.app.triggerThermofloorModeChanged.trigger(this, thermostatModeObj, null);
+          Homey.app.triggerThermofloorModeChangedTo.trigger(this, null, thermostatModeObj);
 
-				// 1. Update thermostat setpoint based on matching thermostat mode
-				const setpointType = maps.Mode2Setpoint[thermostatMode];
+          // 4. Update onoff state when the thermostat mode is off
+          if (thermostatMode === 'Off') {
+            this.setCapabilityValue('thermofloor_onoff', false);
+          }
+        }
+        // 5. Return setParser object and update thermofloor_mode capability
+        return {
+          Level: {
+            'No of Manufacturer Data fields': 0,
+            Mode: thermostatMode,
+          },
+          'Manufacturer Data': Buffer.from([0]),
+        };
+      },
+      report: 'THERMOSTAT_MODE_REPORT',
+      reportParserV3: report => {
+        if (!report) return null;
+        if (report.hasOwnProperty('Level') && report.Level.hasOwnProperty('Mode')) {
+          const thermostatMode = report.Level.Mode;
+          this.log('Received thermostat mode report:', thermostatMode);
 
-				if (setpointType !== 'not supported') {
-					this.setCapabilityValue('target_temperature', this.getStoreValue(`thermostatsetpointValue.${setpointType}`) || null);
-				}
-				else {
-					this.setCapabilityValue('target_temperature', null);
-				}
+          // 1. Update thermostat setpoint value based on matching thermostat mode
+          const setpointType = maps.Mode2Setpoint[thermostatMode];
 
-				// 2. Update device settings thermostat mode
-				this.setSettings({
-					'operation_mode': maps.Mode2Number[thermostatMode]
-				});
+          if (setpointType !== 'not supported') {
+            this.setCapabilityValue('target_temperature', this.getStoreValue(`thermostatsetpointValue.${setpointType}`) || null);
+          } else {
+            this.setCapabilityValue('target_temperature', null);
+          }
 
-				// 3. Trigger mode trigger cards if the mode is actually changed
-				if (this.getCapabilityValue('thermofloor_mode') != thermostatMode) {
-					const thermostatModeObj = {
-						mode: thermostatMode,
-						mode_name: Homey.__("mode." + thermostatMode),
-					};
-					Homey.app.triggerThermofloorModeChanged.trigger(this, thermostatModeObj, null);
-					Homey.app.triggerThermofloorModeChangedTo.trigger(this, null, thermostatModeObj, );
+          // 2. Update device settings thermostat mode
+          this.setSettings({
+            operation_mode: maps.Mode2Number[thermostatMode],
+          });
 
-					// 4. Update onoff state when the thermostat mode is off
-					if (thermostatMode === 'Off') {
-						this.setCapabilityValue('thermofloor_onoff', false);
-					}
-				}
-				// 5. Return setParser object and update thermofloor_mode capability
-				return {
-					Level: {
-						'No of Manufacturer Data fields': 0,
-						Mode: thermostatMode,
-					},
-					'Manufacturer Data': new Buffer([0]),
-				};
-			},
-			report: 'THERMOSTAT_MODE_REPORT',
-			reportParserV3: report => {
-				if (!report) return null;
-				if (report.hasOwnProperty('Level') && report.Level.hasOwnProperty('Mode')) {
-					const thermostatMode = report.Level.Mode;
-					this.log('Received thermostat mode report:', thermostatMode);
+          // 3. Trigger mode trigger cards if the mode is actually changed
+          if (this.getCapabilityValue('thermofloor_mode') !== thermostatMode) {
+            const thermostatModeObj = {
+              mode: thermostatMode,
+              mode_name: Homey.__(`mode.${thermostatMode}`),
+            };
+            Homey.app.triggerThermofloorModeChanged.trigger(this, thermostatModeObj, null);
+            Homey.app.triggerThermofloorModeChangedTo.trigger(this, null, thermostatModeObj);
 
-					// 1. Update thermostat setpoint value based on matching thermostat mode
-					const setpointType = maps.Mode2Setpoint[thermostatMode];
+            // 4. Update onoff state when the thermostat mode is off
+            if (thermostatMode === 'Off') {
+              this.setCapabilityValue('thermofloor_onoff', false);
+            }
+          }
 
-					if (setpointType !== 'not supported') {
-						this.setCapabilityValue('target_temperature', this.getStoreValue(`thermostatsetpointValue.${setpointType}`) || null);
-					}
-					else {
-						this.setCapabilityValue('target_temperature', null);
-					}
+          // 5. Return reportParser object and update thermofloor_mode capability
+          return thermostatMode;
+        }
+        return null;
+      },
+    });
 
-					// 2. Update device settings thermostat mode
-					this.setSettings({
-						operation_mode: maps.Mode2Number[thermostatMode]
-					});
+    this.registerCapability('target_temperature', 'THERMOSTAT_SETPOINT', {
+      getOpts: {
+        getOnStart: true,
+      },
+      getParser: () => {
+        // 1. Retrieve the setpointType based on the thermostat mode
+        const setpointType = maps.Mode2Setpoint[this.getCapabilityValue('thermofloor_mode') || 'Heat'];
 
-					// 3. Trigger mode trigger cards if the mode is actually changed
-					if (this.getCapabilityValue('thermofloor_mode') != thermostatMode) {
-						const thermostatModeObj = {
-							mode: thermostatMode,
-							mode_name: Homey.__("mode." + thermostatMode),
-						};
-						Homey.app.triggerThermofloorModeChanged.trigger(this, thermostatModeObj, null);
-						Homey.app.triggerThermofloorModeChangedTo.trigger(this, null, thermostatModeObj);
+        // 2. Return getParser object with correct setpointType
+        return {
+          Level: {
+            'Setpoint Type': setpointType !== 'not supported' ? setpointType : 'Heating 1',
+          },
+        };
+      },
+      set: 'THERMOSTAT_SETPOINT_SET',
+      setParserV3: setpointValue => {
+        // 1. Retrieve the setpointType based on the thermostat mode
+        const setpointType = maps.Mode2Setpoint[this.getCapabilityValue('thermofloor_mode') || 'Heat'];
 
-						// 4. Update onoff state when the thermostat mode is off
-						if (thermostatMode === 'Off') {
-							this.setCapabilityValue('thermofloor_onoff', false);
-							// Homey.app[`triggerThermofloorOnoffFalse`].trigger(this, {}, {});
-						}
-					};
+        this.log('Setting thermostat setpoint to:', setpointValue, 'for setpointType', setpointType);
 
-					// 5. Return reportParser object and update thermofloor_mode capability
-					return thermostatMode;
-				}
-				return null;
-			},
-		});
+        if (setpointType !== 'not supported') {
+          // 2. Store thermostat setpoint based on thermostat type
+          this.setStoreValue(`thermostatsetpointValue.${setpointType}`, setpointValue);
 
-		this.registerCapability('target_temperature', 'THERMOSTAT_SETPOINT', {
-			getOpts: {
-				getOnStart: true,
-				// pollInterval: 'poll_interval_THERMOSTAT_SETPOINT',
-				// pollMultiplication: 60000,
-			},
-			getParser: () => {
-				// 1. Retrieve the setpointType based on the thermostat mode
-				const setpointType = maps.Mode2Setpoint[this.getCapabilityValue('thermofloor_mode') || 'Heat'];
+          // 3. Update device settings setpoint value
+          const setpointSetting = maps.Setpoint2Setting[setpointType];
+          this.setSettings({
+            [setpointSetting]: setpointValue * 10,
+          });
 
-				// 2. Return getParser object with correct setpointType
-				return {
-					Level: {
-						'Setpoint Type': setpointType !== 'not supported' ? setpointType : 'Heating 1',
-					},
-				};
-			},
-			set: 'THERMOSTAT_SETPOINT_SET',
-			setParserV3: setpointValue => {
-				// 1. Retrieve the setpointType based on the thermostat mode
-				const setpointType = maps.Mode2Setpoint[this.getCapabilityValue('thermofloor_mode') || 'Heat'];
+          // 4. Return setParser object and update thermostat mode
+          const bufferValue = Buffer.alloc(2);
+          bufferValue.writeUInt16BE((Math.round(setpointValue * 2) / 2 * 10).toFixed(0));
 
-				this.log('Setting thermostat setpoint to:', setpointValue, 'for setpointType', setpointType);
+          return {
+            Level: {
+              'Setpoint Type': setpointType,
+            },
+            Level2: {
+              Size: 2,
+              Scale: 0,
+              Precision: 1,
+            },
+            Value: bufferValue,
+          };
+        }
 
-				if (setpointType !== 'not supported') {
-					// 2. Store thermostat setpoint based on thermostat type
-					this.setStoreValue(`thermostatsetpointValue.${setpointType}`, setpointValue);
+        return null;
+      },
+      report: 'THERMOSTAT_SETPOINT_REPORT',
+      reportParserV3: report => {
+        if (report && report.hasOwnProperty('Level2')
+					&& report.Level2.hasOwnProperty('Scale')
+					&& report.Level2.hasOwnProperty('Precision')
+					&& report.Level2.Scale === 0
+					&& typeof report.Level2.Size !== 'undefined') {
+          // 1. Try to read the readValue
+          let readValue;
+          try {
+            readValue = report.Value.readUIntBE(0, report.Level2.Size);
+          } catch (err) {
+            return null;
+          }
 
-					// 3. Update device settings setpoint value
-					const setpointSetting = maps.Setpoint2Setting[setpointType];
-					this.setSettings({
-						[setpointSetting]: setpointValue * 10
-					});
+          if (typeof readValue !== 'undefined') {
+            // 2. Define the setPointValue and setpointType
+            const setpointValue = readValue / 10 ** report.Level2.Precision; // Math.pow(10, report.Level2.Precision);
+            const setpointType = report.Level['Setpoint Type'];
+            this.log('Received thermostat setpoint report: Setpoint type', setpointType, ' Setpoint value', setpointValue);
 
-					// 4. Return setParser object and update thermostat mode
-					const bufferValue = new Buffer(2);
-					bufferValue.writeUInt16BE((Math.round(setpointValue * 2) / 2 * 10).toFixed(0));
+            // 3. Store thermostat setpoint based on thermostat type
+            if (setpointType !== 'not supported') {
+              this.setStoreValue(`thermostatsetpointValue.${setpointType}`, setpointValue);
+            }
 
-					return {
-						Level: {
-							'Setpoint Type': setpointType,
-						},
-						Level2: {
-							Size: 2,
-							Scale: 0,
-							Precision: 1,
-						},
-						Value: bufferValue,
-					};
-				};
+            // 4. Update device settings setpoint value
+            const setpointSetting = maps.Setpoint2Setting[setpointType];
+            this.setSettings({
+              [setpointSetting]: setpointValue * 10,
+            });
 
-				return null
+            // 5. Update UI if reported setpointType equals active sepointType based on the thermostat mode
+            if (setpointType === maps.Mode2Setpoint[this.getCapabilityValue('thermofloor_mode') || 'Heat']) {
+              this.log('Updated thermostat setpoint on UI to', setpointValue);
+              return setpointValue;
+            }
 
-			},
-			report: 'THERMOSTAT_SETPOINT_REPORT',
-			reportParserV3: report => {
-				if (report && report.hasOwnProperty('Level2') &&
-					report.Level2.hasOwnProperty('Scale') &&
-					report.Level2.hasOwnProperty('Precision') &&
-					report.Level2.Scale === 0 &&
-					typeof report.Level2.Size !== 'undefined') {
+            return null;
+          }
+          return null;
+        }
+        return null;
+      },
+    });
 
-					// 1. Try to read the readValue
-					let readValue;
-					try {
-						readValue = report.Value.readUIntBE(0, report.Level2.Size);
-					}
-					catch (err) {
-						return null;
-					}
+    if (this._isRootNode()) {
+      if (!this.hasCapability('button.reset_meter')) await this.addCapability('button.reset_meter');
+      if (this.hasCapability('button.reset_meter')) {
+        // Listen for reset_meter maintenance action
+        this.registerCapabilityListener('button.reset_meter', async () => {
+          // Maintenance action button was pressed, return a promise
+          if (typeof this.meterReset === 'function') return this.meterReset();
+          this.error('Reset meter failed');
+          throw new Error('Reset meter not supported');
+        });
+      }
 
-					if (typeof readValue !== 'undefined') {
+      if (this.hasCapability('meter_power')) this.registerCapability('meter_power', 'METER'); // , { getOpts: { getOnStart: false } });
+      if (this.hasCapability('measure_power')) this.registerCapability('measure_power', 'METER'); // , { getOpts: { getOnStart: false } });
+      if (this.hasCapability('measure_voltage')) this.registerCapability('measure_voltage', 'METER'); // , { getOpts: { getOnStart: false } });
+    }
 
-						// 2. Define the setPointValue and setpointType
-						const setpointValue = readValue / Math.pow(10, report.Level2.Precision);
-						const setpointType = report.Level['Setpoint Type'];
-						this.log('Received thermostat setpoint report: Setpoint type', setpointType, ' Setpoint value', setpointValue);
+    this.setAvailable();
+  }
 
-						// 3. Store thermostat setpoint based on thermostat type
-						if (setpointType !== 'not supported') {
-							this.setStoreValue(`thermostatsetpointValue.${setpointType}`, setpointValue);
-						}
-
-						// 4. Update device settings setpoint value
-						const setpointSetting = maps.Setpoint2Setting[setpointType];
-						this.setSettings({
-								[setpointSetting]: setpointValue * 10
-						});
-
-						// 5. Update UI if reported setpointType equals active sepointType based on the thermostat mode
-						if (setpointType === maps.Mode2Setpoint[this.getCapabilityValue('thermofloor_mode') || 'Heat']) {
-							this.log('Updated thermostat setpoint on UI to', setpointValue);
-							return setpointValue;
-						}
-
-						return null;
-					}
-					return null;
-				}
-				return null;
-			},
-		});
-
-	}
+  /**
+ * Method that determines if current node is root node.
+ * @returns {boolean}
+ * @private
+ */
+  _isRootNode() {
+    return Object.prototype.hasOwnProperty.call(this.node, 'MultiChannelNodes') && Object.keys(this.node.MultiChannelNodes).length > 0;
+  }
 
 }
 
