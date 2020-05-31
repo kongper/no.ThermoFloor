@@ -47,6 +47,17 @@ class ThermoFloorApp extends Homey.App {
 			.registerRunListener((args, state) =>
 				Promise.resolve(args.mode === state.mode));
 
+		//thermostat_mode_changed_to (Autocomplete)
+		this.triggerThermostatModeChangedTo = new Homey.FlowCardTriggerDevice('thermostat_mode_changed_to');
+		this.triggerThermostatModeChangedTo
+			.register()
+			.registerRunListener((args, state) => {
+				return Promise.resolve(args.mode.id === state.mode)
+			});
+		this.triggerThermostatModeChangedTo
+			.getArgument('mode')
+			.registerAutocompleteListener((query, args, callback) => args.device.onModeAutocomplete(query, args, callback));
+
 		//thermostat_onoff trigger cards
 		this.triggerThermofloorOnoffTrue = new Homey.FlowCardTriggerDevice('thermofloor_onoff_true').register();
 		this.triggerThermofloorOnoffFalse = new Homey.FlowCardTriggerDevice('thermofloor_onoff_false').register();
@@ -102,6 +113,22 @@ class ThermoFloorApp extends Homey.App {
 
 				// Trigger the thermostat mode setParser
 				return args.device.triggerCapabilityListener('thermofloor_mode', thermostatMode, {});
+			});
+
+		// Register actions for flows thermofloor_change_mode (Autocomplete)
+		this._actionThermostatChangeMode = new Homey.FlowCardAction('thermostat_change_mode')
+		this._actionThermostatChangeMode
+			.getArgument('mode')
+			.registerAutocompleteListener((query, args, callback) => args.device.onModeAutocomplete(query, args, callback));
+		this._actionThermostatChangeMode
+			.register()
+			.registerRunListener((args, state) => {
+				this.log(args.mode.id, args.mode.capability);
+				const thermostatMode = args.mode.id;
+				args.device.log('FlowCardAction triggered for ', args.device.getName(), 'to change Thermostat mode to', thermostatMode);
+
+				// Trigger the thermostat mode setParser
+				return args.device.triggerCapabilityListener(args.mode.capability, thermostatMode, {});
 			});
 
 		// Register actions for flows

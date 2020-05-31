@@ -1,0 +1,78 @@
+{
+  "id": "no.thermofloor",
+  "sdk": 2,
+  "name": {
+    "en": "Heatit Z-wave"
+  },
+  "brandColor": "#cc3333",
+  "version": "2.5.0",
+  "compatibility": ">=4.0.0",
+  "homeyCommunityTopicId": 166,
+  "homepage": "https://www.heatit.com/z-wave/",
+  "source": "https://github.com/TedTolboom/no.ThermoFloor",
+  "bugs": {
+    "url": "https://github.com/TedTolboom/no.ThermoFloor/issues"
+  },
+  "author": {
+    "name": "Ted Tolboom",
+    "email": "dTNL.Homey@gmail.com"
+  },
+  "contributing": {
+    "donate": {
+      "paypal": {
+        "username": "TedTolboom"
+      }
+    }
+  },
+  "contributors": {
+    "developers": [
+      {
+        "name": "Ted Tolboom",
+        "email": "dTNL.Homey@gmail.com"
+      }
+    ]
+  },
+  "category": [
+    "climate"
+  ],
+  "tags": {
+    "en": [
+      "central heating",
+      "floor heating",
+      "electrical floor heating",
+      "heat",
+      "cooling",
+      "thermostat",
+      "temperature control",
+      "Multireg",
+      "Heatit",
+      "Heat it",
+      "Magnum",
+      "Thermo-Floor",
+      "underfloor heating"
+    ],
+    "nl": [
+      "centrale verwarming",
+      "vloerverwarming",
+      "vloer verwarming",
+      "electrische vloerverwarming",
+      "warmte",
+      "koelen",
+      "thermostaat",
+      "temperatuur regeling",
+      "Multireg",
+      "Heatit",
+      "Heat it",
+      "Magnum",
+      "Thermo-Floor"
+    ]
+  },
+  "description": {
+    "en": "Innovative range of heating control products for smart homes.",
+    "nl": "Innovatieve verwarmings producten voor het slimme huis."
+  },
+  "images": {
+    "large": "/assets/images/large.png",
+    "small": "/assets/images/small.png"
+  }
+}

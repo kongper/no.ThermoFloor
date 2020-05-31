@@ -164,6 +164,11 @@ If you like the app, consider a donation to support development
 [![Paypal Donate](https://www.paypalobjects.com/en_US/NL/i/btn/btn_donateCC_LG.gif)](https://www.paypal.me/TedTolboom)
 
 ## Changelog:
+2.5.0
+* Add support for the Z-TRM3 Thermostat device  
+* Add Meter Reset maintenance action for Z-TRM2fx, Z-Dim and Z-relay             
+* Update Homey meshdriver to v1.3.23  
+
 2.4.2
 * Add support for the Z-Push button 4 device  
 * Update app for new app store          
