@@ -8,7 +8,8 @@
     "dim",
     "onoff",
     "meter_power",
-    "measure_power"
+    "measure_power",
+		"button.reset_meter"
   ],
   "capabilitiesOptions": {
 		"onoff": {
@@ -21,7 +22,18 @@
 		},
     "measure_power": {
       "approximated": true
-    }
+    },
+		"button.reset_meter": {
+			"maintenanceAction": true,
+			"title": {
+				"en": "Reset power meter",
+				"nl": "Stel stroomverbuik opnieuw in"
+			},
+			"desc": {
+				"en": "Reset the accumulated power usage (kWh), note that this can not be reversed.",
+				"nl": "Stel geaccumuleerde stroomverbruik (kWh) opnieuw in, dit kan niet worden teruggedraaid."
+			}
+		}
 	},
   "icon": "{{driverAssetsPath}}/icon.svg",
   "images": {

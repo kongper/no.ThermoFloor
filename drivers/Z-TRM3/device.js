@@ -1,0 +1,776 @@
+'use strict';
+
+const Homey = require('homey');
+const ThermostatDeviceSingleMode = require('../../lib/ThermostatDeviceSingleMode');
+const maps = require('../../lib/Z-TRM/Thermostat-mode_single_mappings.js');
+
+class Z_TRM3Device extends ThermostatDeviceSingleMode {
+
+  async onMeshInit() {
+    await super.onMeshInit();
+
+    // enable debugging
+    this.enableDebug();
+
+    // print the node's info to the console
+    // this.printNode();
+
+
+    this.registerCapability('thermostat_mode_single', 'THERMOSTAT_MODE', {
+      getOpts: {
+        getOnStart: true,
+      },
+      get: 'THERMOSTAT_MODE_GET',
+      set: 'THERMOSTAT_MODE_SET',
+      setParserV3: thermostatMode => {
+        this.log('Setting thermostat mode to:', thermostatMode);
+
+        // 1. Update thermostat setpoint based on matching thermostat mode
+        const setpointType = maps.Mode2Setpoint[thermostatMode];
+
+        if (setpointType !== 'not supported') {
+          this.setCapabilityValue('target_temperature', this.getStoreValue(`thermostatsetpointValue.${setpointType}`) || null);
+        } else {
+          this.setCapabilityValue('target_temperature', null);
+        }
+
+        // 2. Update device settings thermostat mode
+        this.setSettings({
+          operation_mode: maps.Mode2Number[thermostatMode],
+        });
+
+        // 3. Trigger mode trigger cards if the mode is actually changed
+        if (this.getCapabilityValue('thermostat_mode_single') !== thermostatMode) {
+          const thermostatModeObj = {
+            mode: thermostatMode,
+            mode_name: Homey.__(`mode.${thermostatMode}`),
+          };
+          Homey.app.triggerThermofloorModeChanged.trigger(this, thermostatModeObj, null);
+          Homey.app.triggerThermostatModeChangedTo.trigger(this, null, thermostatModeObj);
+
+          // 4. Update onoff state when the thermostat mode is off
+          if (thermostatMode === 'Off') {
+            this.setCapabilityValue('thermostat_state', false);
+          }
+        }
+        // 5. Return setParser object and update thermostat_mode_single capability
+        return {
+          Level: {
+            'No of Manufacturer Data fields': 0,
+            Mode: thermostatMode,
+          },
+          'Manufacturer Data': Buffer.from([0]),
+        };
+      },
+      report: 'THERMOSTAT_MODE_REPORT',
+      reportParserV3: report => {
+        if (!report) return null;
+        if (report.hasOwnProperty('Level') && report.Level.hasOwnProperty('Mode')) {
+          const thermostatMode = report.Level.Mode;
+          this.log('Received thermostat mode report:', thermostatMode);
+
+          // 1. Update thermostat setpoint value based on matching thermostat mode
+          const setpointType = maps.Mode2Setpoint[thermostatMode];
+
+          if (setpointType !== 'not supported') {
+            this.setCapabilityValue('target_temperature', this.getStoreValue(`thermostatsetpointValue.${setpointType}`) || null);
+          } else {
+            this.setCapabilityValue('target_temperature', null);
+          }
+
+          // 2. Update device settings thermostat mode
+          this.setSettings({
+            operation_mode: maps.Mode2Number[thermostatMode],
+          });
+
+          // 3. Trigger mode trigger cards if the mode is actually changed
+          if (this.getCapabilityValue('thermostat_mode_single') !== thermostatMode) {
+            const thermostatModeObj = {
+              mode: thermostatMode,
+              mode_name: Homey.__(`mode.${thermostatMode}`),
+            };
+            Homey.app.triggerThermofloorModeChanged.trigger(this, thermostatModeObj, null);
+            Homey.app.triggerThermostatModeChangedTo.trigger(this, null, thermostatModeObj);
+
+            // 4. Update onoff state when the thermostat mode is off
+            if (thermostatMode === 'Off') {
+              this.setCapabilityValue('thermostat_state', false);
+            }
+          }
+
+          this.setCapabilityValue('onoff', thermostatMode === 'Heat');
+
+          // 5. Return reportParser object and update thermostat_mode_single capability
+          return thermostatMode;
+        }
+        return null;
+      },
+      multiChannelNodeId: 1,
+    });
+
+    this.registerCapability('target_temperature', 'THERMOSTAT_SETPOINT', {
+      getOpts: {
+        getOnStart: true,
+      },
+      getParser: () => {
+        // 1. Retrieve the setpointType based on the thermostat mode
+        const setpointType = maps.Mode2Setpoint[this.getCapabilityValue('thermostat_mode_single') || 'Heat'];
+
+        // 2. Return getParser object with correct setpointType
+        return {
+          Level: {
+            'Setpoint Type': setpointType !== 'not supported' ? setpointType : 'Heating 1',
+          },
+        };
+      },
+      set: 'THERMOSTAT_SETPOINT_SET',
+      setParserV3: setpointValue => {
+        // 1. Retrieve the setpointType based on the thermostat mode
+        const setpointType = maps.Mode2Setpoint[this.getCapabilityValue('thermostat_mode_single') || 'Heat'];
+
+        this.log('Setting thermostat setpoint to:', setpointValue, 'for setpointType', setpointType);
+
+        if (setpointType !== 'not supported') {
+          // 2. Store thermostat setpoint based on thermostat type
+          this.setStoreValue(`thermostatsetpointValue.${setpointType}`, setpointValue);
+
+          // 3. Update device settings setpoint value
+          const setpointSetting = maps.Setpoint2Setting[setpointType];
+          this.setSettings({
+            [setpointSetting]: setpointValue * 10,
+          });
+
+          // 4. Return setParser object and update thermostat mode
+          const bufferValue = Buffer.alloc(2);
+          bufferValue.writeUInt16BE((Math.round(setpointValue * 2) / 2 * 10).toFixed(0));
+
+          return {
+            Level: {
+              'Setpoint Type': setpointType,
+            },
+            Level2: {
+              Size: 2,
+              Scale: 0,
+              Precision: 1,
+            },
+            Value: bufferValue,
+          };
+        }
+        return null;
+      },
+      report: 'THERMOSTAT_SETPOINT_REPORT',
+      reportParserV3: report => {
+        if (report && report.hasOwnProperty('Level2')
+          && report.Level2.hasOwnProperty('Scale')
+          && report.Level2.hasOwnProperty('Precision')
+          && report.Level2.Scale === 0
+          && typeof report.Level2.Size !== 'undefined') {
+          // 1. Try to read the readValue
+          let readValue;
+          try {
+            readValue = report.Value.readUIntBE(0, report.Level2.Size);
+          } catch (err) {
+            return null;
+          }
+
+          if (typeof readValue !== 'undefined') {
+            // 2. Define the setPointValue and setpointType
+            const setpointValue = readValue / 10 ** report.Level2.Precision; // Math.pow(10, report.Level2.Precision);
+            const setpointType = report.Level['Setpoint Type'];
+            this.log('Received thermostat setpoint report: Setpoint type', setpointType, ' Setpoint value', setpointValue);
+
+            // 3. Store thermostat setpoint based on thermostat type
+            if (setpointType !== 'not supported') {
+              this.setStoreValue(`thermostatsetpointValue.${setpointType}`, setpointValue);
+            }
+
+            // 4. Update device settings setpoint value
+            const setpointSetting = maps.Setpoint2Setting[setpointType];
+            this.setSettings({
+              [setpointSetting]: setpointValue * 10,
+            });
+
+            // 5. Update UI if reported setpointType equals active sepointType based on the thermostat mode
+            if (setpointType === maps.Mode2Setpoint[this.getCapabilityValue('thermostat_mode_single') || 'Heat']) {
+              this.log('Updated thermostat setpoint on UI to', setpointValue);
+              return setpointValue;
+            }
+
+            return null;
+          }
+          return null;
+        }
+        return null;
+      },
+      multiChannelNodeId: 1,
+    });
+
+    this.registerCapability('thermostat_state', 'THERMOSTAT_OPERATING_STATE', {
+      getOpts: {
+        getOnStart: true,
+      },
+      get: 'THERMOSTAT_OPERATING_STATE_GET',
+      report: 'THERMOSTAT_OPERATING_STATE_REPORT',
+      reportParser: report => {
+        if (report && report.hasOwnProperty('Level') && report.Level.hasOwnProperty('Operating State')) {
+          const thermostatState = report.Level['Operating State'] === 'Heating';
+          if (thermostatState !== this.getCapabilityValue('thermostat_state')) {
+            return thermostatState;
+          }
+        }
+        return null;
+      },
+      multiChannelNodeId: 1,
+    });
+
+    // registerCapability for the internal temperature sensor
+    this.registerCapability('measure_temperature.internal', 'SENSOR_MULTILEVEL', {
+      getOpts: {
+        getOnStart: true,
+      },
+      report: 'SENSOR_MULTILEVEL_REPORT',
+      reportParser: report => {
+        if (report
+					&& report.hasOwnProperty('Sensor Type')
+					&& report['Sensor Type'] === 'Temperature (version 1)'
+					&& report.hasOwnProperty('Sensor Value (Parsed)')
+					&& report.hasOwnProperty('Level')
+					&& report.Level.hasOwnProperty('Scale')) {
+          // Some devices send this when no temperature sensor is connected
+          if (report['Sensor Value (Parsed)'] === -999.9) return null;
+          if (report.Level.Scale === 0) {
+            if (this.getSetting('Temperature_thermostat') === 'internal') this.setCapabilityValue('measure_temperature', report['Sensor Value (Parsed)']);
+            return report['Sensor Value (Parsed)'];
+          }
+          if (report.Level.Scale === 1) {
+            if (this.getSetting('Temperature_thermostat') === 'internal') this.setCapabilityValue('measure_temperature', (report['Sensor Value (Parsed)'] - 32) / 1.8);
+            return (report['Sensor Value (Parsed)'] - 32) / 1.8;
+          }
+        }
+        return null;
+      },
+      multiChannelNodeId: 2,
+    });
+
+    // registerCapability for the external temperature sensor
+    this.registerCapability('measure_temperature.external', 'SENSOR_MULTILEVEL', {
+      getOpts: {
+        getOnStart: true,
+      },
+      report: 'SENSOR_MULTILEVEL_REPORT',
+      reportParser: report => {
+        if (report
+					&& report.hasOwnProperty('Sensor Type')
+					&& report['Sensor Type'] === 'Temperature (version 1)'
+					&& report.hasOwnProperty('Sensor Value (Parsed)')
+					&& report.hasOwnProperty('Level')
+					&& report.Level.hasOwnProperty('Scale')) {
+          // Some devices send this when no temperature sensor is connected
+          if (report['Sensor Value (Parsed)'] === -999.9) return null;
+          if (report.Level.Scale === 0) {
+            if (this.getSetting('Temperature_thermostat') === 'external') this.setCapabilityValue('measure_temperature', report['Sensor Value (Parsed)']);
+            return report['Sensor Value (Parsed)'];
+          }
+          if (report.Level.Scale === 1) {
+            if (this.getSetting('Temperature_thermostat') === 'external') this.setCapabilityValue('measure_temperature', (report['Sensor Value (Parsed)'] - 32) / 1.8);
+            return (report['Sensor Value (Parsed)'] - 32) / 1.8;
+          }
+        }
+        return null;
+      },
+      multiChannelNodeId: 3,
+    });
+
+    // registerCapability for the external temperature sensor
+    this.registerCapability('measure_temperature.floor', 'SENSOR_MULTILEVEL', {
+      getOpts: {
+        getOnStart: true,
+      },
+      report: 'SENSOR_MULTILEVEL_REPORT',
+      reportParser: report => {
+        if (report
+					&& report.hasOwnProperty('Sensor Type')
+					&& report['Sensor Type'] === 'Temperature (version 1)'
+					&& report.hasOwnProperty('Sensor Value (Parsed)')
+					&& report.hasOwnProperty('Level')
+					&& report.Level.hasOwnProperty('Scale')) {
+          // Some devices send this when no temperature sensor is connected
+          if (report['Sensor Value (Parsed)'] === -999.9) return null;
+          if (report.Level.Scale === 0) {
+            if (this.getSetting('Temperature_thermostat') === 'floor') this.setCapabilityValue('measure_temperature', report['Sensor Value (Parsed)']);
+            return report['Sensor Value (Parsed)'];
+          }
+          if (report.Level.Scale === 1) {
+            if (this.getSetting('Temperature_thermostat') === 'floor') this.setCapabilityValue('measure_temperature', (report['Sensor Value (Parsed)'] - 32) / 1.8);
+            return (report['Sensor Value (Parsed)'] - 32) / 1.8;
+          }
+        }
+        return null;
+      },
+      multiChannelNodeId: 4,
+    });
+
+    if (this.hasCapability('meter_power')) this.registerCapability('meter_power', 'METER', { multiChannelNodeId: 1 });
+    if (this.hasCapability('measure_power')) this.registerCapability('measure_power', 'METER', { multiChannelNodeId: 1 });
+    if (this.hasCapability('measure_voltage')) this.registerCapability('measure_voltage', 'METER', { multiChannelNodeId: 1 });
+
+    if (this.hasCapability('button.reset_meter')) {
+      // Listen for reset_meter maintenance action
+      this.registerCapabilityListener('button.reset_meter', async () => {
+        // Maintenance action button was pressed, return a promise
+        if (typeof this.meterReset === 'function') return this.meterReset(1);
+        this.error('Reset meter failed');
+        throw new Error('Reset meter not supported');
+      });
+    }
+
+    this.setAvailable();
+  }
+
+}
+
+module.exports = Z_TRM3Device;
+
+/* Node overview Secure
+2020-05-23 10:26:20 [log] [ManagerDrivers] [Z-TRM3] [0] ------------------------------------------
+2020-05-23 10:26:20 [log] [ManagerDrivers] [Z-TRM3] [0] Node: 82
+2020-05-23 10:26:20 [log] [ManagerDrivers] [Z-TRM3] [0] - Manufacturer id: 411
+2020-05-23 10:26:20 [log] [ManagerDrivers] [Z-TRM3] [0] - ProductType id: 3
+2020-05-23 10:26:20 [log] [ManagerDrivers] [Z-TRM3] [0] - Product id: 515
+2020-05-23 10:26:20 [log] [ManagerDrivers] [Z-TRM3] [0] - Firmware Version: 4.0
+2020-05-23 10:26:20 [log] [ManagerDrivers] [Z-TRM3] [0] - Hardware Version: 3
+2020-05-23 10:26:20 [log] [ManagerDrivers] [Z-TRM3] [0] - Firmware id: 771
+2020-05-23 10:26:20 [log] [ManagerDrivers] [Z-TRM3] [0] - Firmware Version Target 1: 4.0
+2020-05-23 10:26:20 [log] [ManagerDrivers] [Z-TRM3] [0] - Secure: ⨯
+2020-05-23 10:26:20 [log] [ManagerDrivers] [Z-TRM3] [0] - Battery: false
+2020-05-23 10:26:20 [log] [ManagerDrivers] [Z-TRM3] [0] - DeviceClassBasic: BASIC_TYPE_ROUTING_SLAVE
+2020-05-23 10:26:20 [log] [ManagerDrivers] [Z-TRM3] [0] - DeviceClassGeneric: GENERIC_TYPE_THERMOSTAT
+2020-05-23 10:26:20 [log] [ManagerDrivers] [Z-TRM3] [0] - DeviceClassSpecific: SPECIFIC_TYPE_THERMOSTAT_GENERAL_V2
+2020-05-23 10:26:20 [log] [ManagerDrivers] [Z-TRM3] [0] - Token: 30c18c8f-0a3e-4ff7-b236-436c7e94cdae
+2020-05-23 10:26:20 [log] [ManagerDrivers] [Z-TRM3] [0] - CommandClass: COMMAND_CLASS_ZWAVEPLUS_INFO
+2020-05-23 10:26:20 [log] [ManagerDrivers] [Z-TRM3] [0] -- Version: 2
+2020-05-23 10:26:20 [log] [ManagerDrivers] [Z-TRM3] [0] -- Commands:
+2020-05-23 10:26:20 [log] [ManagerDrivers] [Z-TRM3] [0] --- ZWAVEPLUS_INFO_GET
+2020-05-23 10:26:20 [log] [ManagerDrivers] [Z-TRM3] [0] --- ZWAVEPLUS_INFO_REPORT
+2020-05-23 10:26:20 [log] [ManagerDrivers] [Z-TRM3] [0] - CommandClass: COMMAND_CLASS_ASSOCIATION
+2020-05-23 10:26:20 [log] [ManagerDrivers] [Z-TRM3] [0] -- Version: 2
+2020-05-23 10:26:20 [log] [ManagerDrivers] [Z-TRM3] [0] -- Commands:
+2020-05-23 10:26:20 [log] [ManagerDrivers] [Z-TRM3] [0] --- ASSOCIATION_GET
+2020-05-23 10:26:20 [log] [ManagerDrivers] [Z-TRM3] [0] --- ASSOCIATION_GROUPINGS_GET
+2020-05-23 10:26:20 [log] [ManagerDrivers] [Z-TRM3] [0] --- ASSOCIATION_GROUPINGS_REPORT
+2020-05-23 10:26:20 [log] [ManagerDrivers] [Z-TRM3] [0] --- ASSOCIATION_REMOVE
+2020-05-23 10:26:20 [log] [ManagerDrivers] [Z-TRM3] [0] --- ASSOCIATION_REPORT
+2020-05-23 10:26:20 [log] [ManagerDrivers] [Z-TRM3] [0] --- ASSOCIATION_SET
+2020-05-23 10:26:20 [log] [ManagerDrivers] [Z-TRM3] [0] --- ASSOCIATION_SPECIFIC_GROUP_GET
+2020-05-23 10:26:20 [log] [ManagerDrivers] [Z-TRM3] [0] --- ASSOCIATION_SPECIFIC_GROUP_REPORT
+2020-05-23 10:26:20 [log] [ManagerDrivers] [Z-TRM3] [0] - CommandClass: COMMAND_CLASS_ASSOCIATION_GRP_INFO
+2020-05-23 10:26:20 [log] [ManagerDrivers] [Z-TRM3] [0] -- Version: 1
+2020-05-23 10:26:20 [log] [ManagerDrivers] [Z-TRM3] [0] -- Commands:
+2020-05-23 10:26:20 [log] [ManagerDrivers] [Z-TRM3] [0] --- ASSOCIATION_GROUP_NAME_GET
+2020-05-23 10:26:20 [log] [ManagerDrivers] [Z-TRM3] [0] --- ASSOCIATION_GROUP_NAME_REPORT
+2020-05-23 10:26:20 [log] [ManagerDrivers] [Z-TRM3] [0] --- ASSOCIATION_GROUP_INFO_GET
+2020-05-23 10:26:20 [log] [ManagerDrivers] [Z-TRM3] [0] --- ASSOCIATION_GROUP_INFO_REPORT
+2020-05-23 10:26:20 [log] [ManagerDrivers] [Z-TRM3] [0] --- ASSOCIATION_GROUP_COMMAND_LIST_GET
+2020-05-23 10:26:20 [log] [ManagerDrivers] [Z-TRM3] [0] --- ASSOCIATION_GROUP_COMMAND_LIST_REPORT
+2020-05-23 10:26:20 [log] [ManagerDrivers] [Z-TRM3] [0] - CommandClass: COMMAND_CLASS_MULTI_CHANNEL_ASSOCIATION
+2020-05-23 10:26:20 [log] [ManagerDrivers] [Z-TRM3] [0] -- Version: 3
+2020-05-23 10:26:20 [log] [ManagerDrivers] [Z-TRM3] [0] -- Commands:
+2020-05-23 10:26:20 [log] [ManagerDrivers] [Z-TRM3] [0] --- MULTI_CHANNEL_ASSOCIATION_GET
+2020-05-23 10:26:20 [log] [ManagerDrivers] [Z-TRM3] [0] --- MULTI_CHANNEL_ASSOCIATION_GROUPINGS_GET
+2020-05-23 10:26:20 [log] [ManagerDrivers] [Z-TRM3] [0] --- MULTI_CHANNEL_ASSOCIATION_GROUPINGS_REPORT
+2020-05-23 10:26:20 [log] [ManagerDrivers] [Z-TRM3] [0] --- MULTI_CHANNEL_ASSOCIATION_REMOVE
+2020-05-23 10:26:20 [log] [ManagerDrivers] [Z-TRM3] [0] --- MULTI_CHANNEL_ASSOCIATION_REPORT
+2020-05-23 10:26:20 [log] [ManagerDrivers] [Z-TRM3] [0] --- MULTI_CHANNEL_ASSOCIATION_SET
+2020-05-23 10:26:20 [log] [ManagerDrivers] [Z-TRM3] [0] - CommandClass: COMMAND_CLASS_MULTI_CHANNEL
+2020-05-23 10:26:20 [log] [ManagerDrivers] [Z-TRM3] [0] -- Version: 4
+2020-05-23 10:26:20 [log] [ManagerDrivers] [Z-TRM3] [0] -- Commands:
+2020-05-23 10:26:20 [log] [ManagerDrivers] [Z-TRM3] [0] --- MULTI_CHANNEL_CAPABILITY_GET
+2020-05-23 10:26:20 [log] [ManagerDrivers] [Z-TRM3] [0] --- MULTI_CHANNEL_CAPABILITY_REPORT
+2020-05-23 10:26:20 [log] [ManagerDrivers] [Z-TRM3] [0] --- MULTI_CHANNEL_CMD_ENCAP
+2020-05-23 10:26:20 [log] [ManagerDrivers] [Z-TRM3] [0] --- MULTI_CHANNEL_END_POINT_FIND
+2020-05-23 10:26:20 [log] [ManagerDrivers] [Z-TRM3] [0] --- MULTI_CHANNEL_END_POINT_FIND_REPORT
+2020-05-23 10:26:20 [log] [ManagerDrivers] [Z-TRM3] [0] --- MULTI_CHANNEL_END_POINT_GET
+2020-05-23 10:26:20 [log] [ManagerDrivers] [Z-TRM3] [0] --- MULTI_CHANNEL_END_POINT_REPORT
+2020-05-23 10:26:20 [log] [ManagerDrivers] [Z-TRM3] [0] --- MULTI_INSTANCE_CMD_ENCAP
+2020-05-23 10:26:20 [log] [ManagerDrivers] [Z-TRM3] [0] --- MULTI_INSTANCE_GET
+2020-05-23 10:26:20 [log] [ManagerDrivers] [Z-TRM3] [0] --- MULTI_INSTANCE_REPORT
+2020-05-23 10:26:20 [log] [ManagerDrivers] [Z-TRM3] [0] --- MULTI_CHANNEL_AGGREGATED_MEMBERS_GET
+2020-05-23 10:26:20 [log] [ManagerDrivers] [Z-TRM3] [0] --- MULTI_CHANNEL_AGGREGATED_MEMBERS_REPORT
+2020-05-23 10:26:20 [log] [ManagerDrivers] [Z-TRM3] [0] - CommandClass: COMMAND_CLASS_TRANSPORT_SERVICE
+2020-05-23 10:26:20 [log] [ManagerDrivers] [Z-TRM3] [0] -- Version: 2
+2020-05-23 10:26:20 [log] [ManagerDrivers] [Z-TRM3] [0] -- Commands:
+2020-05-23 10:26:20 [log] [ManagerDrivers] [Z-TRM3] [0] --- COMMAND_FIRST_SEGMENT
+2020-05-23 10:26:20 [log] [ManagerDrivers] [Z-TRM3] [0] --- COMMAND_SEGMENT_COMPLETE
+2020-05-23 10:26:20 [log] [ManagerDrivers] [Z-TRM3] [0] --- COMMAND_SEGMENT_REQUEST
+2020-05-23 10:26:20 [log] [ManagerDrivers] [Z-TRM3] [0] --- COMMAND_SEGMENT_WAIT
+2020-05-23 10:26:20 [log] [ManagerDrivers] [Z-TRM3] [0] --- COMMAND_SUBSEQUENT_SEGMENT
+2020-05-23 10:26:20 [log] [ManagerDrivers] [Z-TRM3] [0] - CommandClass: COMMAND_CLASS_VERSION
+2020-05-23 10:26:20 [log] [ManagerDrivers] [Z-TRM3] [0] -- Version: 3
+2020-05-23 10:26:20 [log] [ManagerDrivers] [Z-TRM3] [0] -- Commands:
+2020-05-23 10:26:20 [log] [ManagerDrivers] [Z-TRM3] [0] --- VERSION_COMMAND_CLASS_GET
+2020-05-23 10:26:20 [log] [ManagerDrivers] [Z-TRM3] [0] --- VERSION_COMMAND_CLASS_REPORT
+2020-05-23 10:26:20 [log] [ManagerDrivers] [Z-TRM3] [0] --- VERSION_GET
+2020-05-23 10:26:20 [log] [ManagerDrivers] [Z-TRM3] [0] --- VERSION_REPORT
+2020-05-23 10:26:20 [log] [ManagerDrivers] [Z-TRM3] [0] --- VERSION_CAPABILITIES_GET
+2020-05-23 10:26:20 [log] [ManagerDrivers] [Z-TRM3] [0] --- VERSION_CAPABILITIES_REPORT
+2020-05-23 10:26:20 [log] [ManagerDrivers] [Z-TRM3] [0] --- VERSION_ZWAVE_SOFTWARE_GET
+2020-05-23 10:26:20 [log] [ManagerDrivers] [Z-TRM3] [0] --- VERSION_ZWAVE_SOFTWARE_REPORT
+2020-05-23 10:26:20 [log] [ManagerDrivers] [Z-TRM3] [0] - CommandClass: COMMAND_CLASS_MANUFACTURER_SPECIFIC
+2020-05-23 10:26:20 [log] [ManagerDrivers] [Z-TRM3] [0] -- Version: 2
+2020-05-23 10:26:20 [log] [ManagerDrivers] [Z-TRM3] [0] -- Commands:
+2020-05-23 10:26:20 [log] [ManagerDrivers] [Z-TRM3] [0] --- MANUFACTURER_SPECIFIC_GET
+2020-05-23 10:26:20 [log] [ManagerDrivers] [Z-TRM3] [0] --- MANUFACTURER_SPECIFIC_REPORT
+2020-05-23 10:26:20 [log] [ManagerDrivers] [Z-TRM3] [0] --- DEVICE_SPECIFIC_GET
+2020-05-23 10:26:20 [log] [ManagerDrivers] [Z-TRM3] [0] --- DEVICE_SPECIFIC_REPORT
+2020-05-23 10:26:20 [log] [ManagerDrivers] [Z-TRM3] [0] - CommandClass: COMMAND_CLASS_DEVICE_RESET_LOCALLY
+2020-05-23 10:26:20 [log] [ManagerDrivers] [Z-TRM3] [0] -- Version: 1
+2020-05-23 10:26:20 [log] [ManagerDrivers] [Z-TRM3] [0] -- Commands:
+2020-05-23 10:26:20 [log] [ManagerDrivers] [Z-TRM3] [0] --- DEVICE_RESET_LOCALLY_NOTIFICATION
+2020-05-23 10:26:20 [log] [ManagerDrivers] [Z-TRM3] [0] - CommandClass: COMMAND_CLASS_POWERLEVEL
+2020-05-23 10:26:20 [log] [ManagerDrivers] [Z-TRM3] [0] -- Version: 1
+2020-05-23 10:26:20 [log] [ManagerDrivers] [Z-TRM3] [0] -- Commands:
+2020-05-23 10:26:20 [log] [ManagerDrivers] [Z-TRM3] [0] --- POWERLEVEL_GET
+2020-05-23 10:26:20 [log] [ManagerDrivers] [Z-TRM3] [0] --- POWERLEVEL_REPORT
+2020-05-23 10:26:20 [log] [ManagerDrivers] [Z-TRM3] [0] --- POWERLEVEL_SET
+2020-05-23 10:26:20 [log] [ManagerDrivers] [Z-TRM3] [0] --- POWERLEVEL_TEST_NODE_GET
+2020-05-23 10:26:20 [log] [ManagerDrivers] [Z-TRM3] [0] --- POWERLEVEL_TEST_NODE_REPORT
+2020-05-23 10:26:20 [log] [ManagerDrivers] [Z-TRM3] [0] --- POWERLEVEL_TEST_NODE_SET
+2020-05-23 10:26:20 [log] [ManagerDrivers] [Z-TRM3] [0] - CommandClass: COMMAND_CLASS_SECURITY
+2020-05-23 10:26:20 [log] [ManagerDrivers] [Z-TRM3] [0] -- Version: 1
+2020-05-23 10:26:20 [log] [ManagerDrivers] [Z-TRM3] [0] -- Commands:
+2020-05-23 10:26:20 [log] [ManagerDrivers] [Z-TRM3] [0] --- NETWORK_KEY_SET
+2020-05-23 10:26:20 [log] [ManagerDrivers] [Z-TRM3] [0] --- NETWORK_KEY_VERIFY
+2020-05-23 10:26:20 [log] [ManagerDrivers] [Z-TRM3] [0] --- SECURITY_COMMANDS_SUPPORTED_GET
+2020-05-23 10:26:20 [log] [ManagerDrivers] [Z-TRM3] [0] --- SECURITY_COMMANDS_SUPPORTED_REPORT
+2020-05-23 10:26:20 [log] [ManagerDrivers] [Z-TRM3] [0] --- SECURITY_MESSAGE_ENCAPSULATION
+2020-05-23 10:26:20 [log] [ManagerDrivers] [Z-TRM3] [0] --- SECURITY_MESSAGE_ENCAPSULATION_NONCE_GET
+2020-05-23 10:26:20 [log] [ManagerDrivers] [Z-TRM3] [0] --- SECURITY_NONCE_GET
+2020-05-23 10:26:20 [log] [ManagerDrivers] [Z-TRM3] [0] --- SECURITY_NONCE_REPORT
+2020-05-23 10:26:20 [log] [ManagerDrivers] [Z-TRM3] [0] --- SECURITY_SCHEME_GET
+2020-05-23 10:26:20 [log] [ManagerDrivers] [Z-TRM3] [0] --- SECURITY_SCHEME_INHERIT
+2020-05-23 10:26:20 [log] [ManagerDrivers] [Z-TRM3] [0] --- SECURITY_SCHEME_REPORT
+2020-05-23 10:26:20 [log] [ManagerDrivers] [Z-TRM3] [0] - CommandClass: COMMAND_CLASS_SECURITY_2
+2020-05-23 10:26:20 [log] [ManagerDrivers] [Z-TRM3] [0] -- Version: 1
+2020-05-23 10:26:20 [log] [ManagerDrivers] [Z-TRM3] [0] -- Commands:
+2020-05-23 10:26:20 [log] [ManagerDrivers] [Z-TRM3] [0] --- SECURITY_2_NONCE_GET
+2020-05-23 10:26:20 [log] [ManagerDrivers] [Z-TRM3] [0] --- SECURITY_2_NONCE_REPORT
+2020-05-23 10:26:20 [log] [ManagerDrivers] [Z-TRM3] [0] --- SECURITY_2_MESSAGE_ENCAPSULATION
+2020-05-23 10:26:20 [log] [ManagerDrivers] [Z-TRM3] [0] --- KEX_GET
+2020-05-23 10:26:20 [log] [ManagerDrivers] [Z-TRM3] [0] --- KEX_REPORT
+2020-05-23 10:26:20 [log] [ManagerDrivers] [Z-TRM3] [0] --- KEX_SET
+2020-05-23 10:26:20 [log] [ManagerDrivers] [Z-TRM3] [0] --- KEX_FAIL
+2020-05-23 10:26:20 [log] [ManagerDrivers] [Z-TRM3] [0] --- PUBLIC_KEY_REPORT
+2020-05-23 10:26:20 [log] [ManagerDrivers] [Z-TRM3] [0] --- SECURITY_2_NETWORK_KEY_GET
+2020-05-23 10:26:20 [log] [ManagerDrivers] [Z-TRM3] [0] --- SECURITY_2_NETWORK_KEY_REPORT
+2020-05-23 10:26:20 [log] [ManagerDrivers] [Z-TRM3] [0] --- SECURITY_2_NETWORK_KEY_VERIFY
+2020-05-23 10:26:20 [log] [ManagerDrivers] [Z-TRM3] [0] --- SECURITY_2_TRANSFER_END
+2020-05-23 10:26:20 [log] [ManagerDrivers] [Z-TRM3] [0] --- SECURITY_2_COMMANDS_SUPPORTED_GET
+2020-05-23 10:26:20 [log] [ManagerDrivers] [Z-TRM3] [0] --- SECURITY_2_COMMANDS_SUPPORTED_REPORT
+2020-05-23 10:26:20 [log] [ManagerDrivers] [Z-TRM3] [0] --- SECURITY_2_CAPABILITIES_GET
+2020-05-23 10:26:20 [log] [ManagerDrivers] [Z-TRM3] [0] --- SECURITY_2_CAPABILITIES_REPORT
+2020-05-23 10:26:20 [log] [ManagerDrivers] [Z-TRM3] [0] - CommandClass: COMMAND_CLASS_SUPERVISION
+2020-05-23 10:26:20 [log] [ManagerDrivers] [Z-TRM3] [0] -- Version: 1
+2020-05-23 10:26:20 [log] [ManagerDrivers] [Z-TRM3] [0] -- Commands:
+2020-05-23 10:26:20 [log] [ManagerDrivers] [Z-TRM3] [0] --- SUPERVISION_GET
+2020-05-23 10:26:20 [log] [ManagerDrivers] [Z-TRM3] [0] --- SUPERVISION_REPORT
+2020-05-23 10:26:20 [log] [ManagerDrivers] [Z-TRM3] [0] - CommandClass: COMMAND_CLASS_CONFIGURATION
+2020-05-23 10:26:20 [log] [ManagerDrivers] [Z-TRM3] [0] -- Version: 3
+2020-05-23 10:26:20 [log] [ManagerDrivers] [Z-TRM3] [0] -- Commands:
+2020-05-23 10:26:20 [log] [ManagerDrivers] [Z-TRM3] [0] --- CONFIGURATION_BULK_GET
+2020-05-23 10:26:20 [log] [ManagerDrivers] [Z-TRM3] [0] --- CONFIGURATION_BULK_REPORT
+2020-05-23 10:26:20 [log] [ManagerDrivers] [Z-TRM3] [0] --- CONFIGURATION_BULK_SET
+2020-05-23 10:26:20 [log] [ManagerDrivers] [Z-TRM3] [0] --- CONFIGURATION_GET
+2020-05-23 10:26:20 [log] [ManagerDrivers] [Z-TRM3] [0] --- CONFIGURATION_REPORT
+2020-05-23 10:26:20 [log] [ManagerDrivers] [Z-TRM3] [0] --- CONFIGURATION_SET
+2020-05-23 10:26:20 [log] [ManagerDrivers] [Z-TRM3] [0] --- CONFIGURATION_NAME_GET
+2020-05-23 10:26:20 [log] [ManagerDrivers] [Z-TRM3] [0] --- CONFIGURATION_NAME_REPORT
+2020-05-23 10:26:20 [log] [ManagerDrivers] [Z-TRM3] [0] --- CONFIGURATION_INFO_GET
+2020-05-23 10:26:20 [log] [ManagerDrivers] [Z-TRM3] [0] --- CONFIGURATION_INFO_REPORT
+2020-05-23 10:26:20 [log] [ManagerDrivers] [Z-TRM3] [0] --- CONFIGURATION_PROPERTIES_GET
+2020-05-23 10:26:20 [log] [ManagerDrivers] [Z-TRM3] [0] --- CONFIGURATION_PROPERTIES_REPORT
+2020-05-23 10:26:20 [log] [ManagerDrivers] [Z-TRM3] [0] - CommandClass: COMMAND_CLASS_FIRMWARE_UPDATE_MD
+2020-05-23 10:26:20 [log] [ManagerDrivers] [Z-TRM3] [0] -- Version: 4
+2020-05-23 10:26:21 [log] [ManagerDrivers] [Z-TRM3] [0] -- Commands:
+2020-05-23 10:26:21 [log] [ManagerDrivers] [Z-TRM3] [0] --- FIRMWARE_MD_GET
+2020-05-23 10:26:21 [log] [ManagerDrivers] [Z-TRM3] [0] --- FIRMWARE_MD_REPORT
+2020-05-23 10:26:21 [log] [ManagerDrivers] [Z-TRM3] [0] --- FIRMWARE_UPDATE_MD_GET
+2020-05-23 10:26:21 [log] [ManagerDrivers] [Z-TRM3] [0] --- FIRMWARE_UPDATE_MD_REPORT
+2020-05-23 10:26:21 [log] [ManagerDrivers] [Z-TRM3] [0] --- FIRMWARE_UPDATE_MD_REQUEST_GET
+2020-05-23 10:26:21 [log] [ManagerDrivers] [Z-TRM3] [0] --- FIRMWARE_UPDATE_MD_REQUEST_REPORT
+2020-05-23 10:26:21 [log] [ManagerDrivers] [Z-TRM3] [0] --- FIRMWARE_UPDATE_MD_STATUS_REPORT
+2020-05-23 10:26:21 [log] [ManagerDrivers] [Z-TRM3] [0] --- FIRMWARE_UPDATE_ACTIVATION_SET
+2020-05-23 10:26:21 [log] [ManagerDrivers] [Z-TRM3] [0] --- FIRMWARE_UPDATE_ACTIVATION_STATUS_REPORT
+2020-05-23 10:26:21 [log] [ManagerDrivers] [Z-TRM3] [0] - CommandClass: COMMAND_CLASS_THERMOSTAT_SETPOINT
+2020-05-23 10:26:21 [log] [ManagerDrivers] [Z-TRM3] [0] -- Version: 3
+2020-05-23 10:26:21 [log] [ManagerDrivers] [Z-TRM3] [0] -- Commands:
+2020-05-23 10:26:21 [log] [ManagerDrivers] [Z-TRM3] [0] --- THERMOSTAT_SETPOINT_GET
+2020-05-23 10:26:21 [log] [ManagerDrivers] [Z-TRM3] [0] --- THERMOSTAT_SETPOINT_REPORT
+2020-05-23 10:26:21 [log] [ManagerDrivers] [Z-TRM3] [0] --- THERMOSTAT_SETPOINT_SET
+2020-05-23 10:26:21 [log] [ManagerDrivers] [Z-TRM3] [0] --- THERMOSTAT_SETPOINT_SUPPORTED_GET
+2020-05-23 10:26:21 [log] [ManagerDrivers] [Z-TRM3] [0] --- THERMOSTAT_SETPOINT_SUPPORTED_REPORT
+2020-05-23 10:26:21 [log] [ManagerDrivers] [Z-TRM3] [0] --- THERMOSTAT_SETPOINT_CAPABILITIES_GET
+2020-05-23 10:26:21 [log] [ManagerDrivers] [Z-TRM3] [0] --- THERMOSTAT_SETPOINT_CAPABILITIES_REPORT
+2020-05-23 10:26:21 [log] [ManagerDrivers] [Z-TRM3] [0] - CommandClass: COMMAND_CLASS_THERMOSTAT_MODE
+2020-05-23 10:26:21 [log] [ManagerDrivers] [Z-TRM3] [0] -- Version: 3
+2020-05-23 10:26:21 [log] [ManagerDrivers] [Z-TRM3] [0] -- Commands:
+2020-05-23 10:26:21 [log] [ManagerDrivers] [Z-TRM3] [0] --- THERMOSTAT_MODE_GET
+2020-05-23 10:26:21 [log] [ManagerDrivers] [Z-TRM3] [0] --- THERMOSTAT_MODE_REPORT
+2020-05-23 10:26:21 [log] [ManagerDrivers] [Z-TRM3] [0] --- THERMOSTAT_MODE_SET
+2020-05-23 10:26:21 [log] [ManagerDrivers] [Z-TRM3] [0] --- THERMOSTAT_MODE_SUPPORTED_GET
+2020-05-23 10:26:21 [log] [ManagerDrivers] [Z-TRM3] [0] --- THERMOSTAT_MODE_SUPPORTED_REPORT
+2020-05-23 10:26:21 [log] [ManagerDrivers] [Z-TRM3] [0] - CommandClass: COMMAND_CLASS_THERMOSTAT_OPERATING_STATE
+2020-05-23 10:26:21 [log] [ManagerDrivers] [Z-TRM3] [0] -- Version: 1
+2020-05-23 10:26:21 [log] [ManagerDrivers] [Z-TRM3] [0] -- Commands:
+2020-05-23 10:26:21 [log] [ManagerDrivers] [Z-TRM3] [0] --- THERMOSTAT_OPERATING_STATE_GET
+2020-05-23 10:26:21 [log] [ManagerDrivers] [Z-TRM3] [0] --- THERMOSTAT_OPERATING_STATE_REPORT
+2020-05-23 10:26:21 [log] [ManagerDrivers] [Z-TRM3] [0] - CommandClass: COMMAND_CLASS_METER
+2020-05-23 10:26:21 [log] [ManagerDrivers] [Z-TRM3] [0] -- Version: 3
+2020-05-23 10:26:21 [log] [ManagerDrivers] [Z-TRM3] [0] -- Commands:
+2020-05-23 10:26:21 [log] [ManagerDrivers] [Z-TRM3] [0] --- METER_GET
+2020-05-23 10:26:21 [log] [ManagerDrivers] [Z-TRM3] [0] --- METER_REPORT
+2020-05-23 10:26:21 [log] [ManagerDrivers] [Z-TRM3] [0] --- METER_RESET
+2020-05-23 10:26:21 [log] [ManagerDrivers] [Z-TRM3] [0] --- METER_SUPPORTED_GET
+2020-05-23 10:26:21 [log] [ManagerDrivers] [Z-TRM3] [0] --- METER_SUPPORTED_REPORT
+2020-05-23 10:26:21 [log] [ManagerDrivers] [Z-TRM3] [0] - CommandClass: COMMAND_CLASS_BASIC
+2020-05-23 10:26:21 [log] [ManagerDrivers] [Z-TRM3] [0] -- Version: 2
+2020-05-23 10:26:21 [log] [ManagerDrivers] [Z-TRM3] [0] -- Commands:
+2020-05-23 10:26:21 [log] [ManagerDrivers] [Z-TRM3] [0] --- BASIC_GET
+2020-05-23 10:26:21 [log] [ManagerDrivers] [Z-TRM3] [0] --- BASIC_REPORT
+2020-05-23 10:26:21 [log] [ManagerDrivers] [Z-TRM3] [0] --- BASIC_SET
+2020-05-23 10:26:21 [log] [ManagerDrivers] [Z-TRM3] [0] - MultiChannelNode: 1
+2020-05-23 10:26:21 [log] [ManagerDrivers] [Z-TRM3] [0] - DeviceClassGeneric: GENERIC_TYPE_THERMOSTAT
+2020-05-23 10:26:21 [log] [ManagerDrivers] [Z-TRM3] [0] -- CommandClass: COMMAND_CLASS_ZWAVEPLUS_INFO
+2020-05-23 10:26:21 [log] [ManagerDrivers] [Z-TRM3] [0] --- Version: 2
+2020-05-23 10:26:21 [log] [ManagerDrivers] [Z-TRM3] [0] --- Commands:
+2020-05-23 10:26:21 [log] [ManagerDrivers] [Z-TRM3] [0] ---- ZWAVEPLUS_INFO_GET
+2020-05-23 10:26:21 [log] [ManagerDrivers] [Z-TRM3] [0] ---- ZWAVEPLUS_INFO_REPORT
+2020-05-23 10:26:21 [log] [ManagerDrivers] [Z-TRM3] [0] -- CommandClass: COMMAND_CLASS_ASSOCIATION
+2020-05-23 10:26:21 [log] [ManagerDrivers] [Z-TRM3] [0] --- Version: 2
+2020-05-23 10:26:21 [log] [ManagerDrivers] [Z-TRM3] [0] --- Commands:
+2020-05-23 10:26:21 [log] [ManagerDrivers] [Z-TRM3] [0] ---- ASSOCIATION_GET
+2020-05-23 10:26:21 [log] [ManagerDrivers] [Z-TRM3] [0] ---- ASSOCIATION_GROUPINGS_GET
+2020-05-23 10:26:21 [log] [ManagerDrivers] [Z-TRM3] [0] ---- ASSOCIATION_GROUPINGS_REPORT
+2020-05-23 10:26:21 [log] [ManagerDrivers] [Z-TRM3] [0] ---- ASSOCIATION_REMOVE
+2020-05-23 10:26:21 [log] [ManagerDrivers] [Z-TRM3] [0] ---- ASSOCIATION_REPORT
+2020-05-23 10:26:21 [log] [ManagerDrivers] [Z-TRM3] [0] ---- ASSOCIATION_SET
+2020-05-23 10:26:21 [log] [ManagerDrivers] [Z-TRM3] [0] ---- ASSOCIATION_SPECIFIC_GROUP_GET
+2020-05-23 10:26:21 [log] [ManagerDrivers] [Z-TRM3] [0] ---- ASSOCIATION_SPECIFIC_GROUP_REPORT
+2020-05-23 10:26:21 [log] [ManagerDrivers] [Z-TRM3] [0] -- CommandClass: COMMAND_CLASS_ASSOCIATION_GRP_INFO
+2020-05-23 10:26:21 [log] [ManagerDrivers] [Z-TRM3] [0] --- Version: 1
+2020-05-23 10:26:21 [log] [ManagerDrivers] [Z-TRM3] [0] --- Commands:
+2020-05-23 10:26:21 [log] [ManagerDrivers] [Z-TRM3] [0] ---- ASSOCIATION_GROUP_NAME_GET
+2020-05-23 10:26:21 [log] [ManagerDrivers] [Z-TRM3] [0] ---- ASSOCIATION_GROUP_NAME_REPORT
+2020-05-23 10:26:21 [log] [ManagerDrivers] [Z-TRM3] [0] ---- ASSOCIATION_GROUP_INFO_GET
+2020-05-23 10:26:21 [log] [ManagerDrivers] [Z-TRM3] [0] ---- ASSOCIATION_GROUP_INFO_REPORT
+2020-05-23 10:26:21 [log] [ManagerDrivers] [Z-TRM3] [0] ---- ASSOCIATION_GROUP_COMMAND_LIST_GET
+2020-05-23 10:26:21 [log] [ManagerDrivers] [Z-TRM3] [0] ---- ASSOCIATION_GROUP_COMMAND_LIST_REPORT
+2020-05-23 10:26:21 [log] [ManagerDrivers] [Z-TRM3] [0] -- CommandClass: COMMAND_CLASS_MULTI_CHANNEL_ASSOCIATION
+2020-05-23 10:26:21 [log] [ManagerDrivers] [Z-TRM3] [0] --- Version: 3
+2020-05-23 10:26:21 [log] [ManagerDrivers] [Z-TRM3] [0] --- Commands:
+2020-05-23 10:26:21 [log] [ManagerDrivers] [Z-TRM3] [0] ---- MULTI_CHANNEL_ASSOCIATION_GET
+2020-05-23 10:26:21 [log] [ManagerDrivers] [Z-TRM3] [0] ---- MULTI_CHANNEL_ASSOCIATION_GROUPINGS_GET
+2020-05-23 10:26:21 [log] [ManagerDrivers] [Z-TRM3] [0] ---- MULTI_CHANNEL_ASSOCIATION_GROUPINGS_REPORT
+2020-05-23 10:26:21 [log] [ManagerDrivers] [Z-TRM3] [0] ---- MULTI_CHANNEL_ASSOCIATION_REMOVE
+2020-05-23 10:26:21 [log] [ManagerDrivers] [Z-TRM3] [0] ---- MULTI_CHANNEL_ASSOCIATION_REPORT
+2020-05-23 10:26:21 [log] [ManagerDrivers] [Z-TRM3] [0] ---- MULTI_CHANNEL_ASSOCIATION_SET
+2020-05-23 10:26:21 [log] [ManagerDrivers] [Z-TRM3] [0] -- CommandClass: COMMAND_CLASS_SUPERVISION
+2020-05-23 10:26:21 [log] [ManagerDrivers] [Z-TRM3] [0] --- Version: 1
+2020-05-23 10:26:21 [log] [ManagerDrivers] [Z-TRM3] [0] --- Commands:
+2020-05-23 10:26:21 [log] [ManagerDrivers] [Z-TRM3] [0] ---- SUPERVISION_GET
+2020-05-23 10:26:21 [log] [ManagerDrivers] [Z-TRM3] [0] ---- SUPERVISION_REPORT
+2020-05-23 10:26:21 [log] [ManagerDrivers] [Z-TRM3] [0] -- CommandClass: COMMAND_CLASS_THERMOSTAT_SETPOINT
+2020-05-23 10:26:21 [log] [ManagerDrivers] [Z-TRM3] [0] --- Version: 3
+2020-05-23 10:26:21 [log] [ManagerDrivers] [Z-TRM3] [0] --- Commands:
+2020-05-23 10:26:21 [log] [ManagerDrivers] [Z-TRM3] [0] ---- THERMOSTAT_SETPOINT_GET
+2020-05-23 10:26:21 [log] [ManagerDrivers] [Z-TRM3] [0] ---- THERMOSTAT_SETPOINT_REPORT
+2020-05-23 10:26:21 [log] [ManagerDrivers] [Z-TRM3] [0] ---- THERMOSTAT_SETPOINT_SET
+2020-05-23 10:26:21 [log] [ManagerDrivers] [Z-TRM3] [0] ---- THERMOSTAT_SETPOINT_SUPPORTED_GET
+2020-05-23 10:26:21 [log] [ManagerDrivers] [Z-TRM3] [0] ---- THERMOSTAT_SETPOINT_SUPPORTED_REPORT
+2020-05-23 10:26:21 [log] [ManagerDrivers] [Z-TRM3] [0] ---- THERMOSTAT_SETPOINT_CAPABILITIES_GET
+2020-05-23 10:26:21 [log] [ManagerDrivers] [Z-TRM3] [0] ---- THERMOSTAT_SETPOINT_CAPABILITIES_REPORT
+2020-05-23 10:26:21 [log] [ManagerDrivers] [Z-TRM3] [0] -- CommandClass: COMMAND_CLASS_THERMOSTAT_MODE
+2020-05-23 10:26:21 [log] [ManagerDrivers] [Z-TRM3] [0] --- Version: 3
+2020-05-23 10:26:21 [log] [ManagerDrivers] [Z-TRM3] [0] --- Commands:
+2020-05-23 10:26:21 [log] [ManagerDrivers] [Z-TRM3] [0] ---- THERMOSTAT_MODE_GET
+2020-05-23 10:26:21 [log] [ManagerDrivers] [Z-TRM3] [0] ---- THERMOSTAT_MODE_REPORT
+2020-05-23 10:26:21 [log] [ManagerDrivers] [Z-TRM3] [0] ---- THERMOSTAT_MODE_SET
+2020-05-23 10:26:21 [log] [ManagerDrivers] [Z-TRM3] [0] ---- THERMOSTAT_MODE_SUPPORTED_GET
+2020-05-23 10:26:21 [log] [ManagerDrivers] [Z-TRM3] [0] ---- THERMOSTAT_MODE_SUPPORTED_REPORT
+2020-05-23 10:26:21 [log] [ManagerDrivers] [Z-TRM3] [0] -- CommandClass: COMMAND_CLASS_THERMOSTAT_OPERATING_STATE
+2020-05-23 10:26:21 [log] [ManagerDrivers] [Z-TRM3] [0] --- Version: 1
+2020-05-23 10:26:21 [log] [ManagerDrivers] [Z-TRM3] [0] --- Commands:
+2020-05-23 10:26:21 [log] [ManagerDrivers] [Z-TRM3] [0] ---- THERMOSTAT_OPERATING_STATE_GET
+2020-05-23 10:26:21 [log] [ManagerDrivers] [Z-TRM3] [0] ---- THERMOSTAT_OPERATING_STATE_REPORT
+2020-05-23 10:26:21 [log] [ManagerDrivers] [Z-TRM3] [0] -- CommandClass: COMMAND_CLASS_METER
+2020-05-23 10:26:21 [log] [ManagerDrivers] [Z-TRM3] [0] --- Version: 3
+2020-05-23 10:26:21 [log] [ManagerDrivers] [Z-TRM3] [0] --- Commands:
+2020-05-23 10:26:21 [log] [ManagerDrivers] [Z-TRM3] [0] ---- METER_GET
+2020-05-23 10:26:21 [log] [ManagerDrivers] [Z-TRM3] [0] ---- METER_REPORT
+2020-05-23 10:26:21 [log] [ManagerDrivers] [Z-TRM3] [0] ---- METER_RESET
+2020-05-23 10:26:21 [log] [ManagerDrivers] [Z-TRM3] [0] ---- METER_SUPPORTED_GET
+2020-05-23 10:26:21 [log] [ManagerDrivers] [Z-TRM3] [0] ---- METER_SUPPORTED_REPORT
+2020-05-23 10:26:21 [log] [ManagerDrivers] [Z-TRM3] [0] -- CommandClass: COMMAND_CLASS_BASIC
+2020-05-23 10:26:21 [log] [ManagerDrivers] [Z-TRM3] [0] --- Version: 1
+2020-05-23 10:26:21 [log] [ManagerDrivers] [Z-TRM3] [0] --- Commands:
+2020-05-23 10:26:21 [log] [ManagerDrivers] [Z-TRM3] [0] ---- BASIC_GET
+2020-05-23 10:26:21 [log] [ManagerDrivers] [Z-TRM3] [0] ---- BASIC_REPORT
+2020-05-23 10:26:21 [log] [ManagerDrivers] [Z-TRM3] [0] ---- BASIC_SET
+2020-05-23 10:26:21 [log] [ManagerDrivers] [Z-TRM3] [0] - MultiChannelNode: 2
+2020-05-23 10:26:21 [log] [ManagerDrivers] [Z-TRM3] [0] - DeviceClassGeneric: GENERIC_TYPE_SENSOR_MULTILEVEL
+2020-05-23 10:26:21 [log] [ManagerDrivers] [Z-TRM3] [0] -- CommandClass: COMMAND_CLASS_ZWAVEPLUS_INFO
+2020-05-23 10:26:21 [log] [ManagerDrivers] [Z-TRM3] [0] --- Version: 2
+2020-05-23 10:26:21 [log] [ManagerDrivers] [Z-TRM3] [0] --- Commands:
+2020-05-23 10:26:21 [log] [ManagerDrivers] [Z-TRM3] [0] ---- ZWAVEPLUS_INFO_GET
+2020-05-23 10:26:21 [log] [ManagerDrivers] [Z-TRM3] [0] ---- ZWAVEPLUS_INFO_REPORT
+2020-05-23 10:26:21 [log] [ManagerDrivers] [Z-TRM3] [0] -- CommandClass: COMMAND_CLASS_ASSOCIATION
+2020-05-23 10:26:21 [log] [ManagerDrivers] [Z-TRM3] [0] --- Version: 2
+2020-05-23 10:26:21 [log] [ManagerDrivers] [Z-TRM3] [0] --- Commands:
+2020-05-23 10:26:21 [log] [ManagerDrivers] [Z-TRM3] [0] ---- ASSOCIATION_GET
+2020-05-23 10:26:21 [log] [ManagerDrivers] [Z-TRM3] [0] ---- ASSOCIATION_GROUPINGS_GET
+2020-05-23 10:26:21 [log] [ManagerDrivers] [Z-TRM3] [0] ---- ASSOCIATION_GROUPINGS_REPORT
+2020-05-23 10:26:21 [log] [ManagerDrivers] [Z-TRM3] [0] ---- ASSOCIATION_REMOVE
+2020-05-23 10:26:21 [log] [ManagerDrivers] [Z-TRM3] [0] ---- ASSOCIATION_REPORT
+2020-05-23 10:26:21 [log] [ManagerDrivers] [Z-TRM3] [0] ---- ASSOCIATION_SET
+2020-05-23 10:26:21 [log] [ManagerDrivers] [Z-TRM3] [0] ---- ASSOCIATION_SPECIFIC_GROUP_GET
+2020-05-23 10:26:21 [log] [ManagerDrivers] [Z-TRM3] [0] ---- ASSOCIATION_SPECIFIC_GROUP_REPORT
+2020-05-23 10:26:21 [log] [ManagerDrivers] [Z-TRM3] [0] -- CommandClass: COMMAND_CLASS_ASSOCIATION_GRP_INFO
+2020-05-23 10:26:21 [log] [ManagerDrivers] [Z-TRM3] [0] --- Version: 1
+2020-05-23 10:26:21 [log] [ManagerDrivers] [Z-TRM3] [0] --- Commands:
+2020-05-23 10:26:21 [log] [ManagerDrivers] [Z-TRM3] [0] ---- ASSOCIATION_GROUP_NAME_GET
+2020-05-23 10:26:21 [log] [ManagerDrivers] [Z-TRM3] [0] ---- ASSOCIATION_GROUP_NAME_REPORT
+2020-05-23 10:26:21 [log] [ManagerDrivers] [Z-TRM3] [0] ---- ASSOCIATION_GROUP_INFO_GET
+2020-05-23 10:26:21 [log] [ManagerDrivers] [Z-TRM3] [0] ---- ASSOCIATION_GROUP_INFO_REPORT
+2020-05-23 10:26:21 [log] [ManagerDrivers] [Z-TRM3] [0] ---- ASSOCIATION_GROUP_COMMAND_LIST_GET
+2020-05-23 10:26:21 [log] [ManagerDrivers] [Z-TRM3] [0] ---- ASSOCIATION_GROUP_COMMAND_LIST_REPORT
+2020-05-23 10:26:21 [log] [ManagerDrivers] [Z-TRM3] [0] -- CommandClass: COMMAND_CLASS_MULTI_CHANNEL_ASSOCIATION
+2020-05-23 10:26:21 [log] [ManagerDrivers] [Z-TRM3] [0] --- Version: 3
+2020-05-23 10:26:21 [log] [ManagerDrivers] [Z-TRM3] [0] --- Commands:
+2020-05-23 10:26:21 [log] [ManagerDrivers] [Z-TRM3] [0] ---- MULTI_CHANNEL_ASSOCIATION_GET
+2020-05-23 10:26:21 [log] [ManagerDrivers] [Z-TRM3] [0] ---- MULTI_CHANNEL_ASSOCIATION_GROUPINGS_GET
+2020-05-23 10:26:21 [log] [ManagerDrivers] [Z-TRM3] [0] ---- MULTI_CHANNEL_ASSOCIATION_GROUPINGS_REPORT
+2020-05-23 10:26:21 [log] [ManagerDrivers] [Z-TRM3] [0] ---- MULTI_CHANNEL_ASSOCIATION_REMOVE
+2020-05-23 10:26:21 [log] [ManagerDrivers] [Z-TRM3] [0] ---- MULTI_CHANNEL_ASSOCIATION_REPORT
+2020-05-23 10:26:21 [log] [ManagerDrivers] [Z-TRM3] [0] ---- MULTI_CHANNEL_ASSOCIATION_SET
+2020-05-23 10:26:21 [log] [ManagerDrivers] [Z-TRM3] [0] -- CommandClass: COMMAND_CLASS_SUPERVISION
+2020-05-23 10:26:21 [log] [ManagerDrivers] [Z-TRM3] [0] --- Version: 1
+2020-05-23 10:26:21 [log] [ManagerDrivers] [Z-TRM3] [0] --- Commands:
+2020-05-23 10:26:21 [log] [ManagerDrivers] [Z-TRM3] [0] ---- SUPERVISION_GET
+2020-05-23 10:26:21 [log] [ManagerDrivers] [Z-TRM3] [0] ---- SUPERVISION_REPORT
+2020-05-23 10:26:21 [log] [ManagerDrivers] [Z-TRM3] [0] -- CommandClass: COMMAND_CLASS_SENSOR_MULTILEVEL
+2020-05-23 10:26:21 [log] [ManagerDrivers] [Z-TRM3] [0] --- Version: 1
+2020-05-23 10:26:21 [log] [ManagerDrivers] [Z-TRM3] [0] --- Commands:
+2020-05-23 10:26:21 [log] [ManagerDrivers] [Z-TRM3] [0] ---- SENSOR_MULTILEVEL_GET
+2020-05-23 10:26:21 [log] [ManagerDrivers] [Z-TRM3] [0] ---- SENSOR_MULTILEVEL_REPORT
+2020-05-23 10:26:21 [log] [ManagerDrivers] [Z-TRM3] [0] -- CommandClass: COMMAND_CLASS_BASIC
+2020-05-23 10:26:21 [log] [ManagerDrivers] [Z-TRM3] [0] --- Version: 1
+2020-05-23 10:26:21 [log] [ManagerDrivers] [Z-TRM3] [0] --- Commands:
+2020-05-23 10:26:21 [log] [ManagerDrivers] [Z-TRM3] [0] ---- BASIC_GET
+2020-05-23 10:26:21 [log] [ManagerDrivers] [Z-TRM3] [0] ---- BASIC_REPORT
+2020-05-23 10:26:21 [log] [ManagerDrivers] [Z-TRM3] [0] ---- BASIC_SET
+2020-05-23 10:26:21 [log] [ManagerDrivers] [Z-TRM3] [0] - MultiChannelNode: 3
+2020-05-23 10:26:21 [log] [ManagerDrivers] [Z-TRM3] [0] - DeviceClassGeneric: GENERIC_TYPE_SENSOR_MULTILEVEL
+2020-05-23 10:26:21 [log] [ManagerDrivers] [Z-TRM3] [0] -- CommandClass: COMMAND_CLASS_ZWAVEPLUS_INFO
+2020-05-23 10:26:21 [log] [ManagerDrivers] [Z-TRM3] [0] --- Version: 2
+2020-05-23 10:26:21 [log] [ManagerDrivers] [Z-TRM3] [0] --- Commands:
+2020-05-23 10:26:21 [log] [ManagerDrivers] [Z-TRM3] [0] ---- ZWAVEPLUS_INFO_GET
+2020-05-23 10:26:21 [log] [ManagerDrivers] [Z-TRM3] [0] ---- ZWAVEPLUS_INFO_REPORT
+2020-05-23 10:26:21 [log] [ManagerDrivers] [Z-TRM3] [0] -- CommandClass: COMMAND_CLASS_ASSOCIATION
+2020-05-23 10:26:21 [log] [ManagerDrivers] [Z-TRM3] [0] --- Version: 2
+2020-05-23 10:26:21 [log] [ManagerDrivers] [Z-TRM3] [0] --- Commands:
+2020-05-23 10:26:21 [log] [ManagerDrivers] [Z-TRM3] [0] ---- ASSOCIATION_GET
+2020-05-23 10:26:21 [log] [ManagerDrivers] [Z-TRM3] [0] ---- ASSOCIATION_GROUPINGS_GET
+2020-05-23 10:26:21 [log] [ManagerDrivers] [Z-TRM3] [0] ---- ASSOCIATION_GROUPINGS_REPORT
+2020-05-23 10:26:21 [log] [ManagerDrivers] [Z-TRM3] [0] ---- ASSOCIATION_REMOVE
+2020-05-23 10:26:21 [log] [ManagerDrivers] [Z-TRM3] [0] ---- ASSOCIATION_REPORT
+2020-05-23 10:26:21 [log] [ManagerDrivers] [Z-TRM3] [0] ---- ASSOCIATION_SET
+2020-05-23 10:26:21 [log] [ManagerDrivers] [Z-TRM3] [0] ---- ASSOCIATION_SPECIFIC_GROUP_GET
+2020-05-23 10:26:21 [log] [ManagerDrivers] [Z-TRM3] [0] ---- ASSOCIATION_SPECIFIC_GROUP_REPORT
+2020-05-23 10:26:21 [log] [ManagerDrivers] [Z-TRM3] [0] -- CommandClass: COMMAND_CLASS_ASSOCIATION_GRP_INFO
+2020-05-23 10:26:22 [log] [ManagerDrivers] [Z-TRM3] [0] --- Version: 1
+2020-05-23 10:26:22 [log] [ManagerDrivers] [Z-TRM3] [0] --- Commands:
+2020-05-23 10:26:22 [log] [ManagerDrivers] [Z-TRM3] [0] ---- ASSOCIATION_GROUP_NAME_GET
+2020-05-23 10:26:22 [log] [ManagerDrivers] [Z-TRM3] [0] ---- ASSOCIATION_GROUP_NAME_REPORT
+2020-05-23 10:26:22 [log] [ManagerDrivers] [Z-TRM3] [0] ---- ASSOCIATION_GROUP_INFO_GET
+2020-05-23 10:26:22 [log] [ManagerDrivers] [Z-TRM3] [0] ---- ASSOCIATION_GROUP_INFO_REPORT
+2020-05-23 10:26:22 [log] [ManagerDrivers] [Z-TRM3] [0] ---- ASSOCIATION_GROUP_COMMAND_LIST_GET
+2020-05-23 10:26:22 [log] [ManagerDrivers] [Z-TRM3] [0] ---- ASSOCIATION_GROUP_COMMAND_LIST_REPORT
+2020-05-23 10:26:22 [log] [ManagerDrivers] [Z-TRM3] [0] -- CommandClass: COMMAND_CLASS_MULTI_CHANNEL_ASSOCIATION
+2020-05-23 10:26:22 [log] [ManagerDrivers] [Z-TRM3] [0] --- Version: 3
+2020-05-23 10:26:22 [log] [ManagerDrivers] [Z-TRM3] [0] --- Commands:
+2020-05-23 10:26:22 [log] [ManagerDrivers] [Z-TRM3] [0] ---- MULTI_CHANNEL_ASSOCIATION_GET
+2020-05-23 10:26:22 [log] [ManagerDrivers] [Z-TRM3] [0] ---- MULTI_CHANNEL_ASSOCIATION_GROUPINGS_GET
+2020-05-23 10:26:22 [log] [ManagerDrivers] [Z-TRM3] [0] ---- MULTI_CHANNEL_ASSOCIATION_GROUPINGS_REPORT
+2020-05-23 10:26:22 [log] [ManagerDrivers] [Z-TRM3] [0] ---- MULTI_CHANNEL_ASSOCIATION_REMOVE
+2020-05-23 10:26:22 [log] [ManagerDrivers] [Z-TRM3] [0] ---- MULTI_CHANNEL_ASSOCIATION_REPORT
+2020-05-23 10:26:22 [log] [ManagerDrivers] [Z-TRM3] [0] ---- MULTI_CHANNEL_ASSOCIATION_SET
+2020-05-23 10:26:22 [log] [ManagerDrivers] [Z-TRM3] [0] -- CommandClass: COMMAND_CLASS_SUPERVISION
+2020-05-23 10:26:22 [log] [ManagerDrivers] [Z-TRM3] [0] --- Version: 1
+2020-05-23 10:26:22 [log] [ManagerDrivers] [Z-TRM3] [0] --- Commands:
+2020-05-23 10:26:22 [log] [ManagerDrivers] [Z-TRM3] [0] ---- SUPERVISION_GET
+2020-05-23 10:26:22 [log] [ManagerDrivers] [Z-TRM3] [0] ---- SUPERVISION_REPORT
+2020-05-23 10:26:22 [log] [ManagerDrivers] [Z-TRM3] [0] -- CommandClass: COMMAND_CLASS_SENSOR_MULTILEVEL
+2020-05-23 10:26:22 [log] [ManagerDrivers] [Z-TRM3] [0] --- Version: 1
+2020-05-23 10:26:22 [log] [ManagerDrivers] [Z-TRM3] [0] --- Commands:
+2020-05-23 10:26:22 [log] [ManagerDrivers] [Z-TRM3] [0] ---- SENSOR_MULTILEVEL_GET
+2020-05-23 10:26:22 [log] [ManagerDrivers] [Z-TRM3] [0] ---- SENSOR_MULTILEVEL_REPORT
+2020-05-23 10:26:22 [log] [ManagerDrivers] [Z-TRM3] [0] -- CommandClass: COMMAND_CLASS_BASIC
+2020-05-23 10:26:22 [log] [ManagerDrivers] [Z-TRM3] [0] --- Version: 1
+2020-05-23 10:26:22 [log] [ManagerDrivers] [Z-TRM3] [0] --- Commands:
+2020-05-23 10:26:22 [log] [ManagerDrivers] [Z-TRM3] [0] ---- BASIC_GET
+2020-05-23 10:26:22 [log] [ManagerDrivers] [Z-TRM3] [0] ---- BASIC_REPORT
+2020-05-23 10:26:22 [log] [ManagerDrivers] [Z-TRM3] [0] ---- BASIC_SET
+2020-05-23 10:26:22 [log] [ManagerDrivers] [Z-TRM3] [0] - MultiChannelNode: 4
+2020-05-23 10:26:22 [log] [ManagerDrivers] [Z-TRM3] [0] - DeviceClassGeneric: GENERIC_TYPE_SENSOR_MULTILEVEL
+2020-05-23 10:26:22 [log] [ManagerDrivers] [Z-TRM3] [0] -- CommandClass: COMMAND_CLASS_ZWAVEPLUS_INFO
+2020-05-23 10:26:22 [log] [ManagerDrivers] [Z-TRM3] [0] --- Version: 2
+2020-05-23 10:26:22 [log] [ManagerDrivers] [Z-TRM3] [0] --- Commands:
+2020-05-23 10:26:22 [log] [ManagerDrivers] [Z-TRM3] [0] ---- ZWAVEPLUS_INFO_GET
+2020-05-23 10:26:22 [log] [ManagerDrivers] [Z-TRM3] [0] ---- ZWAVEPLUS_INFO_REPORT
+2020-05-23 10:26:22 [log] [ManagerDrivers] [Z-TRM3] [0] -- CommandClass: COMMAND_CLASS_ASSOCIATION
+2020-05-23 10:26:22 [log] [ManagerDrivers] [Z-TRM3] [0] --- Version: 2
+2020-05-23 10:26:22 [log] [ManagerDrivers] [Z-TRM3] [0] --- Commands:
+2020-05-23 10:26:22 [log] [ManagerDrivers] [Z-TRM3] [0] ---- ASSOCIATION_GET
+2020-05-23 10:26:22 [log] [ManagerDrivers] [Z-TRM3] [0] ---- ASSOCIATION_GROUPINGS_GET
+2020-05-23 10:26:22 [log] [ManagerDrivers] [Z-TRM3] [0] ---- ASSOCIATION_GROUPINGS_REPORT
+2020-05-23 10:26:22 [log] [ManagerDrivers] [Z-TRM3] [0] ---- ASSOCIATION_REMOVE
+2020-05-23 10:26:22 [log] [ManagerDrivers] [Z-TRM3] [0] ---- ASSOCIATION_REPORT
+2020-05-23 10:26:22 [log] [ManagerDrivers] [Z-TRM3] [0] ---- ASSOCIATION_SET
+2020-05-23 10:26:22 [log] [ManagerDrivers] [Z-TRM3] [0] ---- ASSOCIATION_SPECIFIC_GROUP_GET
+2020-05-23 10:26:22 [log] [ManagerDrivers] [Z-TRM3] [0] ---- ASSOCIATION_SPECIFIC_GROUP_REPORT
+2020-05-23 10:26:22 [log] [ManagerDrivers] [Z-TRM3] [0] -- CommandClass: COMMAND_CLASS_ASSOCIATION_GRP_INFO
+2020-05-23 10:26:22 [log] [ManagerDrivers] [Z-TRM3] [0] --- Version: 1
+2020-05-23 10:26:22 [log] [ManagerDrivers] [Z-TRM3] [0] --- Commands:
+2020-05-23 10:26:22 [log] [ManagerDrivers] [Z-TRM3] [0] ---- ASSOCIATION_GROUP_NAME_GET
+2020-05-23 10:26:22 [log] [ManagerDrivers] [Z-TRM3] [0] ---- ASSOCIATION_GROUP_NAME_REPORT
+2020-05-23 10:26:22 [log] [ManagerDrivers] [Z-TRM3] [0] ---- ASSOCIATION_GROUP_INFO_GET
+2020-05-23 10:26:22 [log] [ManagerDrivers] [Z-TRM3] [0] ---- ASSOCIATION_GROUP_INFO_REPORT
+2020-05-23 10:26:22 [log] [ManagerDrivers] [Z-TRM3] [0] ---- ASSOCIATION_GROUP_COMMAND_LIST_GET
+2020-05-23 10:26:22 [log] [ManagerDrivers] [Z-TRM3] [0] ---- ASSOCIATION_GROUP_COMMAND_LIST_REPORT
+2020-05-23 10:26:22 [log] [ManagerDrivers] [Z-TRM3] [0] -- CommandClass: COMMAND_CLASS_MULTI_CHANNEL_ASSOCIATION
+2020-05-23 10:26:22 [log] [ManagerDrivers] [Z-TRM3] [0] --- Version: 3
+2020-05-23 10:26:22 [log] [ManagerDrivers] [Z-TRM3] [0] --- Commands:
+2020-05-23 10:26:22 [log] [ManagerDrivers] [Z-TRM3] [0] ---- MULTI_CHANNEL_ASSOCIATION_GET
+2020-05-23 10:26:22 [log] [ManagerDrivers] [Z-TRM3] [0] ---- MULTI_CHANNEL_ASSOCIATION_GROUPINGS_GET
+2020-05-23 10:26:22 [log] [ManagerDrivers] [Z-TRM3] [0] ---- MULTI_CHANNEL_ASSOCIATION_GROUPINGS_REPORT
+2020-05-23 10:26:22 [log] [ManagerDrivers] [Z-TRM3] [0] ---- MULTI_CHANNEL_ASSOCIATION_REMOVE
+2020-05-23 10:26:22 [log] [ManagerDrivers] [Z-TRM3] [0] ---- MULTI_CHANNEL_ASSOCIATION_REPORT
+2020-05-23 10:26:22 [log] [ManagerDrivers] [Z-TRM3] [0] ---- MULTI_CHANNEL_ASSOCIATION_SET
+2020-05-23 10:26:22 [log] [ManagerDrivers] [Z-TRM3] [0] -- CommandClass: COMMAND_CLASS_SUPERVISION
+2020-05-23 10:26:22 [log] [ManagerDrivers] [Z-TRM3] [0] --- Version: 1
+2020-05-23 10:26:22 [log] [ManagerDrivers] [Z-TRM3] [0] --- Commands:
+2020-05-23 10:26:22 [log] [ManagerDrivers] [Z-TRM3] [0] ---- SUPERVISION_GET
+2020-05-23 10:26:22 [log] [ManagerDrivers] [Z-TRM3] [0] ---- SUPERVISION_REPORT
+2020-05-23 10:26:22 [log] [ManagerDrivers] [Z-TRM3] [0] -- CommandClass: COMMAND_CLASS_SENSOR_MULTILEVEL
+2020-05-23 10:26:22 [log] [ManagerDrivers] [Z-TRM3] [0] --- Version: 1
+2020-05-23 10:26:22 [log] [ManagerDrivers] [Z-TRM3] [0] --- Commands:
+2020-05-23 10:26:22 [log] [ManagerDrivers] [Z-TRM3] [0] ---- SENSOR_MULTILEVEL_GET
+2020-05-23 10:26:22 [log] [ManagerDrivers] [Z-TRM3] [0] ---- SENSOR_MULTILEVEL_REPORT
+2020-05-23 10:26:22 [log] [ManagerDrivers] [Z-TRM3] [0] -- CommandClass: COMMAND_CLASS_BASIC
+2020-05-23 10:26:22 [log] [ManagerDrivers] [Z-TRM3] [0] --- Version: 1
+2020-05-23 10:26:22 [log] [ManagerDrivers] [Z-TRM3] [0] --- Commands:
+2020-05-23 10:26:22 [log] [ManagerDrivers] [Z-TRM3] [0] ---- BASIC_GET
+2020-05-23 10:26:22 [log] [ManagerDrivers] [Z-TRM3] [0] ---- BASIC_REPORT
+2020-05-23 10:26:22 [log] [ManagerDrivers] [Z-TRM3] [0] ---- BASIC_SET
+2020-05-23 10:26:22 [log] [ManagerDrivers] [Z-TRM3] [0] ------------------------------------------
+
+*/

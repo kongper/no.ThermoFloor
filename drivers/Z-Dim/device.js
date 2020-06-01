@@ -1,107 +1,129 @@
 'use strict';
 
 const Homey = require('homey');
-const ZwaveDevice = require('homey-meshdriver').ZwaveDevice;
+const { ZwaveDevice } = require('homey-meshdriver');
 
-const util = require('./../../node_modules/homey-meshdriver/lib/util');
+const util = require('../../node_modules/homey-meshdriver/lib/util');
 
 module.exports = class ZDimDevice extends ZwaveDevice {
-	onMeshInit() {
 
-		// enable debugging
-		// this.enableDebug();
+  onMeshInit() {
+    // enable debugging
+    // this.enableDebug();
 
-		// print the node's info to the console
-		// this.printNode();
+    // print the node's info to the console
+    // this.printNode();
 
-		// supported scenes and their reported attribute numbers (all based on reported data)
-		this.buttonMap = {
-			1: {
-				button: 'Dimmer',
-			},
+    // supported scenes and their reported attribute numbers (all based on reported data)
+    this.buttonMap = {
+      1: {
+        button: 'Dimmer',
+      },
 
-		};
+    };
 
-		this.sceneMap = {
-			'Key Pressed 2 times': {
-				scene: 'Key Pressed 2 times'
-			},
-			'Key Pressed 3 times': {
-				scene: 'Key Pressed 3 times'
-			},
-			'Key Pressed 4 times': {
-				scene: 'Key Pressed 4 times'
-			},
-			'Key Pressed 5 times': {
-				scene: 'Key Pressed 5 times'
-			},
+    this.sceneMap = {
+      'Key Pressed 2 times': {
+        scene: 'Key Pressed 2 times',
+      },
+      'Key Pressed 3 times': {
+        scene: 'Key Pressed 3 times',
+      },
+      'Key Pressed 4 times': {
+        scene: 'Key Pressed 4 times',
+      },
+      'Key Pressed 5 times': {
+        scene: 'Key Pressed 5 times',
+      },
 
-		};
+    };
 
-		this.registerCapability('onoff', 'SWITCH_MULTILEVEL', {
-			set: 'SWITCH_MULTILEVEL_SET',
-			setParserV4(value, options) {
-				return {
-					Value: (value) ? 'on/enable' : 'off/disable',
-					'Dimming Duration': 'Default',
-				};
-			},
-		});
+    this.registerCapability('onoff', 'SWITCH_MULTILEVEL', {
+      set: 'SWITCH_MULTILEVEL_SET',
+      setParserV4(value, options) {
+        return {
+          Value: (value) ? 'on/enable' : 'off/disable',
+          'Dimming Duration': 'Default',
+        };
+      },
+    });
 
-		this.registerCapability('dim', 'SWITCH_MULTILEVEL', {
-			setParserV4(value, options) {
-				// containment to create buffer value for 'Dimming Duration' from driver
-				const duration = (options.hasOwnProperty('duration') ? new Buffer([util.calculateZwaveDimDuration(options.duration)]) : 'Default');
-				if (this.hasCapability('onoff')) this.setCapabilityValue('onoff', value > 0);
+    this.registerCapability('dim', 'SWITCH_MULTILEVEL', {
+      setParserV4(value, options) {
+        // containment to create buffer value for 'Dimming Duration' from driver
+        const duration = (options.hasOwnProperty('duration') ? new Buffer([util.calculateZwaveDimDuration(options.duration)]) : 'Default');
+        if (this.hasCapability('onoff')) this.setCapabilityValue('onoff', value > 0);
 
-				return {
-					'Value': Math.round(value * 99),
-					'Dimming Duration': duration,
-				};
-			},
-		});
+        return {
+          Value: Math.round(value * 99),
+          'Dimming Duration': duration,
+        };
+      },
+    });
 
-		this.registerCapability('meter_power', 'METER');
+    // register a report listener (SDK2 style not yet operational)
+    this.registerReportListener('CENTRAL_SCENE', 'CENTRAL_SCENE_NOTIFICATION', (rawReport, parsedReport) => {
+      this.log('registerReportListener', rawReport, parsedReport);
+      if (rawReport.hasOwnProperty('Properties1')
+				&& rawReport.Properties1.hasOwnProperty('Key Attributes')
+				&& rawReport.hasOwnProperty('Scene Number')
+				&& rawReport.hasOwnProperty('Sequence Number')) {
+        const remoteValue = {
+          button: this.buttonMap[rawReport['Scene Number'].toString()].button,
+          scene: rawReport.Properties1['Key Attributes'],
+        };
 
-		this.registerCapability('measure_power', 'METER');
+        this.log('Triggering sequence:', rawReport['Sequence Number'], 'remoteValue', remoteValue);
 
-		// register a report listener (SDK2 style not yet operational)
-		this.registerReportListener('CENTRAL_SCENE', 'CENTRAL_SCENE_NOTIFICATION', (rawReport, parsedReport) => {
-			this.log('registerReportListener', rawReport, parsedReport);
-			if (rawReport.hasOwnProperty('Properties1') &&
-				rawReport.Properties1.hasOwnProperty('Key Attributes') &&
-				rawReport.hasOwnProperty('Scene Number') &&
-				rawReport.hasOwnProperty('Sequence Number')) {
+        // Trigger the trigger card with 2 autocomplete options
+        Homey.app.triggerZDim_scene.trigger(this, null, remoteValue);
+        // Trigger the trigger card with tokens
+        Homey.app.triggerZDim_button.trigger(this, remoteValue, null);
+      }
+    });
 
-				const remoteValue = {
-					button: this.buttonMap[rawReport['Scene Number'].toString()].button,
-					scene: rawReport.Properties1['Key Attributes'],
-				};
+		if (this._isRootNode()) {
+      if (!this.hasCapability('button.reset_meter')) await this.addCapability('button.reset_meter');
+      if (this.hasCapability('button.reset_meter')) {
+        // Listen for reset_meter maintenance action
+        this.registerCapabilityListener('button.reset_meter', async () => {
+          // Maintenance action button was pressed, return a promise
+          if (typeof this.meterReset === 'function') return this.meterReset();
+          this.error('Reset meter failed');
+          throw new Error('Reset meter not supported');
+        });
+      }
 
-				this.log('Triggering sequence:', rawReport['Sequence Number'], 'remoteValue', remoteValue);
+      if (this.hasCapability('meter_power')) this.registerCapability('meter_power', 'METER'); // , { getOpts: { getOnStart: false } });
+      if (this.hasCapability('measure_power')) this.registerCapability('measure_power', 'METER'); // , { getOpts: { getOnStart: false } });
+    }
 
-				// Trigger the trigger card with 2 autocomplete options
-				Homey.app.triggerZDim_scene.trigger(this, null, remoteValue);
-				// Trigger the trigger card with tokens
-				Homey.app.triggerZDim_button.trigger(this, remoteValue, null);
-			}
-		});
+    this.setAvailable();
+  }
 
-	}
+  onSceneAutocomplete(query, args, callback) {
+    let resultArray = [];
+    for (const sceneID in this.sceneMap) {
+      resultArray.push({
+        id: this.sceneMap[sceneID].scene,
+        name: Homey.__(this.sceneMap[sceneID].scene),
+      });
+    }
+    // filter for query
+    resultArray = resultArray.filter(result => {
+      return result.name.toLowerCase().indexOf(query.toLowerCase()) > -1;
+    });
+    this.log(resultArray);
+    return Promise.resolve(resultArray);
+  }
 
-	onSceneAutocomplete(query, args, callback) {
-		let resultArray = [];
-		for (let sceneID in this.sceneMap) {
-			resultArray.push({
-				id: this.sceneMap[sceneID].scene,
-				name: Homey.__(this.sceneMap[sceneID].scene),
-			});
-		}
-		// filter for query
-		resultArray = resultArray.filter(result => {
-			return result.name.toLowerCase().indexOf(query.toLowerCase()) > -1;
-		});
-		this.log(resultArray);
-		return Promise.resolve(resultArray);
-	}
+  /**
+ * Method that determines if current node is root node.
+ * @returns {boolean}
+ * @private
+ */
+  _isRootNode() {
+    return Object.prototype.hasOwnProperty.call(this.node, 'MultiChannelNodes') && Object.keys(this.node.MultiChannelNodes).length > 0;
+  }
+
 };

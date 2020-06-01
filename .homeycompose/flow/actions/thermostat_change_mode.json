@@ -1,0 +1,22 @@
+{
+	"id": "thermostat_change_mode",
+	"title": {
+		"en": "Set the thermostat mode",
+		"nl": "Stel de thermostaat modus in"
+	},
+	"hint": {
+		"en": "Set the thermostat mode (Heating / Off) and activate instantly",
+		"nl": "Stel de thermostaat modus (Verwarmen / Uit) in en activeer direct"
+	},
+	"args": [
+		{
+			"name": "device",
+			"type": "device",
+			"filter": "driver_id=Z-TRM3|Z-TEMP2"
+		},
+		{
+			"name": "mode",
+			"type": "autocomplete"
+		}
+		]
+}

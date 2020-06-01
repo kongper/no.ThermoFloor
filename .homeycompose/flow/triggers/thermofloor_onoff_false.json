@@ -1,8 +1,8 @@
 {
 	"id": "thermofloor_onoff_false",
 	"title": {
-		"en": "Thermostat turned off",
-		"nl": "Thermostaat uitgezet"
+		"en": "Heating turned off",
+		"nl": "Verwarming uitgezet"
 	},
 	"args": [{
 		"name": "device",

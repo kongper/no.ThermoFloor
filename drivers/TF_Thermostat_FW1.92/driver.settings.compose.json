@@ -1,6 +1,6 @@
 [
 	{
-		"$extends": "operation_mode",
+		"$extends": "operation_mode_4",
 		"id": "operation_mode"
 	},
 	{
