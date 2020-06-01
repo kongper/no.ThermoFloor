@@ -310,9 +310,9 @@ class Z_TRM3Device extends ThermostatDeviceSingleMode {
       multiChannelNodeId: 4,
     });
 
-    if (this.hasCapability('meter_power')) this.registerCapability('meter_power', 'METER', { multiChannelNodeId: 1 }); // , { getOpts: { getOnStart: false } });
-    if (this.hasCapability('measure_power')) this.registerCapability('measure_power', 'METER', { multiChannelNodeId: 1 }); // , { getOpts: { getOnStart: false } });
-    if (this.hasCapability('measure_voltage')) this.registerCapability('measure_voltage', 'METER'); // , { getOpts: { getOnStart: false } });
+    if (this.hasCapability('meter_power')) this.registerCapability('meter_power', 'METER', { multiChannelNodeId: 1 });
+    if (this.hasCapability('measure_power')) this.registerCapability('measure_power', 'METER', { multiChannelNodeId: 1 });
+    if (this.hasCapability('measure_voltage')) this.registerCapability('measure_voltage', 'METER', { multiChannelNodeId: 1 });
 
     if (this.hasCapability('button.reset_meter')) {
       // Listen for reset_meter maintenance action
