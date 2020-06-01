@@ -248,7 +248,7 @@
           {
             "name": "device",
             "type": "device",
-            "filter": "driver_id=TF_Thermostat|TF_Thermostat_FW1.92|Z-TRM2fx|Z-TRM3"
+            "filter": "driver_id=TF_Thermostat|TF_Thermostat_FW1.92|Z-TRM2fx|Z-TRM3|Z-TEMP2"
           }
         ],
         "tokens": [
@@ -361,7 +361,7 @@
           {
             "name": "device",
             "type": "device",
-            "filter": "driver_id=Z-TRM3"
+            "filter": "driver_id=Z-TRM3|Z-TEMP2"
           },
           {
             "name": "mode",
@@ -379,7 +379,7 @@
           {
             "name": "device",
             "type": "device",
-            "filter": "driver_id=Z-TRM3"
+            "filter": "driver_id=Z-TRM3|Z-TEMP2"
           }
         ]
       },
@@ -393,7 +393,7 @@
           {
             "name": "device",
             "type": "device",
-            "filter": "driver_id=Z-TRM3"
+            "filter": "driver_id=Z-TRM3|Z-TEMP2"
           }
         ]
       },
@@ -530,7 +530,7 @@
           {
             "name": "device",
             "type": "device",
-            "filter": "driver_id=TF_Thermostat|TF_Thermostat_FW1.92|Z-TRM2fx|Z-TRM3"
+            "filter": "driver_id=TF_Thermostat|TF_Thermostat_FW1.92|Z-TRM2fx|Z-TRM3|Z-TEMP2"
           }
         ]
       }
@@ -602,7 +602,7 @@
           {
             "name": "device",
             "type": "device",
-            "filter": "driver_id=TF_Thermostat|TF_Thermostat_FW1.92|Z-TRM2fx"
+            "filter": "driver_id=TF_Thermostat|TF_Thermostat_FW1.92|Z-TRM2fx|Z-TEMP2"
           },
           {
             "name": "setpointMode",
@@ -681,7 +681,7 @@
           {
             "name": "device",
             "type": "device",
-            "filter": "driver_id=Z-TRM3"
+            "filter": "driver_id=Z-TRM3|Z-TEMP2"
           },
           {
             "name": "mode",
