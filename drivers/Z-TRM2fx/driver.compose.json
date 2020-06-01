@@ -89,10 +89,12 @@
 			}
 		},
 		"associationGroups": [
-      4
+      1,
+			4
     ],
 		"associationGroupsMultiChannel": [
-			1
+			2,
+			3
 		],
 		"associationGroupsOptions": {
 			"1": {

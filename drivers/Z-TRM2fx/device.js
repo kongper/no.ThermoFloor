@@ -299,22 +299,20 @@ class Z_TRM2fxDevice extends ZwaveDevice {
       },
     });
 
-    if (this._isRootNode()) {
-      if (!this.hasCapability('button.reset_meter')) await this.addCapability('button.reset_meter');
-      if (this.hasCapability('button.reset_meter')) {
-        // Listen for reset_meter maintenance action
-        this.registerCapabilityListener('button.reset_meter', async () => {
-          // Maintenance action button was pressed, return a promise
-          if (typeof this.meterReset === 'function') return this.meterReset();
-          this.error('Reset meter failed');
-          throw new Error('Reset meter not supported');
-        });
-      }
-
-      if (this.hasCapability('meter_power')) this.registerCapability('meter_power', 'METER'); // , { getOpts: { getOnStart: false } });
-      if (this.hasCapability('measure_power')) this.registerCapability('measure_power', 'METER'); // , { getOpts: { getOnStart: false } });
-      if (this.hasCapability('measure_voltage')) this.registerCapability('measure_voltage', 'METER'); // , { getOpts: { getOnStart: false } });
+    if (!this.hasCapability('button.reset_meter')) await this.addCapability('button.reset_meter');
+    if (this.hasCapability('button.reset_meter')) {
+      // Listen for reset_meter maintenance action
+      this.registerCapabilityListener('button.reset_meter', async () => {
+        // Maintenance action button was pressed, return a promise
+        if (typeof this.meterReset === 'function') return this.meterReset();
+        this.error('Reset meter failed');
+        throw new Error('Reset meter not supported');
+      });
     }
+
+    if (this.hasCapability('meter_power')) this.registerCapability('meter_power', 'METER'); // , { getOpts: { getOnStart: false } });
+    if (this.hasCapability('measure_power')) this.registerCapability('measure_power', 'METER'); // , { getOpts: { getOnStart: false } });
+    if (this.hasCapability('measure_voltage')) this.registerCapability('measure_voltage', 'METER'); // , { getOpts: { getOnStart: false } });
 
     this.setAvailable();
   }
