@@ -50,13 +50,13 @@ class ThermoFloorApp extends Homey.App {
 		//thermostat_mode_changed_to (Autocomplete)
 		this.triggerThermostatModeChangedTo = new Homey.FlowCardTriggerDevice('thermostat_mode_changed_to');
 		this.triggerThermostatModeChangedTo
+			.getArgument('mode')
+			.registerAutocompleteListener((query, args, callback) => args.device.onModeAutocomplete(query, args, callback));
+		this.triggerThermostatModeChangedTo
 			.register()
 			.registerRunListener((args, state) => {
 				return Promise.resolve(args.mode.id === state.mode)
 			});
-		this.triggerThermostatModeChangedTo
-			.getArgument('mode')
-			.registerAutocompleteListener((query, args, callback) => args.device.onModeAutocomplete(query, args, callback));
 
 		//thermostat_onoff trigger cards
 		this.triggerThermofloorOnoffTrue = new Homey.FlowCardTriggerDevice('thermofloor_onoff_true').register();
