@@ -7,7 +7,7 @@ const util = require('../../node_modules/homey-meshdriver/lib/util');
 
 module.exports = class ZDimDevice extends ZwaveDevice {
 
-  onMeshInit() {
+  async onMeshInit() {
     // enable debugging
     // this.enableDebug();
 
@@ -82,21 +82,19 @@ module.exports = class ZDimDevice extends ZwaveDevice {
       }
     });
 
-		if (this._isRootNode()) {
-      if (!this.hasCapability('button.reset_meter')) await this.addCapability('button.reset_meter');
-      if (this.hasCapability('button.reset_meter')) {
-        // Listen for reset_meter maintenance action
-        this.registerCapabilityListener('button.reset_meter', async () => {
-          // Maintenance action button was pressed, return a promise
-          if (typeof this.meterReset === 'function') return this.meterReset();
-          this.error('Reset meter failed');
-          throw new Error('Reset meter not supported');
-        });
-      }
-
-      if (this.hasCapability('meter_power')) this.registerCapability('meter_power', 'METER'); // , { getOpts: { getOnStart: false } });
-      if (this.hasCapability('measure_power')) this.registerCapability('measure_power', 'METER'); // , { getOpts: { getOnStart: false } });
+    if (!this.hasCapability('button.reset_meter')) await this.addCapability('button.reset_meter');
+    if (this.hasCapability('button.reset_meter')) {
+      // Listen for reset_meter maintenance action
+      this.registerCapabilityListener('button.reset_meter', async () => {
+      // Maintenance action button was pressed, return a promise
+        if (typeof this.meterReset === 'function') return this.meterReset();
+        this.error('Reset meter failed');
+        throw new Error('Reset meter not supported');
+      });
     }
+
+    if (this.hasCapability('meter_power')) this.registerCapability('meter_power', 'METER'); // , { getOpts: { getOnStart: false } });
+    if (this.hasCapability('measure_power')) this.registerCapability('measure_power', 'METER'); // , { getOpts: { getOnStart: false } });
 
     this.setAvailable();
   }
@@ -115,15 +113,6 @@ module.exports = class ZDimDevice extends ZwaveDevice {
     });
     this.log(resultArray);
     return Promise.resolve(resultArray);
-  }
-
-  /**
- * Method that determines if current node is root node.
- * @returns {boolean}
- * @private
- */
-  _isRootNode() {
-    return Object.prototype.hasOwnProperty.call(this.node, 'MultiChannelNodes') && Object.keys(this.node.MultiChannelNodes).length > 0;
   }
 
 };
