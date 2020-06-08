@@ -20,5 +20,8 @@
 	"Group4-O": "Group 4 - uit (O)",
 	"Group5-I": "Group 5 - aan (I)",
 	"Group5-O": "Group 5 - uit (O)",
-	"Dimmer: ": "Dimmer knop"
+	"Dimmer: ": "Dimmer knop",
+	"pairing": {
+		"configuring": "Configureren..."
+	}
 }
