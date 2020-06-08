@@ -1,5 +1,33 @@
 [
 	{
+		"$extends": "operation_mode_2",
+		"id": "operation_mode",
+		"values": [
+			{
+				"id": "1",
+				"label": {
+					"en": "Heating",
+					"nl": "Verwarmen"
+				}
+	    },
+			{
+				"id": "0",
+				"label": {
+					"en": "Off",
+					"nl": "Uitgeschakeld"
+				}
+	    }
+		]
+	},
+	{
+		"$extends": "CO_setpoint",
+		"id": "Heat_setpoint",
+		"zwave": {
+			"index": 9,
+			"size": 2
+		}
+  },
+	{
 		"type": "group",
 		"label": {
 			"en": "Display options",
