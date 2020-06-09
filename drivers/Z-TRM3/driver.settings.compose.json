@@ -1,5 +1,12 @@
 [
 	{
+		"$extends": "operation_mode_2",
+		"id": "operation_mode"
+	},
+	{
+		"$extends": "HEAT_setpoint"
+  },
+	{
 		"type": "group",
 		"label": {
 			"en": "Display options",
@@ -9,7 +16,6 @@
 		"children": [
 			{
 				"$extends": "Temperature_display",
-				"id": "Temperature_display",
 				"zwave": {
 					"index": 13,
 					"size": 1
@@ -17,7 +23,6 @@
 			},
 			{
 				"$extends": "Button_brightness_dimmed",
-				"id": "Button_brightness_dimmed",
 				"zwave": {
 					"index": 14,
 					"size": 1
@@ -25,7 +30,6 @@
 			},
 			{
 				"$extends": "Button_brightness_active",
-				"id": "Button_brightness_active",
 				"zwave": {
 					"index": 15,
 					"size": 1
@@ -33,7 +37,6 @@
 			},
 			{
 				"$extends": "Display_brightness_dimmed",
-				"id": "Display_brightness_dimmed",
 				"zwave": {
 					"index": 16,
 					"size": 1
@@ -41,7 +44,6 @@
 			},
 			{
 				"$extends": "Display_brightness_active",
-				"id": "Display_brightness_active",
 				"zwave": {
 					"index": 17,
 					"size": 1
@@ -58,7 +60,6 @@
 		"children": [
 			{
 				"$extends": "Temperature_report_interval",
-				"id": "Temperature_report_interval",
 				"zwave": {
 					"index": 18,
 					"size": 2
@@ -67,7 +68,6 @@
 	},
 			{
 				"$extends": "Temperature_report_threshold",
-				"id": "Temperature_report_threshold",
 				"zwave": {
 					"index": 19,
 					"size": 1
@@ -75,7 +75,6 @@
 	},
 			{
 				"$extends": "Meter_report_interval",
-				"id": "Meter_report_interval",
 				"zwave": {
 					"index": 20,
 					"size": 2
@@ -92,7 +91,6 @@
 			},
 			{
 				"$extends": "Meter_report_threshold",
-				"id": "Meter_report_threshold",
 				"zwave": {
 					"index": 21,
 					"size": 1
@@ -113,7 +111,6 @@
 			},
 			{
 				"$extends": "Sensor_mode",
-				"id": "Sensor_mode",
 				"zwave": {
 					"index": 2,
 					"size": 1
@@ -158,8 +155,7 @@
 			  ]
 			},
 			{
-				"$extends": "Floor_sensor_type",
-				"id": "Floor_sensor_type"
+				"$extends": "Floor_sensor_type"
 			},
 			{
 				"$extends": "Temperature_control_hysteresis_DIFF_I",
