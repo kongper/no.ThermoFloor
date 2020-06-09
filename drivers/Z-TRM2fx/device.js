@@ -2,12 +2,26 @@
 
 const Homey = require('homey');
 const { ZwaveDevice } = require('homey-meshdriver');
-const maps = require('../../lib/Z-TRM/mappings');
+const {
+  Mode2Setting, Mode2Setpoint, Setpoint2Setting, Mode2Number,
+} = require('../../lib/map/ZTRM2_mappings.js');
 const util = require('../../lib/util');
 
 class Z_TRM2fxDevice extends ZwaveDevice {
 
   async onMeshInit() {
+    this.capabilityMultiChannelNodeIdObj = {
+      thermofloor_mode: 1,
+      target_temperature: 1,
+      thermofloor_onoff: 1,
+      meter_power: 1,
+      measure_power: 1,
+      measure_voltage: 1,
+      'measure_temperature.external': 2,
+      'measure_temperature.floor': 3,
+      'button.reset_meter': 1,
+    };
+
     // enable debugging
     this.enableDebug();
 
@@ -123,7 +137,7 @@ class Z_TRM2fxDevice extends ZwaveDevice {
         this.log('Setting thermostat mode to:', thermostatMode);
 
         // 1. Update thermostat setpoint based on matching thermostat mode
-        const setpointType = maps.Mode2Setpoint[thermostatMode];
+        const setpointType = Mode2Setpoint[thermostatMode];
 
         if (setpointType !== 'not supported') {
           this.setCapabilityValue('target_temperature', this.getStoreValue(`thermostatsetpointValue.${setpointType}`) || null);
@@ -133,7 +147,7 @@ class Z_TRM2fxDevice extends ZwaveDevice {
 
         // 2. Update device settings thermostat mode
         this.setSettings({
-          operation_mode: maps.Mode2Number[thermostatMode],
+          operation_mode: Mode2Number[thermostatMode],
         });
 
         // 3. Trigger mode trigger cards if the mode is actually changed
@@ -167,7 +181,7 @@ class Z_TRM2fxDevice extends ZwaveDevice {
           this.log('Received thermostat mode report:', thermostatMode);
 
           // 1. Update thermostat setpoint value based on matching thermostat mode
-          const setpointType = maps.Mode2Setpoint[thermostatMode];
+          const setpointType = Mode2Setpoint[thermostatMode];
 
           if (setpointType !== 'not supported') {
             this.setCapabilityValue('target_temperature', this.getStoreValue(`thermostatsetpointValue.${setpointType}`) || null);
@@ -177,7 +191,7 @@ class Z_TRM2fxDevice extends ZwaveDevice {
 
           // 2. Update device settings thermostat mode
           this.setSettings({
-            operation_mode: maps.Mode2Number[thermostatMode],
+            operation_mode: Mode2Number[thermostatMode],
           });
 
           // 3. Trigger mode trigger cards if the mode is actually changed
@@ -208,7 +222,7 @@ class Z_TRM2fxDevice extends ZwaveDevice {
       },
       getParser: () => {
         // 1. Retrieve the setpointType based on the thermostat mode
-        const setpointType = maps.Mode2Setpoint[this.getCapabilityValue('thermofloor_mode') || 'Heat'];
+        const setpointType = Mode2Setpoint[this.getCapabilityValue('thermofloor_mode') || 'Heat'];
 
         // 2. Return getParser object with correct setpointType
         return {
@@ -218,9 +232,9 @@ class Z_TRM2fxDevice extends ZwaveDevice {
         };
       },
       set: 'THERMOSTAT_SETPOINT_SET',
-      setParserV3: setpointValue => {
+      setParserV3: (setpointValue, options) => {
         // 1. Retrieve the setpointType based on the thermostat mode
-        const setpointType = maps.Mode2Setpoint[this.getCapabilityValue('thermofloor_mode') || 'Heat'];
+        const setpointType = options.hasOwnProperty('mode') ? Mode2Setpoint[options.mode] : Mode2Setpoint[this.getCapabilityValue('thermofloor_mode') || 'Heat'];
 
         this.log('Setting thermostat setpoint to:', setpointValue, 'for setpointType', setpointType);
 
@@ -229,7 +243,7 @@ class Z_TRM2fxDevice extends ZwaveDevice {
           this.setStoreValue(`thermostatsetpointValue.${setpointType}`, setpointValue);
 
           // 3. Update device settings setpoint value
-          const setpointSetting = maps.Setpoint2Setting[setpointType];
+          const setpointSetting = Setpoint2Setting[setpointType];
           this.setSettings({
             [setpointSetting]: setpointValue * 10,
           });
@@ -280,13 +294,13 @@ class Z_TRM2fxDevice extends ZwaveDevice {
             }
 
             // 4. Update device settings setpoint value
-            const setpointSetting = maps.Setpoint2Setting[setpointType];
+            const setpointSetting = Setpoint2Setting[setpointType];
             this.setSettings({
               [setpointSetting]: setpointValue * 10,
             });
 
             // 5. Update UI if reported setpointType equals active sepointType based on the thermostat mode
-            if (setpointType === maps.Mode2Setpoint[this.getCapabilityValue('thermofloor_mode') || 'Heat']) {
+            if (setpointType === Mode2Setpoint[this.getCapabilityValue('thermofloor_mode') || 'Heat']) {
               this.log('Updated thermostat setpoint on UI to', setpointValue);
               return setpointValue;
             }

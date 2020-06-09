@@ -1,10 +1,20 @@
 'use strict';
 
-const ThermostatDeviceSingleMode = require('../../lib/ThermostatDeviceSingleMode');
+const ThermostatTwoModeDevice = require('../../lib/ThermostatTwoModeDevice');
 
-class Z_TEMP2Device extends ThermostatDeviceSingleMode {
+class Z_TEMP2Device extends ThermostatTwoModeDevice {
 
   async onMeshInit() {
+    this.capabilityMultiChannelNodeIdObj = {
+      locked: null,
+      thermostat_mode_single: null,
+      target_temperature: null,
+      thermostat_state: null,
+      measure_temperature: null,
+      measure_humidity: null,
+      measure_battery: null,
+    };
+
     // enable debugging
     this.enableDebug();
 
