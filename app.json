@@ -5,7 +5,7 @@
     "en": "Heatit Z-wave"
   },
   "brandColor": "#cc3333",
-  "version": "2.5.1",
+  "version": "2.6.1",
   "compatibility": ">=4.0.0",
   "homeyCommunityTopicId": 166,
   "homepage": "https://www.heatit.com/z-wave/",

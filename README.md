@@ -164,6 +164,10 @@ If you like the app, consider a donation to support development
 [![Paypal Donate](https://www.paypalobjects.com/en_US/NL/i/btn/btn_donateCC_LG.gif)](https://www.paypal.me/TedTolboom)
 
 ## Changelog:
+2.6.0
+* Add support for the Z-TEMP2 Thermostat device  
+* Update Thermostat device driver library   
+
 2.5.1
 * Fix issue with Z-Dim driver crashing upon init   
 * Update Z-TRM3 association group information   
