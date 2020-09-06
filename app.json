@@ -5,7 +5,7 @@
     "en": "Heatit Z-wave"
   },
   "brandColor": "#cc3333",
-  "version": "2.6.1",
+  "version": "2.7.0",
   "compatibility": ">=4.0.0",
   "homeyCommunityTopicId": 166,
   "homepage": "https://www.heatit.com/z-wave/",
@@ -77,6 +77,34 @@
   },
   "flow": {
     "triggers": [
+      {
+        "id": "alarm_power_false",
+        "title": {
+          "en": "The power supply alarm turned off",
+          "nl": "Het voeding alarm ging uit"
+        },
+        "args": [
+          {
+            "name": "device",
+            "type": "device",
+            "filter": "driver_id=Z-Smoke-AC"
+          }
+        ]
+      },
+      {
+        "id": "alarm_power_true",
+        "title": {
+          "en": "The power supply alarm turned on",
+          "nl": "Het voeding alarm gaat aan"
+        },
+        "args": [
+          {
+            "name": "device",
+            "type": "device",
+            "filter": "driver_id=Z-Smoke-AC"
+          }
+        ]
+      },
       {
         "id": "measure_temperature.external_changed",
         "title": {
@@ -521,6 +549,20 @@
     ],
     "conditions": [
       {
+        "id": "alarm_power",
+        "title": {
+          "en": "The power supply alarm is !{{on|off}}",
+          "nl": "Het voeding alarm is !{{aan|uit}}"
+        },
+        "args": [
+          {
+            "name": "device",
+            "type": "device",
+            "filter": "driver_id=Z-Smoke-AC"
+          }
+        ]
+      },
+      {
         "id": "thermofloor_onoff_is_on",
         "title": {
           "en": "Thermostat is !{{on|off}}",
@@ -688,6 +730,34 @@
             "type": "autocomplete"
           }
         ]
+      },
+      {
+        "title": {
+          "en": "Turn siren off",
+          "nl": "Zet sirene uit"
+        },
+        "args": [
+          {
+            "name": "device",
+            "type": "device",
+            "filter": "driver_id=Z-Smoke-AC"
+          }
+        ],
+        "id": "turnOffSiren"
+      },
+      {
+        "title": {
+          "en": "Turn siren on",
+          "nl": "Zet sirene aan"
+        },
+        "args": [
+          {
+            "name": "device",
+            "type": "device",
+            "filter": "driver_id=Z-Smoke-AC"
+          }
+        ],
+        "id": "turnOnSiren"
       },
       {
         "id": "TF_set_PowerRegulatorMode",
@@ -3578,6 +3648,78 @@
           ]
         }
       ]
+    },
+    {
+      "id": "Z-Smoke-AC",
+      "name": {
+        "en": "Z-Smoke Detector 230V"
+      },
+      "icon": "/drivers/Z-Smoke-AC/assets/icon.svg",
+      "images": {
+        "large": "/drivers/Z-Smoke-AC/assets/images/large.png",
+        "small": "/drivers/Z-Smoke-AC/assets/images/small.png"
+      },
+      "class": "sensor",
+      "capabilities": [
+        "alarm_smoke",
+        "alarm_heat",
+        "alarm_motion",
+        "alarm_tamper",
+        "alarm_power",
+        "measure_temperature",
+        "measure_battery",
+        "alarm_battery",
+        "alarm_siren"
+      ],
+      "energy": {
+        "batteries": [
+          "INTERNAL"
+        ]
+      },
+      "zwave": {
+        "manufacturerId": 411,
+        "productTypeId": 3,
+        "productId": 13,
+        "includeSecure": false,
+        "__comment": "Reverted back to non secure inclusion due to S2 security handshake issues",
+        "productDocumentation": "https://products.z-wavealliance.org/ProductManual/File?folder=&filename=product_documents/3933/HeatitZ-SmokeDetector230V.pdf",
+        "pid": 3933,
+        "imageRemotePath": "https://products.z-wavealliance.org/ProductImages/ProductImage?prod=3933&which=21",
+        "learnmode": {
+          "image": "/drivers/Z-Smoke-AC/assets/learnmode.svg",
+          "instruction": {
+            "en": "To include the Smoke alarm to Homey: \n Within 1.5 seconds, press the Function button 3 times. \nThe Smoke Detector will emit a 2-tone beep and the LED will turn on for ~2 seconds.",
+            "nl": "Om de rookmelder aan Homey toe te voegen: \n Druk de functie knop op de rookmelder 3 keer in binnen 1.5 seconden.\n2. De rookmelder laat een 2-tonige biep horen en de LED gaat aan voor ongeveer 2 seconden."
+          }
+        },
+        "unlearnmode": {
+          "image": "/drivers/Z-Smoke-AC/assets/learnmode.svg",
+          "instruction": {
+            "en": "To (first) exclude the Smoke alarm to Homey: \n Within 1.5 seconds, press the Function button 3 times.",
+            "nl": "Om (eerst) de rookmelder van Homey te verwijderen: \n Druk de functie knop op de rookmelder 3 keer in binnen 1.5 seconden."
+          }
+        },
+        "associationGroups": [
+          1
+        ],
+        "associationGroupsMultiChannel": [],
+        "associationGroupsOptions": {
+          "1": {
+            "hint": {
+              "en": "Lifeline. All run-time reporting is addressed to this group. Only one node can be assigned to this association group. \nDefault: 1 (Homey's ID)",
+              "nl": "Lifeline: Association Groep 1 wordt gebruikt om alle rapportages door te geven. Slechts een node kan toegevoegd worden aan deze associatie groep. \nStandaard: 1 (Homey's ID)"
+            }
+          },
+          "2": {
+            "hint": {
+              "en": "Send BASIC SET command. When the Smoke Detector is active, it will send Basic Set (0xFF = ON). \nWhen the Smoke Detector is restored, it will send Basic Set (0x00 = OFF). \nCan be used to trigger other Smoke Detectors or switch on lights.",
+              "nl": "Stuurt BASIC SET command. Wanneer de Rookmelder actief is, wordt een Basic Set (0xFF = AAN) commando verstuurd. \n Wanneer de Rookmedler hersteld, wordt een Basic Set (0x00 = UIT) commando verstuurd. \nDeze groep kan gebruikt worden om andere Rookmelders te activeren of verlichting in te schakelen."
+            }
+          }
+        },
+        "defaultConfiguration": []
+      },
+      "settings": []
     },
     {
       "id": "Z-TEMP2",
@@ -6533,6 +6675,55 @@
     }
   ],
   "capabilities": {
+    "alarm_power": {
+      "type": "boolean",
+      "title": {
+        "en": "Power supply alarm",
+        "nl": "Voeding alarm"
+      },
+      "desc": {
+        "en": "Power supply alarm",
+        "nl": "Voeding alarm"
+      },
+      "insights": true,
+      "insightsTitleTrue": {
+        "en": "Power supply alarm turned on",
+        "nl": "Voeding alarm ging af"
+      },
+      "insightsTitleFalse": {
+        "en": "Power supply alarm turned off",
+        "nl": "Voeding alarm ging uit"
+      },
+      "getable": true,
+      "setable": false,
+      "uiComponent": "sensor",
+      "icon": "/assets/alarm_power.svg"
+    },
+    "alarm_siren": {
+      "type": "boolean",
+      "title": {
+        "en": "Siren turned on",
+        "nl": "Sirene aangezet"
+      },
+      "desc": {
+        "en": "Power supply alarm",
+        "nl": "Voeding alarm"
+      },
+      "insights": true,
+      "insightsTitleTrue": {
+        "en": "Siren turned on",
+        "nl": "Sirene aangezet"
+      },
+      "insightsTitleFalse": {
+        "en": "Siren turned off",
+        "nl": "Sirene uitgezet"
+      },
+      "getable": true,
+      "setable": true,
+      "uiComponent": "toggle",
+      "uiQuickAction": false,
+      "icon": "/assets/alarm_siren.svg"
+    },
     "scene_notification_custom_capability": {
       "type": "boolean",
       "title": {
