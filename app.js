@@ -61,6 +61,10 @@ class HeatitApp extends Homey.App {
     this.triggerThermofloorOnoffTrue = new Homey.FlowCardTriggerDevice('thermofloor_onoff_true').register();
     this.triggerThermofloorOnoffFalse = new Homey.FlowCardTriggerDevice('thermofloor_onoff_false').register();
 
+    // thermostat_onoff trigger cards
+    this.triggerAlarmPowerTrue = new Homey.FlowCardTriggerDevice('alarm_power_true').register();
+    this.triggerAlarmPowerFalse = new Homey.FlowCardTriggerDevice('alarm_power_false').register();
+
     // Z-button scene trigger cards
     this.triggerZPushButton_scene = new Homey.FlowCardTriggerDevice('Z-push-button_scene');
     this.triggerZPushButton_scene
@@ -93,6 +97,13 @@ class HeatitApp extends Homey.App {
     this.triggerZDim_button = new Homey.FlowCardTriggerDevice('Z-dim_button');
     this.triggerZDim_button
       .register();
+
+    // Register conditions for flows
+    this.conditionAlarmPower = new Homey.FlowCardCondition('alarm_power')
+      .register()
+      .registerRunListener((args, state) => {
+        return args.device.getCapabilityValue('alarm_power');
+      });
 
     // Register conditions for flows
     this.conditionThermofloorOnoffOn = new Homey.FlowCardCondition('thermofloor_onoff_is_on')
@@ -136,6 +147,25 @@ class HeatitApp extends Homey.App {
     this._setPowerRegulatorMode = new Homey.FlowCardAction('thermofloor_set_PowerRegulatorMode')
       .register()
       .registerRunListener(this._setPowerRegulatorMode.bind(this));
+
+
+    // Register actions for flows thermofloor_change_mode
+    this._actionTurnOnSiren = new Homey.FlowCardAction('turnOnSiren')
+      .register()
+      .registerRunListener(this._actionTurnOnOffSirenRunListener.bind(this, true));
+
+    // Register actions for flows thermofloor_change_mode
+    this._actionTurnOffSiren = new Homey.FlowCardAction('turnOffSiren')
+      .register()
+      .registerRunListener(this._actionTurnOnOffSirenRunListener.bind(this, false));
+  }
+
+  async _actionTurnOnOffSirenRunListener(value, args) {
+    if (args && args.device) {
+      if (!args.device.hasCommandClass('BASIC')) throw new Error('device_does_not_support_alarm_siren');
+      return args.device.executeCapabilitySetCommand('alarm_siren', 'BASIC', value);
+    }
+    throw new Error('missing_device_instance');
   }
 
   // thermofloor_change_mode_setpoint
@@ -154,9 +184,9 @@ class HeatitApp extends Homey.App {
   }
 
   async _setPowerRegulatorMode(args, state) {
-    if (!args.hasOwnProperty('set_power_regulator_mode')) return Promise.reject('set_power_regulator_mode_property_missing');
-    if (typeof args.set_power_regulator_mode !== 'number') return Promise.reject('set_power_regulator_mode_is_not_a_number');
-    if (args.set_forced_brightness_level > 10) return Promise.reject('set_power_regulator_mode_out_of_range');
+    if (!args.hasOwnProperty('set_power_regulator_mode')) return Promise.reject(new Error('set_power_regulator_mode_property_missing'));
+    if (typeof args.set_power_regulator_mode !== 'number') return Promise.reject(new Error('set_power_regulator_mode_is_not_a_number'));
+    if (args.set_forced_brightness_level > 10) return Promise.reject(new Error('set_power_regulator_mode_out_of_range'));
 
     try {
       const result = await args.device.configurationSet({
@@ -167,9 +197,8 @@ class HeatitApp extends Homey.App {
       });
     } catch (error) {
       args.device.log(error.message);
-      return Promise.reject(error.message);
+      return Promise.reject(new Error(error.message));
     }
-    return Promise.reject('unknown_error');
   }
 
 }

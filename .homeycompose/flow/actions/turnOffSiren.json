@@ -1,0 +1,12 @@
+{
+  "$id": "turnOffSiren",
+  "title": {
+    "en": "Turn siren off",
+    "nl": "Zet sirene uit"
+  },
+  "args": [{
+		"name": "device",
+		"type": "device",
+		"filter": "driver_id=Z-Smoke-AC"
+}]
+}
