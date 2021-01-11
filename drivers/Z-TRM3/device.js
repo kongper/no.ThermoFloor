@@ -2,6 +2,8 @@
 
 const ThermostatTwoModeDevice = require('../../lib/ThermostatTwoModeDevice');
 
+const ASSOCIATION_GROUP_MIGRATED_STORE_FLAG = 'migratedAssociationGroups';
+
 class Z_TRM3Device extends ThermostatTwoModeDevice {
 
   async onMeshInit() {
@@ -20,6 +22,9 @@ class Z_TRM3Device extends ThermostatTwoModeDevice {
 
     await super.onMeshInit();
 
+
+    await this._configureMultiChannelAssociation();
+
     // enable debugging
     this.enableDebug();
 
@@ -27,6 +32,39 @@ class Z_TRM3Device extends ThermostatTwoModeDevice {
     // this.printNode();
 
     this.setAvailable();
+  }
+
+  /**
+   * Method that will first remove any present association in group 1 and will then set association group 1 to '1.1'.
+   * @returns {Promise<boolean>}
+   * @private
+   */
+  async _configureMultiChannelAssociation() {
+    const isMigrated = this.getStoreValue(ASSOCIATION_GROUP_MIGRATED_STORE_FLAG);
+    if (!isMigrated) {
+      const associationGroup1Report = await this.node.CommandClass.COMMAND_CLASS_ASSOCIATION.ASSOCIATION_GET(Buffer.from(([1])));
+      this.log('Normal association configuration, nodeID present', associationGroup1Report.hasOwnProperty('NodeID'));
+      if (associationGroup1Report.hasOwnProperty('NodeID')) {
+        if (this.node.CommandClass.COMMAND_CLASS_MULTI_CHANNEL_ASSOCIATION) {
+          if (this.node.CommandClass.COMMAND_CLASS_MULTI_CHANNEL_ASSOCIATION.MULTI_CHANNEL_ASSOCIATION_SET) {
+            await this.node.CommandClass.COMMAND_CLASS_ASSOCIATION.ASSOCIATION_REMOVE(Buffer.from([1, 1]));
+            await this.node.CommandClass.COMMAND_CLASS_MULTI_CHANNEL_ASSOCIATION.MULTI_CHANNEL_ASSOCIATION_SET(
+              Buffer.from([1, 0x00, 1, 1]),
+            );
+            await this.setSettings({ zw_group_1: '1.1' });
+            this.setStoreValue(ASSOCIATION_GROUP_MIGRATED_STORE_FLAG, true);
+            this.log('Multi channel association configured correctly');
+            return true;
+          }
+        }
+        throw new Error('multi_channel_association_not_supported');
+      }
+      this.log('Multi channel association not required');
+      this.setStoreValue(ASSOCIATION_GROUP_MIGRATED_STORE_FLAG, true);
+      return true;
+    }
+    this.log('Multi channel association already configured');
+    return true;
   }
 
 }
@@ -475,4 +513,19 @@ module.exports = Z_TRM3Device;
 2020-05-23 10:26:22 [log] [ManagerDrivers] [Z-TRM3] [0] ---- BASIC_SET
 2020-05-23 10:26:22 [log] [ManagerDrivers] [Z-TRM3] [0] ------------------------------------------
 
+1.1:
+Received application command for COMMAND_CLASS_ASSOCIATION, data: 0x03010500
+Received application command for COMMAND_CLASS_MULTI_CHANNEL_ASSOCIATION, data: 0x03010500000101
+
+1:
+Received application command for COMMAND_CLASS_ASSOCIATION, data: 0x0301050001
+Received application command for COMMAND_CLASS_MULTI_CHANNEL_ASSOCIATION, data: 0x0301050001
+
+After inclusion:
+Received application command for COMMAND_CLASS_ASSOCIATION, data: 0x0301050001
+Received application command for COMMAND_CLASS_MULTI_CHANNEL_ASSOCIATION, data: 0x0301050001000101
+
+Without "associationGroups": [ ],
+Received application command for COMMAND_CLASS_ASSOCIATION, data: 0x03010500
+Received application command for COMMAND_CLASS_MULTI_CHANNEL_ASSOCIATION, data: 0x03010500000101
 */

@@ -108,8 +108,6 @@
 				"nl": "Om de thermostaat van Homey te verwijderen: \n1. druk of de Center (confirm) knop voor 10 seconden. Het display toont OFF. \n2. Druk rechter (down) toets 5 keer tot Con op het display staat.\n3. Druk op het kruisje van de thermostaat.\n4. Start exclusion modus door de Center(confirm) gedurende 2 seconden in te drukken. Het inclusion / exclusion icon wordt getoond in het display.\n5. Wanneer het verwijderen geslaagd is, staat EcL op het display getoond. Wanneer Err(error) getoond wordt, controleer of the thermostaat verwijdert is uit Homey. \nIndien dit het geval is, reset the thermostaat volgens de instructies. \nHerhaal anders het verwijderen."
 			}
 		},
-		"associationGroups": [
-    ],
 		"associationGroupsMultiChannel": [
 			1
 		],
