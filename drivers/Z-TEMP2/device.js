@@ -23,6 +23,9 @@ class Z_TEMP2Device extends ThermostatTwoModeDevice {
 
     await super.onMeshInit();
 
+    // register a settings parser
+    this.registerSetting('Proximity_sensor_enabled', value => (value ? 1 : 0));
+
     this.setAvailable();
   }
 
