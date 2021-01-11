@@ -1,11 +1,12 @@
 {
+  "_comment": "This file is generated. Please edit .homeycompose/app.json instead.",
   "id": "no.thermofloor",
   "sdk": 2,
   "name": {
     "en": "Heatit Z-wave"
   },
   "brandColor": "#cc3333",
-  "version": "2.7.0",
+  "version": "2.7.1",
   "compatibility": ">=4.0.0",
   "homeyCommunityTopicId": 166,
   "homepage": "https://www.heatit.com/z-wave/",
@@ -1168,8 +1169,8 @@
                 "max": 400
               },
               "hint": {
-                "en": "Temperature limit. \nZ-wave parameter 5 \nRange: 50 - 400 (5.0 - 40.0 °C)",
-                "nl": "Temperatuur limiet. \nZ-wave parameter 5 \nBereik: 50 - 400 (5.0 - 40.0 °C)"
+                "en": "Temperature limit. \nZ-wave parameter 6 \nRange: 50 - 400 (5.0 - 40.0 °C)",
+                "nl": "Temperatuur limiet. \nZ-wave parameter 6 \nBereik: 50 - 400 (5.0 - 40.0 °C)"
               }
             },
             {
@@ -1189,8 +1190,8 @@
                 "max": 400
               },
               "hint": {
-                "en": "Temperature limit. \nZ-wave parameter 5 \nRange: 50 - 400 (5.0 - 40.0 °C)",
-                "nl": "Temperatuur limiet. \nZ-wave parameter 5 \nBereik: 50 - 400 (5.0 - 40.0 °C)"
+                "en": "Temperature limit. \nZ-wave parameter 7 \nRange: 50 - 400 (5.0 - 40.0 °C)",
+                "nl": "Temperatuur limiet. \nZ-wave parameter 7 \nBereik: 50 - 400 (5.0 - 40.0 °C)"
               }
             },
             {
@@ -1210,8 +1211,8 @@
                 "max": 400
               },
               "hint": {
-                "en": "Temperature limit. \nZ-wave parameter 5 \nRange: 50 - 400 (5.0 - 40.0 °C)",
-                "nl": "Temperatuur limiet. \nZ-wave parameter 5 \nBereik: 50 - 400 (5.0 - 40.0 °C)"
+                "en": "Temperature limit. \nZ-wave parameter 8 \nRange: 50 - 400 (5.0 - 40.0 °C)",
+                "nl": "Temperatuur limiet. \nZ-wave parameter 8 \nBereik: 50 - 400 (5.0 - 40.0 °C)"
               }
             }
           ]
@@ -1752,8 +1753,8 @@
                 "max": 400
               },
               "hint": {
-                "en": "Temperature limit. \nZ-wave parameter 5 \nRange: 50 - 400 (5.0 - 40.0 °C)",
-                "nl": "Temperatuur limiet. \nZ-wave parameter 5 \nBereik: 50 - 400 (5.0 - 40.0 °C)"
+                "en": "Temperature limit. \nZ-wave parameter 6 \nRange: 50 - 400 (5.0 - 40.0 °C)",
+                "nl": "Temperatuur limiet. \nZ-wave parameter 6 \nBereik: 50 - 400 (5.0 - 40.0 °C)"
               }
             },
             {
@@ -1773,8 +1774,8 @@
                 "max": 400
               },
               "hint": {
-                "en": "Temperature limit. \nZ-wave parameter 5 \nRange: 50 - 400 (5.0 - 40.0 °C)",
-                "nl": "Temperatuur limiet. \nZ-wave parameter 5 \nBereik: 50 - 400 (5.0 - 40.0 °C)"
+                "en": "Temperature limit. \nZ-wave parameter 7 \nRange: 50 - 400 (5.0 - 40.0 °C)",
+                "nl": "Temperatuur limiet. \nZ-wave parameter 7 \nBereik: 50 - 400 (5.0 - 40.0 °C)"
               }
             },
             {
@@ -1794,8 +1795,8 @@
                 "max": 400
               },
               "hint": {
-                "en": "Temperature limit. \nZ-wave parameter 5 \nRange: 50 - 400 (5.0 - 40.0 °C)",
-                "nl": "Temperatuur limiet. \nZ-wave parameter 5 \nBereik: 50 - 400 (5.0 - 40.0 °C)"
+                "en": "Temperature limit. \nZ-wave parameter 8 \nRange: 50 - 400 (5.0 - 40.0 °C)",
+                "nl": "Temperatuur limiet. \nZ-wave parameter 8 \nBereik: 50 - 400 (5.0 - 40.0 °C)"
               }
             }
           ]
@@ -2216,8 +2217,8 @@
               "type": "dropdown",
               "value": "3",
               "hint": {
-                "en": "Input function. \nZ-wave parameter 3 \ndefault: Mode 3, rising-edge controlled input.",
-                "nl": "Ingangsfunctie. \nZ-wave parameter 3 \nstandaard: Mode 3, rising-edge controlled input."
+                "en": "Input function. \nZ-wave parameter 4 \ndefault: Mode 3, rising-edge controlled input.",
+                "nl": "Ingangsfunctie. \nZ-wave parameter 4 \nstandaard: Mode 3, rising-edge controlled input."
               },
               "values": [
                 {
@@ -2260,8 +2261,8 @@
               "type": "dropdown",
               "value": "3",
               "hint": {
-                "en": "Input function. \nZ-wave parameter 3 \ndefault: Mode 3, rising-edge controlled input.",
-                "nl": "Ingangsfunctie. \nZ-wave parameter 3 \nstandaard: Mode 3, rising-edge controlled input."
+                "en": "Input function. \nZ-wave parameter 5 \ndefault: Mode 3, rising-edge controlled input.",
+                "nl": "Ingangsfunctie. \nZ-wave parameter 5 \nstandaard: Mode 3, rising-edge controlled input."
               },
               "values": [
                 {
@@ -2304,8 +2305,8 @@
               "type": "dropdown",
               "value": "3",
               "hint": {
-                "en": "Input function. \nZ-wave parameter 3 \ndefault: Mode 3, rising-edge controlled input.",
-                "nl": "Ingangsfunctie. \nZ-wave parameter 3 \nstandaard: Mode 3, rising-edge controlled input."
+                "en": "Input function. \nZ-wave parameter 6 \ndefault: Mode 3, rising-edge controlled input.",
+                "nl": "Ingangsfunctie. \nZ-wave parameter 6 \nstandaard: Mode 3, rising-edge controlled input."
               },
               "values": [
                 {
@@ -2348,8 +2349,8 @@
               "type": "dropdown",
               "value": "3",
               "hint": {
-                "en": "Input function. \nZ-wave parameter 3 \ndefault: Mode 3, rising-edge controlled input.",
-                "nl": "Ingangsfunctie. \nZ-wave parameter 3 \nstandaard: Mode 3, rising-edge controlled input."
+                "en": "Input function. \nZ-wave parameter 7 \ndefault: Mode 3, rising-edge controlled input.",
+                "nl": "Ingangsfunctie. \nZ-wave parameter 7 \nstandaard: Mode 3, rising-edge controlled input."
               },
               "values": [
                 {
@@ -2392,8 +2393,8 @@
               "type": "dropdown",
               "value": "3",
               "hint": {
-                "en": "Input function. \nZ-wave parameter 3 \ndefault: Mode 3, rising-edge controlled input.",
-                "nl": "Ingangsfunctie. \nZ-wave parameter 3 \nstandaard: Mode 3, rising-edge controlled input."
+                "en": "Input function. \nZ-wave parameter 8 \ndefault: Mode 3, rising-edge controlled input.",
+                "nl": "Ingangsfunctie. \nZ-wave parameter 8 \nstandaard: Mode 3, rising-edge controlled input."
               },
               "values": [
                 {
@@ -2570,8 +2571,8 @@
               "type": "dropdown",
               "value": "1",
               "hint": {
-                "en": "Relay function. \nZ-wave parameter 13 \ndefault: Output is controlled by input 2.",
-                "nl": "Uitgangsfunctie. \nZ-wave parameter 13 \nstandaard: Output is controlled by input 2."
+                "en": "Relay function. \nZ-wave parameter 14 \ndefault: Output is controlled by input 2.",
+                "nl": "Uitgangsfunctie. \nZ-wave parameter 14 \nstandaard: Output is controlled by input 2."
               },
               "values": [
                 {
@@ -2601,8 +2602,8 @@
               "type": "dropdown",
               "value": "1",
               "hint": {
-                "en": "Relay function. \nZ-wave parameter 13 \ndefault: Output is controlled by input 2.",
-                "nl": "Uitgangsfunctie. \nZ-wave parameter 13 \nstandaard: Output is controlled by input 2."
+                "en": "Relay function. \nZ-wave parameter 15 \ndefault: Output is controlled by input 2.",
+                "nl": "Uitgangsfunctie. \nZ-wave parameter 15 \nstandaard: Output is controlled by input 2."
               },
               "values": [
                 {
@@ -2632,8 +2633,8 @@
               "type": "dropdown",
               "value": "1",
               "hint": {
-                "en": "Relay function. \nZ-wave parameter 13 \ndefault: Output is controlled by input 2.",
-                "nl": "Uitgangsfunctie. \nZ-wave parameter 13 \nstandaard: Output is controlled by input 2."
+                "en": "Relay function. \nZ-wave parameter 16 \ndefault: Output is controlled by input 2.",
+                "nl": "Uitgangsfunctie. \nZ-wave parameter 16 \nstandaard: Output is controlled by input 2."
               },
               "values": [
                 {
@@ -2663,8 +2664,8 @@
               "type": "dropdown",
               "value": "1",
               "hint": {
-                "en": "Relay function. \nZ-wave parameter 13 \ndefault: Output is controlled by input 2.",
-                "nl": "Uitgangsfunctie. \nZ-wave parameter 13 \nstandaard: Output is controlled by input 2."
+                "en": "Relay function. \nZ-wave parameter 17 \ndefault: Output is controlled by input 2.",
+                "nl": "Uitgangsfunctie. \nZ-wave parameter 17 \nstandaard: Output is controlled by input 2."
               },
               "values": [
                 {
@@ -2694,8 +2695,8 @@
               "type": "dropdown",
               "value": "1",
               "hint": {
-                "en": "Relay function. \nZ-wave parameter 13 \ndefault: Output is controlled by input 2.",
-                "nl": "Uitgangsfunctie. \nZ-wave parameter 13 \nstandaard: Output is controlled by input 2."
+                "en": "Relay function. \nZ-wave parameter 18 \ndefault: Output is controlled by input 2.",
+                "nl": "Uitgangsfunctie. \nZ-wave parameter 18 \nstandaard: Output is controlled by input 2."
               },
               "values": [
                 {
@@ -3360,8 +3361,8 @@
                   },
                   "value": "0",
                   "hint": {
-                    "en": "Sensor type. \nZ-wave parameter 3 \ndefault: No sensor connected",
-                    "nl": "Sensor type. \nZ-wave parameter 3 \nstandaard: Geen sensor aangesloten"
+                    "en": "Sensor type. \nZ-wave parameter 4 \ndefault: No sensor connected",
+                    "nl": "Sensor type. \nZ-wave parameter 4 \nstandaard: Geen sensor aangesloten"
                   },
                   "values": [
                     {
@@ -3397,8 +3398,8 @@
                     "nl": "Sensor calibratie (°C)"
                   },
                   "hint": {
-                    "en": "Sensor temperature calibration. \nZ-wave parameter 5 \nRange: -40 - 40 (-4.0 - 4.0°C)\nDefault: 0",
-                    "nl": "Sensor temperatuur calibratie. \nZ-wave parameter 5 \nBereik: -40 - 40 (-4.0 - 4.0°C)\nStandaard: 0"
+                    "en": "Sensor temperature calibration. \nZ-wave parameter 6 \nRange: -40 - 40 (-4.0 - 4.0°C)\nDefault: 0",
+                    "nl": "Sensor temperatuur calibratie. \nZ-wave parameter 6 \nBereik: -40 - 40 (-4.0 - 4.0°C)\nStandaard: 0"
                   }
                 },
                 {
@@ -3418,8 +3419,8 @@
                     "nl": "Temperatuur rapportage interval (s)"
                   },
                   "hint": {
-                    "en": "Time interval between consecutive temperature reports. \nZ-wave parameter 7 \nRange: 0, 10 - 86400 (s)\nDefault: 60 (s)",
-                    "nl": "Tijdsinterval tussen opeenvolgende temperatuur rapportages. \nZ-wave parameter 7 \nBereik: 0, 10 - 86400 (s)\nStandaard: 60 (s)"
+                    "en": "Time interval between consecutive temperature reports. \nZ-wave parameter 8 \nRange: 0, 10 - 86400 (s)\nDefault: 60 (s)",
+                    "nl": "Tijdsinterval tussen opeenvolgende temperatuur rapportages. \nZ-wave parameter 8 \nBereik: 0, 10 - 86400 (s)\nStandaard: 60 (s)"
                   }
                 }
               ]
@@ -4052,8 +4053,8 @@
                 "max": 400
               },
               "hint": {
-                "en": "Temperature limit. \nZ-wave parameter 11 \nRange: 50 - 400 (5.0 - 40.0 °C)",
-                "nl": "Temperatuur limiet. \nZ-wave parameter 11 \nBereik: 50 - 400 (5.0 - 40.0 °C)"
+                "en": "Temperature limit. \nZ-wave parameter 12 \nRange: 50 - 400 (5.0 - 40.0 °C)",
+                "nl": "Temperatuur limiet. \nZ-wave parameter 12 \nBereik: 50 - 400 (5.0 - 40.0 °C)"
               }
             }
           ]
@@ -4821,8 +4822,8 @@
                 "max": 400
               },
               "hint": {
-                "en": "Temperature limit. \nZ-wave parameter 5 \nRange: 50 - 400 (5.0 - 40.0 °C)",
-                "nl": "Temperatuur limiet. \nZ-wave parameter 5 \nBereik: 50 - 400 (5.0 - 40.0 °C)"
+                "en": "Temperature limit. \nZ-wave parameter 6 \nRange: 50 - 400 (5.0 - 40.0 °C)",
+                "nl": "Temperatuur limiet. \nZ-wave parameter 6 \nBereik: 50 - 400 (5.0 - 40.0 °C)"
               }
             },
             {
@@ -4842,8 +4843,8 @@
                 "max": 400
               },
               "hint": {
-                "en": "Temperature limit. \nZ-wave parameter 5 \nRange: 50 - 400 (5.0 - 40.0 °C)",
-                "nl": "Temperatuur limiet. \nZ-wave parameter 5 \nBereik: 50 - 400 (5.0 - 40.0 °C)"
+                "en": "Temperature limit. \nZ-wave parameter 7 \nRange: 50 - 400 (5.0 - 40.0 °C)",
+                "nl": "Temperatuur limiet. \nZ-wave parameter 7 \nBereik: 50 - 400 (5.0 - 40.0 °C)"
               }
             },
             {
@@ -4863,8 +4864,8 @@
                 "max": 400
               },
               "hint": {
-                "en": "Temperature limit. \nZ-wave parameter 5 \nRange: 50 - 400 (5.0 - 40.0 °C)",
-                "nl": "Temperatuur limiet. \nZ-wave parameter 5 \nBereik: 50 - 400 (5.0 - 40.0 °C)"
+                "en": "Temperature limit. \nZ-wave parameter 8 \nRange: 50 - 400 (5.0 - 40.0 °C)",
+                "nl": "Temperatuur limiet. \nZ-wave parameter 8 \nBereik: 50 - 400 (5.0 - 40.0 °C)"
               }
             }
           ]
@@ -5033,7 +5034,6 @@
             "nl": "Om de thermostaat van Homey te verwijderen: \n1. druk of de Center (confirm) knop voor 10 seconden. Het display toont OFF. \n2. Druk rechter (down) toets 5 keer tot Con op het display staat.\n3. Druk op het kruisje van de thermostaat.\n4. Start exclusion modus door de Center(confirm) gedurende 2 seconden in te drukken. Het inclusion / exclusion icon wordt getoond in het display.\n5. Wanneer het verwijderen geslaagd is, staat EcL op het display getoond. Wanneer Err(error) getoond wordt, controleer of the thermostaat verwijdert is uit Homey. \nIndien dit het geval is, reset the thermostaat volgens de instructies. \nHerhaal anders het verwijderen."
           }
         },
-        "associationGroups": [],
         "associationGroupsMultiChannel": [
           1
         ],
@@ -5566,8 +5566,8 @@
                 "max": 400
               },
               "hint": {
-                "en": "Temperature limit. \nZ-wave parameter 5 \nRange: 50 - 400 (5.0 - 40.0 °C)",
-                "nl": "Temperatuur limiet. \nZ-wave parameter 5 \nBereik: 50 - 400 (5.0 - 40.0 °C)"
+                "en": "Temperature limit. \nZ-wave parameter 6 \nRange: 50 - 400 (5.0 - 40.0 °C)",
+                "nl": "Temperatuur limiet. \nZ-wave parameter 6 \nBereik: 50 - 400 (5.0 - 40.0 °C)"
               }
             },
             {
@@ -5587,8 +5587,8 @@
                 "max": 400
               },
               "hint": {
-                "en": "Temperature limit. \nZ-wave parameter 5 \nRange: 50 - 400 (5.0 - 40.0 °C)",
-                "nl": "Temperatuur limiet. \nZ-wave parameter 5 \nBereik: 50 - 400 (5.0 - 40.0 °C)"
+                "en": "Temperature limit. \nZ-wave parameter 7 \nRange: 50 - 400 (5.0 - 40.0 °C)",
+                "nl": "Temperatuur limiet. \nZ-wave parameter 7 \nBereik: 50 - 400 (5.0 - 40.0 °C)"
               }
             },
             {
@@ -5608,8 +5608,8 @@
                 "max": 400
               },
               "hint": {
-                "en": "Temperature limit. \nZ-wave parameter 5 \nRange: 50 - 400 (5.0 - 40.0 °C)",
-                "nl": "Temperatuur limiet. \nZ-wave parameter 5 \nBereik: 50 - 400 (5.0 - 40.0 °C)"
+                "en": "Temperature limit. \nZ-wave parameter 8 \nRange: 50 - 400 (5.0 - 40.0 °C)",
+                "nl": "Temperatuur limiet. \nZ-wave parameter 8 \nBereik: 50 - 400 (5.0 - 40.0 °C)"
               }
             }
           ]
@@ -5660,8 +5660,8 @@
               },
               "value": 0,
               "hint": {
-                "en": "The temperature sensor calibration value. \nZ-wave parameter 10 \nRange: -60 - 60 (-6.0 - 6.0 °C)\nDefault: 0 (0.0 °C)",
-                "nl": "De temperatuur sensor calibratie waarde. \nZ-wave parameter 10 \nBereik: -60 - 60 (-6.0 - 6.0 °C)\nStandaard: 0 (0.0 °C)"
+                "en": "The temperature sensor calibration value. \nZ-wave parameter 11 \nRange: -60 - 60 (-6.0 - 6.0 °C)\nDefault: 0 (0.0 °C)",
+                "nl": "De temperatuur sensor calibratie waarde. \nZ-wave parameter 11 \nBereik: -60 - 60 (-6.0 - 6.0 °C)\nStandaard: 0 (0.0 °C)"
               }
             },
             {
@@ -5681,8 +5681,8 @@
               },
               "value": 0,
               "hint": {
-                "en": "The temperature sensor calibration value. \nZ-wave parameter 10 \nRange: -60 - 60 (-6.0 - 6.0 °C)\nDefault: 0 (0.0 °C)",
-                "nl": "De temperatuur sensor calibratie waarde. \nZ-wave parameter 10 \nBereik: -60 - 60 (-6.0 - 6.0 °C)\nStandaard: 0 (0.0 °C)"
+                "en": "The temperature sensor calibration value. \nZ-wave parameter 12 \nRange: -60 - 60 (-6.0 - 6.0 °C)\nDefault: 0 (0.0 °C)",
+                "nl": "De temperatuur sensor calibratie waarde. \nZ-wave parameter 12 \nBereik: -60 - 60 (-6.0 - 6.0 °C)\nStandaard: 0 (0.0 °C)"
               }
             }
           ]
@@ -6180,8 +6180,8 @@
                   },
                   "value": "0",
                   "hint": {
-                    "en": "Sensor type. \nZ-wave parameter 3 \ndefault: No sensor connected",
-                    "nl": "Sensor type. \nZ-wave parameter 3 \nstandaard: Geen sensor aangesloten"
+                    "en": "Sensor type. \nZ-wave parameter 4 \ndefault: No sensor connected",
+                    "nl": "Sensor type. \nZ-wave parameter 4 \nstandaard: Geen sensor aangesloten"
                   },
                   "values": [
                     {
@@ -6217,8 +6217,8 @@
                     "nl": "Sensor calibratie (°C)"
                   },
                   "hint": {
-                    "en": "Sensor temperature calibration. \nZ-wave parameter 7 \nRange: -40 - 40 (-4.0 - 4.0°C)\nDefault: 0",
-                    "nl": "Sensor temperatuur calibratie. \nZ-wave parameter 7 \nBereik: -40 - 40 (-4.0 - 4.0°C)\nStandaard: 0"
+                    "en": "Sensor temperature calibration. \nZ-wave parameter 8 \nRange: -40 - 40 (-4.0 - 4.0°C)\nDefault: 0",
+                    "nl": "Sensor temperatuur calibratie. \nZ-wave parameter 8 \nBereik: -40 - 40 (-4.0 - 4.0°C)\nStandaard: 0"
                   }
                 },
                 {
@@ -6238,8 +6238,8 @@
                     "nl": "Temperatuur rapportage interval (s)"
                   },
                   "hint": {
-                    "en": "Time interval between consecutive temperature reports. \nZ-wave parameter 11 \nRange: 0, 10 - 86400 (s)\nDefault: 60 (s)",
-                    "nl": "Tijdsinterval tussen opeenvolgende temperatuur rapportages. \nZ-wave parameter 11 \nBereik: 0, 10 - 86400 (s)\nStandaard: 60 (s)"
+                    "en": "Time interval between consecutive temperature reports. \nZ-wave parameter 12 \nRange: 0, 10 - 86400 (s)\nDefault: 60 (s)",
+                    "nl": "Tijdsinterval tussen opeenvolgende temperatuur rapportages. \nZ-wave parameter 12 \nBereik: 0, 10 - 86400 (s)\nStandaard: 60 (s)"
                   }
                 }
               ]
@@ -6265,8 +6265,8 @@
                   },
                   "value": "0",
                   "hint": {
-                    "en": "Sensor type. \nZ-wave parameter 3 \ndefault: No sensor connected",
-                    "nl": "Sensor type. \nZ-wave parameter 3 \nstandaard: Geen sensor aangesloten"
+                    "en": "Sensor type. \nZ-wave parameter 5 \ndefault: No sensor connected",
+                    "nl": "Sensor type. \nZ-wave parameter 5 \nstandaard: Geen sensor aangesloten"
                   },
                   "values": [
                     {
@@ -6302,8 +6302,8 @@
                     "nl": "Sensor calibratie (°C)"
                   },
                   "hint": {
-                    "en": "Sensor temperature calibration. \nZ-wave parameter 7 \nRange: -40 - 40 (-4.0 - 4.0°C)\nDefault: 0",
-                    "nl": "Sensor temperatuur calibratie. \nZ-wave parameter 7 \nBereik: -40 - 40 (-4.0 - 4.0°C)\nStandaard: 0"
+                    "en": "Sensor temperature calibration. \nZ-wave parameter 9 \nRange: -40 - 40 (-4.0 - 4.0°C)\nDefault: 0",
+                    "nl": "Sensor temperatuur calibratie. \nZ-wave parameter 9 \nBereik: -40 - 40 (-4.0 - 4.0°C)\nStandaard: 0"
                   }
                 },
                 {
@@ -6323,8 +6323,8 @@
                     "nl": "Temperatuur rapportage interval (s)"
                   },
                   "hint": {
-                    "en": "Time interval between consecutive temperature reports. \nZ-wave parameter 11 \nRange: 0, 10 - 86400 (s)\nDefault: 60 (s)",
-                    "nl": "Tijdsinterval tussen opeenvolgende temperatuur rapportages. \nZ-wave parameter 11 \nBereik: 0, 10 - 86400 (s)\nStandaard: 60 (s)"
+                    "en": "Time interval between consecutive temperature reports. \nZ-wave parameter 13 \nRange: 0, 10 - 86400 (s)\nDefault: 60 (s)",
+                    "nl": "Tijdsinterval tussen opeenvolgende temperatuur rapportages. \nZ-wave parameter 13 \nBereik: 0, 10 - 86400 (s)\nStandaard: 60 (s)"
                   }
                 }
               ]
@@ -6350,8 +6350,8 @@
                   },
                   "value": "0",
                   "hint": {
-                    "en": "Sensor type. \nZ-wave parameter 3 \ndefault: No sensor connected",
-                    "nl": "Sensor type. \nZ-wave parameter 3 \nstandaard: Geen sensor aangesloten"
+                    "en": "Sensor type. \nZ-wave parameter 6 \ndefault: No sensor connected",
+                    "nl": "Sensor type. \nZ-wave parameter 6 \nstandaard: Geen sensor aangesloten"
                   },
                   "values": [
                     {
@@ -6387,8 +6387,8 @@
                     "nl": "Sensor calibratie (°C)"
                   },
                   "hint": {
-                    "en": "Sensor temperature calibration. \nZ-wave parameter 7 \nRange: -40 - 40 (-4.0 - 4.0°C)\nDefault: 0",
-                    "nl": "Sensor temperatuur calibratie. \nZ-wave parameter 7 \nBereik: -40 - 40 (-4.0 - 4.0°C)\nStandaard: 0"
+                    "en": "Sensor temperature calibration. \nZ-wave parameter 10 \nRange: -40 - 40 (-4.0 - 4.0°C)\nDefault: 0",
+                    "nl": "Sensor temperatuur calibratie. \nZ-wave parameter 10 \nBereik: -40 - 40 (-4.0 - 4.0°C)\nStandaard: 0"
                   }
                 },
                 {
@@ -6408,8 +6408,8 @@
                     "nl": "Temperatuur rapportage interval (s)"
                   },
                   "hint": {
-                    "en": "Time interval between consecutive temperature reports. \nZ-wave parameter 11 \nRange: 0, 10 - 86400 (s)\nDefault: 60 (s)",
-                    "nl": "Tijdsinterval tussen opeenvolgende temperatuur rapportages. \nZ-wave parameter 11 \nBereik: 0, 10 - 86400 (s)\nStandaard: 60 (s)"
+                    "en": "Time interval between consecutive temperature reports. \nZ-wave parameter 14 \nRange: 0, 10 - 86400 (s)\nDefault: 60 (s)",
+                    "nl": "Tijdsinterval tussen opeenvolgende temperatuur rapportages. \nZ-wave parameter 14 \nBereik: 0, 10 - 86400 (s)\nStandaard: 60 (s)"
                   }
                 }
               ]
