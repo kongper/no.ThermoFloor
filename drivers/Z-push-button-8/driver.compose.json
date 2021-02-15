@@ -17,7 +17,7 @@
 		"batteries": [ "CR2450" ]
 	},
 	"zwave": {
-		"manufacturerId": [411, 816],
+		"manufacturerId": [411, 773, 816],
 		"productTypeId": 768,
 		"productId": 41733,
 		"productDocumentation": "",
